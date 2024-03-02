@@ -14,6 +14,7 @@ export default{
       backgroundColor: "#ffffff",
       githubUrl: ""
     },
+    owner: "endurancesoft",
     assetBundlePatterns: [
       "**/*"
     ],
