@@ -14,7 +14,16 @@ export default{
       backgroundColor: "#ffffff",
       githubUrl: ""
     },
+    
     owner: "endurancesoft",
+
+    updates: {
+      url: "https://u.expo.dev/68722059-896d-4f90-9039-57984284a8d6"
+    },
+    runtimeVersion: {
+      policy: "appVersion"
+    },
+    
     assetBundlePatterns: [
       "**/*"
     ],
