@@ -1,20 +1,17 @@
+import React, { useState } from 'react';
+import { SafeAreaView, Text, FlatList, StyleSheet, View } from 'react-native';
+import SearchBar from './src/components/SearchBar';
+import ClientItem from './src/components/ClientItem';
+import { MenuProvider } from 'react-native-popup-menu';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { DATA, theme } from './constants'
+import ClientSearchScreen from './src/screens/ClientSearchScreen';
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MenuProvider>
+    <ClientSearchScreen />
+    </MenuProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
+export default App;
