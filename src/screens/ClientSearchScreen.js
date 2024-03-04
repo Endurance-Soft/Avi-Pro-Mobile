@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { SafeAreaView, Text, FlatList, StyleSheet, View } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ClientItem from '../components/ClientItem';
-import { MenuProvider } from 'react-native-popup-menu';
 import { StatusBar } from 'expo-status-bar';
 import { DATA, theme } from '../../constants'
 

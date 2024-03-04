@@ -72,3 +72,10 @@ export const theme = {
     bold: "700",
   },
 };
+
+export const HISTORY_DATA = [
+  { id: '1', name: 'Samuel Herbas', amount: '130.00', date: '2024-03-01T12:32:00' },
+  { id: '2', name: 'Henry Peña', amount: '70.00', date: '2024-03-01T09:16:00' },
+  { id: '3', name: 'Louisa Cespedez', amount: '200.00', date: '2024-03-01T06:30:00' },
+  // ... add 7 more items with different names, amounts, and dates
+];
