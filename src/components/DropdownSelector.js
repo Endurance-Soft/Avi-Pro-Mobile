@@ -1,9 +1,9 @@
 // DropdownSelector.js
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
-import { theme } from "../../constants";
+import {styles} from './styles/DropdownSelectorStyles'
 
 const DropdownSelector = ({ selectedOption, onOptionChange }) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -28,7 +28,7 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
         </MenuTrigger>
         <MenuOptions customStyles={styles.menuOptions}>
           <MenuOption onSelect={() => { onOptionChange("today"); setMenuVisible(false); }}>
-            <Text style={styles.optionText}>Hoy</Text>
+            <Text style={styles.optionText}>Estoy cansado jefe</Text>
           </MenuOption>
           {/* Add  */}
         </MenuOptions>
@@ -36,46 +36,5 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 20,
-    borderRadius: 20,
-    backgroundColor: theme.colors.skyBlue,
-    padding: 7,
-    flexDirection: "row",
-    justifyContent: 'flex-end',
-  },
-  label: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: 'center',
-    borderRadius: 20,
-    flex:1
-  },
-  optionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  menuTrigger: {
-    flexDirection: "row",
-    alignItems: 'center',
-    elevation: 5,
-      paddingVertical: 12,
-      paddingHorizontal: 25,
-      backgroundColor: theme.colors.tertiary,
-      borderRadius: 22,
-      elevation: 5,
-  },
-  triggerText: {
-    color: theme.colors.primary,
-      fontSize: 16,
-      fontWeight: "bold",
-      marginRight: 12,
-  },
-  menuOptions: {
-    zIndex: 1,
-  },
-});
 
 export default DropdownSelector;

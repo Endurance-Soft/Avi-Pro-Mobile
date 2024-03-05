@@ -74,8 +74,61 @@ export const theme = {
 };
 
 export const HISTORY_DATA = [
-  { id: '1', name: 'Samuel Herbas', amount: '130.00', date: '2024-03-01T12:32:00' },
-  { id: '2', name: 'Henry Peña', amount: '70.00', date: '2024-03-01T09:16:00' },
-  { id: '3', name: 'Louisa Cespedez', amount: '200.00', date: '2024-03-01T06:30:00' },
-  // ... add 7 more items with different names, amounts, and dates
+  {
+    id: "1",
+    name: "Samuel Herbas",
+    amount: "130.00",
+    date: "2024-03-01T12:32:00",
+  },
+  { id: "2", name: "Henry Peña", amount: "70.00", date: "2024-03-01T09:16:00" },
+  {
+    id: "3",
+    name: "Louisa Cespedez",
+    amount: "200.00",
+    date: "2024-03-01T06:30:00",
+  },
+  {
+    id: "4",
+    name: "Samuel Herbas",
+    amount: "130.00",
+    date: "2024-03-01T12:32:00",
+  },
+  { id: "5", name: "Henry Peña", amount: "70.00", date: "2024-03-01T09:16:00" },
+  {
+    id: "6",
+    name: "Louisa Cespedez",
+    amount: "200.00",
+    date: "2024-03-01T06:30:00",
+  },
+  {
+    id: "7",
+    name: "Samuel Herbas",
+    amount: "130.00",
+    date: "2024-03-01T12:32:00",
+  },
+  { id: "8", name: "Henry Peña", amount: "70.00", date: "2024-03-01T09:16:00" },
+  {
+    id: "9",
+    name: "Louisa Cespedez",
+    amount: "200.00",
+    date: "2024-03-01T06:30:00",
+  },
+  {
+    id: "10",
+    name: "Samuel Herbas",
+    amount: "130.00",
+    date: "2024-03-01T12:32:00",
+  },
+  {
+    id: "11",
+    name: "Henry Peña",
+    amount: "70.00",
+    date: "2024-03-01T09:16:00",
+  },
+  {
+    id: "12",
+    name: "Louisa Cespedez",
+    amount: "200.00",
+    date: "2024-03-01T06:30:00",
+  },
 ];

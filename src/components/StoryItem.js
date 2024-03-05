@@ -1,40 +1,28 @@
 // StoryItem.js
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { styles } from './styles/StoryItemStyles';
 
-const StoryItem = ({ story, onSelect }) => {
-  return (
-    <TouchableOpacity onPress={onSelect} style={styles.container}>
-      <Text style={styles.name}>{story.name}</Text>
-      <Text style={styles.amount}>{story.amount} Bs</Text>
-      <Text style={styles.date}>{story.date}</Text>
-    </TouchableOpacity>
-  );
-};
+  const StoryItem = ({ story, onSelect }) => {
+    const dateTime = new Date(story.date);
+    const formattedDate = dateTime.toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
+    const formattedTime = dateTime.toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' });
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  amount: {
-    fontSize: 16,
-    color: '#4CAF50',
-  },
-  date: {
-    fontSize: 14,
-    color: '#757575',
-  },
-});
+    return (
+      <TouchableOpacity onPress={onSelect} style={styles.container}>
+        <View style={styles.group}>
+          <Text style={styles.name}>{story.name}</Text>
+          <Text style={styles.date}>{formattedDate}</Text>
+          <Text style={styles.date}>{formattedTime}</Text>
+        </View>
+        <View style={styles.containerAmount}>
+          <Text style={styles.amount}>{story.amount} Bs</Text>
+        </View>
+        <View style={styles.icon}>
+        </View>  
+      </TouchableOpacity>
+    );
+  };
+
 
 export default StoryItem;
