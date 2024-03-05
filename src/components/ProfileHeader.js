@@ -1,9 +1,14 @@
 // ProfileHeader.js
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { DATA, theme } from '../../constants'
+import { theme } from '../../constants'
+import Icon from 'react-native-vector-icons/FontAwesome';
+const screenWidth = Dimensions.get('window').width;
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileHeader = ({ userName }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.maxContainer}>
       <View style={styles.acountContainer}>
@@ -16,13 +21,16 @@ const ProfileHeader = ({ userName }) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ClientSearchScreen')}>
+          <Icon name="money" size={40} color="black" />
           <Text style={styles.buttonText}>Cobranza</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
+          <Icon name="list-alt" size={40} color="black" />
           <Text style={styles.buttonText}>Pedidos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
+          <Icon name="line-chart" size={40} color="black" />
           <Text style={styles.buttonText}>Ventas</Text>
         </TouchableOpacity>
       </View>
@@ -33,6 +41,7 @@ const ProfileHeader = ({ userName }) => {
 const styles = StyleSheet.create({
    maxContainer: {
     backgroundColor: theme.colors.secondary,
+    marginBottom: 5,
   },
   acountContainer: {
     flexDirection: 'row',
@@ -70,14 +79,24 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginBottom: 15,
   },
   button: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 5,
+    marginTop: 8,
+    backgroundColor: theme.colors.skyBlue,
+    borderRadius: 20,
+    width: screenWidth*0.25,
+    height: screenWidth*0.22,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'flex-end',
+    paddingVertical: 10,
+    paddingLeft: 13,
+    elevation:5,
   },
   buttonText: {
+    marginTop: 3,
     fontWeight: 'bold',
   },
 });

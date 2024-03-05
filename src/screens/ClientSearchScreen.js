@@ -1,12 +1,15 @@
 // ClientSearchScreen.js
 import React, { useState } from 'react';
-import { SafeAreaView, Text, FlatList, StyleSheet, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ClientItem from '../components/ClientItem';
 import { StatusBar } from 'expo-status-bar';
 import { DATA, theme } from '../../constants'
+import Icon from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 
 const ClientSearchScreen = () => {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOption, setSelectedOption] = useState('cliente');
   const [filteredData, setFilteredData] = useState(DATA);
@@ -38,8 +41,9 @@ const ClientSearchScreen = () => {
       <StatusBar style="ligth" backgroundColor='#bbe6ec'/>
         <View style={styles.up}>
           <View style={styles.header}>
-            <View style={styles.back}>
-            </View>
+          <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
+            <Icon name="back" size={30} color="black" />
+          </TouchableOpacity>
             <View style={styles.aviContainer}>
               <Text style={styles.avi}>Avipro</Text>
             </View>
@@ -84,6 +88,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     back: {
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: theme.colors.skyBlue,
       borderRadius: 20,
       width: 60,

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
+import { theme } from "../../constants";
 
 const DropdownSelector = ({ selectedOption, onOptionChange }) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -13,6 +14,9 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.label}>
+        <Text style={styles.optionText}>Actividad</Text>
+      </View>
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={styles.trigger}>
           <View style={styles.menuTrigger}>
@@ -35,30 +39,42 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: theme.colors.skyBlue,
+    padding: 7,
+    flexDirection: "row",
+    justifyContent: 'flex-end',
+  },
+  label: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#E4E5E7",
+    justifyContent: 'center',
     borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    flex:1
+  },
+  optionText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   menuTrigger: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#007AFF",
-    borderRadius: 20,
+    alignItems: 'center',
+    elevation: 5,
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      backgroundColor: theme.colors.tertiary,
+      borderRadius: 22,
+      elevation: 5,
   },
   triggerText: {
-    color: "white",
-    marginRight: 5,
+    color: theme.colors.primary,
+      fontSize: 16,
+      fontWeight: "bold",
+      marginRight: 12,
   },
   menuOptions: {
-  },
-  optionText: {
-    padding: 10,
+    zIndex: 1,
   },
 });
 
