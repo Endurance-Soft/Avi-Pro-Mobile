@@ -23,11 +23,11 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
             <Text style={styles.triggerText}>
               {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
             </Text>
-            <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="#2E3233" />
+            <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="white" />
           </View>
         </MenuTrigger>
         <MenuOptions customStyles={styles.menuOptions}>
-          <MenuOption onSelect={() => { onOptionChange("today"); setMenuVisible(false); }}>
+          <MenuOption onSelect={() => { onOptionChange("Hoy"); setMenuVisible(false); }}>
             <Text style={styles.optionText}>Estoy cansado jefe</Text>
           </MenuOption>
           {/* Add  */}
