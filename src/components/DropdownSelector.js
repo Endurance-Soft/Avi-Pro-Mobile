@@ -20,17 +20,25 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={styles.trigger}>
           <View style={styles.menuTrigger}>
-            <Text style={styles.triggerText}>
-              {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
-            </Text>
+            <View style={styles.menuTriggerInter}>
+              <Text style={styles.triggerText}>
+                {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
+              </Text>
+            </View>
             <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="white" />
           </View>
         </MenuTrigger>
-        <MenuOptions customStyles={styles.menuOptions}>
-          <MenuOption onSelect={() => { onOptionChange("Hoy"); setMenuVisible(false); }}>
-            <Text style={styles.optionText}>Estoy cansado jefe</Text>
-          </MenuOption>
-          {/* Add  */}
+        <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, }}>
+          {['Hoy', 'Esta Semana', 'Este Mes', 'Todo'].map((option) => (
+            <MenuOption key={option} onSelect={() => { onOptionChange(option); setMenuVisible(false); }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={styles.optionsText}>{option}</Text>
+                {selectedOption === option && (
+                  <FontAwesome5 name="check" size={17} color="white" style={{ marginLeft: 10 }} />
+                )}
+              </View>
+            </MenuOption>
+          ))}
         </MenuOptions>
       </Menu>
     </View>

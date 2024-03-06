@@ -8,6 +8,8 @@ import { DATA, theme } from '../../constants'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 
+const secondary = theme.colors.secondary;
+
 const ClientSearchScreen = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,7 +40,7 @@ const ClientSearchScreen = () => {
   return (
     
       <SafeAreaView style={styles.container}>
-      <StatusBar style="ligth" backgroundColor='#bbe6ec'/>
+      <StatusBar style="ligth" backgroundColor={secondary}/>
         <View style={styles.up}>
           <View style={styles.header}>
           <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>

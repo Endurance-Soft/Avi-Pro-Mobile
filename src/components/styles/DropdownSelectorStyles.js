@@ -22,15 +22,28 @@ export const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: "bold",
     },
+    optionsText: {
+      color: theme.colors.primary,
+      fontSize: 16,
+      fontWeight: "bold",
+    },
     menuTrigger: {
       flexDirection: "row",
       alignItems: 'center',
+      justifyContent: 'space-between',
       elevation: 5,
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        backgroundColor: theme.colors.tertiary,
-        borderRadius: 22,
-        elevation: 5,
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      backgroundColor: theme.colors.tertiary,
+      borderRadius: 22,
+      elevation: 5,
+      width: 200,
+    },
+    menuTriggerInter: {
+      flexDirection: "row",
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
     },
     triggerText: {
       color: theme.colors.primary,
@@ -38,7 +51,16 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         marginRight: 12,
     },
-    menuOptions: {
-      zIndex: 1,
+    optionsContainer: {
+      paddingVertical: 15,
+      marginTop: 55,
+      marginLeft: 0,
+      borderRadius: 20,
+      width: 200,
+      backgroundColor: theme.colors.tertiary,
+      elevation: 5,
+    },
+    optionsWrapper: {
+      marginLeft: 20,
     },
   });

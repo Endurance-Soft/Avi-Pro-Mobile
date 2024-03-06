@@ -7,8 +7,10 @@ import { HISTORY_DATA, theme } from "../../constants";
 import DropdownSelector from "../components/DropdownSelector";
 import { StatusBar } from "expo-status-bar";
 
+const secondary = theme.colors.secondary;
+
 const NewScreen = () => {
-  const [selectedOption, setSelectedOption] = useState("today");
+  const [selectedOption, setSelectedOption] = useState("Hoy");
   const renderHistoryItem = ({ item }) => (
     <StoryItem
       story={item}
@@ -24,7 +26,7 @@ const NewScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="ligth" backgroundColor="#bbe6ec" />
+      <StatusBar style="ligth" backgroundColor={secondary} />
       <View style={styles.header}>
         <ProfileHeader userName="Jon Doe" />
         <DropdownSelector
