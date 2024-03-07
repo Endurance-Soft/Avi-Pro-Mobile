@@ -11,39 +11,7 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      screenOptions={{
-        cardStyleInterpolator: ({current, layouts}) => {
-          return {
-            cardStyle: {
-              opacity: current.progress,
-              transform: [
-                {
-                  translateY: current.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [layouts.screen.height * 0.3, 0],
-                  }),
-                },
-              ],
-            },
-          };
-        },
-        transitionSpec: {
-          open: {
-            animation: 'timing',
-            config: {
-              duration: 150,
-              easing: Easing.ease,
-            },
-          },
-          close: {
-            animation: 'timing',
-            config: {
-              duration: 150,
-              easing: Easing.ease,
-            },
-          },
-        },
-      }}
+        initialRouteName='BillScreen'
       >
         <Stack.Screen 
           name="NewScreen" 
