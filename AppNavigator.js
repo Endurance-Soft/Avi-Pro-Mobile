@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import NewScreen from './src/screens/HomeScreen';
 import ClientSearchScreen from './src/screens/ClientSearchScreen';
+import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,13 @@ function AppNavigator() {
             options={{
                 headerShown: false,
             }} 
+        />
+        <Stack.Screen
+          name='ClientPaymentScreen'
+          component={ClientPaymentScreen}
+          options={{
+            headerShown: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
