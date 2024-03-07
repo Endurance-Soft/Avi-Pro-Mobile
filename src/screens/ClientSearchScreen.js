@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ClientItem from '../components/ClientItem';
+import ClientPaymentScreen from './ClientPaymentScreen';
 import { StatusBar } from 'expo-status-bar';
 import { DATA, theme } from '../../constants'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -34,7 +35,7 @@ const ClientSearchScreen = () => {
   };
 
   const renderItem = ({ item }) => (
-    <ClientItem client={item} onSelect={() => { /*item select*/ }} />
+      <ClientItem client={item} onSelect={() => navigation.navigate('ClientPaymentScreen', {clientId: item.id})}/>
   );
 
   return (
