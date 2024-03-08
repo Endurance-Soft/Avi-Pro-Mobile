@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import NewScreen from './src/screens/HomeScreen';
 import ClientSearchScreen from './src/screens/ClientSearchScreen';
-import CascadingEffectScreen from './src/screens/CascadingEffectScreen';
+import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
+import ClientPaymentSelectedScreen from './src/screens/ClientPaymentSelectedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,13 +30,19 @@ function AppNavigator() {
                 headerShown: false,
             }} 
         />
-        <Stack.Screen 
-            name='CascadingEffectScreen' 
-            component={CascadingEffectScreen} 
-            options={{
-                headerShown: false,
-            }} 
+        <Stack.Screen
+          name='ClientPaymentScreen'
+          component={ClientPaymentScreen}
+          options={{
+            headerShown: false,
+          }}
         />
+        <Stack.Screen
+          name='ClientPaymentSelectedScreen'
+          component={ClientPaymentSelectedScreen}
+          options={{
+            headerShown: false,
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
