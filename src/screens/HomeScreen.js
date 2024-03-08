@@ -10,6 +10,9 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
+  const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
+  const title = 'Actividad';
+
   const renderHistoryItem = ({ item, index }) => (
     <Cascading delay={400 + 80 * index} animationKey={animationKey}>
       <StoryItem
@@ -36,6 +39,8 @@ const NewScreen = () => {
         <ProfileHeader userName="Jon Doe" />
         <Cascading delay={300} animationKey={animationKey}>
           <DropdownSelector
+            title={title}
+            options={OPCIONES}
             selectedOption={selectedOption}
             onOptionChange={onOptionChange}
           />

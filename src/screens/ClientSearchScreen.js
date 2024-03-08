@@ -10,12 +10,14 @@ import {
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
+import ClientPaymentScreen from './ClientPaymentScreen';
 import { StatusBar } from "expo-status-bar";
 import { DATA, theme } from "../../constants";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
+
 
 const secondary = theme.colors.secondary;
 
@@ -51,9 +53,9 @@ const ClientSearchScreen = () => {
     <Cascading delay={400 + 80 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
-        onSelect={() => {
-          /*item select*/
-        }}
+        onSelect={() => 
+          navigation.navigate('ClientPaymentScreen', {clientId: item.id})
+        }
       />
     </Cascading>
   );

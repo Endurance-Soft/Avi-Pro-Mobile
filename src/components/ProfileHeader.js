@@ -10,6 +10,7 @@ import Modal from '../modals/SimpleModal';
 import { StatusBar } from "expo-status-bar";
 import { theme } from "../../constants";
 secondary = theme.colors.secondary;
+
 const ProfileHeader = ({ userName }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,7 +18,6 @@ const ProfileHeader = ({ userName }) => {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-
   useFocusEffect(
     useCallback(() => {
         setAnimationKey(Date.now());
