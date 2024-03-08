@@ -1,5 +1,5 @@
 // DropdownSelector.js
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
@@ -11,7 +11,7 @@ const DropdownSelector = ({ title, options, selectedOption, onOptionChange }) =>
   const toggleMenu = () => {
     setMenuVisible(prevState => !prevState);
   };
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.label}>

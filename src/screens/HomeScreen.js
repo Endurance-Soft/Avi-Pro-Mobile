@@ -1,11 +1,13 @@
 // NewScreen.js
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList, Text } from "react-native";
 import ProfileHeader from "../components/ProfileHeader";
 import StoryItem from "../components/StoryItem";
 import { HISTORY_DATA, theme } from "../../constants";
 import DropdownSelector from "../components/DropdownSelector";
 import { StatusBar } from "expo-status-bar";
+import Cascading from "../animation/CascadingFadeInView";
+import { useFocusEffect } from "@react-navigation/native";
 
 const secondary = theme.colors.secondary;
 
@@ -14,15 +16,22 @@ const NewScreen = () => {
   const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
   const title = 'Actividad';
 
-  const renderHistoryItem = ({ item }) => (
-    <StoryItem
-      story={item}
-      onSelect={() => {
-        /*item select*/
-      }}
-    />
+  const renderHistoryItem = ({ item, index }) => (
+    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+      <StoryItem
+        story={item}
+        onSelect={() => {
+          /* item select */
+        }}
+      />
+    </Cascading>
   );
-
+  const [animationKey, setAnimationKey] = useState(Date.now());
+  useFocusEffect(
+    useCallback(() => {
+      setAnimationKey(Date.now());
+    }, [])
+  );
   const onOptionChange = (option) => {
     setSelectedOption(option);
   };
@@ -32,14 +41,15 @@ const NewScreen = () => {
       <StatusBar style="ligth" backgroundColor={secondary} />
       <View style={styles.header}>
         <ProfileHeader userName="Jon Doe" />
-        <DropdownSelector
-          title={title}
-          options={OPCIONES}
-          selectedOption={selectedOption}
-          onOptionChange={onOptionChange}
-        />
+        <Cascading delay={300} animationKey={animationKey}>
+          <DropdownSelector
+            title={title}
+            options={OPCIONES}
+            selectedOption={selectedOption}
+            onOptionChange={onOptionChange}
+          />
+        </Cascading>
       </View>
-
       <View style={styles.listContainer}>
         <FlatList
           data={HISTORY_DATA}

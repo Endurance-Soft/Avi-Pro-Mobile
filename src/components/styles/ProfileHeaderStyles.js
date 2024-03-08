@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
      justifyContent: 'flex-end',
      paddingVertical: 10,
      paddingLeft: 13,
-     elevation:5,
+    //  elevation:5,
    },
    buttonText: {
      marginTop: 3,

@@ -6,13 +6,18 @@ import NewScreen from './src/screens/HomeScreen';
 import ClientSearchScreen from './src/screens/ClientSearchScreen';
 import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
 import ClientPaymentSelectedScreen from './src/screens/ClientPaymentSelectedScreen';
+import CascadingEffectScreen from './src/screens/CascadingEffectScreen';
 
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewScreen" >
+      <Stack.Navigator initialRouteName="NewScreen" 
+        screenOptions={{
+        animationEnabled: false, // Desactivar animaciones de transición
+      }}
+      >
         <Stack.Screen 
             name="NewScreen" 
             component={NewScreen} 
@@ -39,6 +44,12 @@ function AppNavigator() {
           options={{
             headerShown: false,
           }}
+        <Stack.Screen 
+            name='CascadingEffectScreen' 
+            component={CascadingEffectScreen} 
+            options={{
+                headerShown: false,
+            }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
