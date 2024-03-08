@@ -14,7 +14,6 @@ export const searchBarStyles = StyleSheet.create({
       borderRadius: 22,
       alignItems: "center",
       marginHorizontal: windowWidth * 0.05,
-      elevation: 5,
     },
     searchTextInput: {
       flex: 1,
@@ -24,7 +23,6 @@ export const searchBarStyles = StyleSheet.create({
       color: theme.colors.primaryText,
     },
     trigger: {
-      elevation: 5,
       paddingVertical: 12,
       paddingHorizontal: 25,
       backgroundColor: theme.colors.tertiary,
@@ -43,7 +41,6 @@ export const searchBarStyles = StyleSheet.create({
       borderRadius: 20,
       width: 142,
       backgroundColor: theme.colors.tertiary,
-      elevation: 5,
     },
     optionsWrapper: {
       marginLeft: 20,
