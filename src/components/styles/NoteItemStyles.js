@@ -4,20 +4,20 @@ import { theme } from '../../../constants';
 export const noteItemstyles = StyleSheet.create({
     container: {
       backgroundColor: theme.colors.primary,
-      paddingVertical: 8,
+      paddingVertical: 15,
       paddingHorizontal: 20,
-      marginVertical: 2,
+      marginVertical: 8,
       marginHorizontal: 20,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      borderBottomWidth: 2,
+      borderWidth: 2,
+      borderRadius: 20,
       borderColor: theme.colors.otherWhite,
-      display: 'flex',
     },
     textNro:{
       fontWeight: 'bold',
-      fontSize: 18,
+      fontSize: 16,
       color: theme.colors.tertiary
     },
     textDate:{
@@ -26,7 +26,7 @@ export const noteItemstyles = StyleSheet.create({
     },
     amount:{
       fontWeight: 'bold',
-      fontSize: 18,
+      fontSize: 16,
       color: theme.colors.green,
     },
     button:{
@@ -37,7 +37,8 @@ export const noteItemstyles = StyleSheet.create({
     },
     textButton:{
       color: theme.colors.primary,
-      fontWeight: 'bold',
       fontSize: 16,
+      alignSelf: 'center',
+      fontWeight: "bold",
     },
 });

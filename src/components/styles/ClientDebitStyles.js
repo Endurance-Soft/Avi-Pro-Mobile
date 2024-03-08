@@ -1,37 +1,39 @@
 //clientDebitStyles
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from '../../../constants';
+const screenWidth = Dimensions.get('window').width;
 
 export const clientDebitStyles = StyleSheet.create({
     container: {
         backgroundColor: theme.colors.skyBlue,
         borderRadius:22,
-        alignItems: 'center',
-        padding: 10,
-        width: '90%',
+        width: screenWidth-40,
         alignSelf: 'center',
-        display: 'flex',
         marginBottom: 20,
     },
     spaceButtons: {
         flexDirection: 'row',
-        alignContent: 'space-between',
-        gap: 15,
-        marginTop: 20,
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        marginBottom: 10,
     },
     text: {
-        fontSize: 38,
+        fontSize: 30,
         fontWeight: 'bold',
+        alignSelf: 'center',
+        padding: 15,
     },
     button:{
-        paddingHorizontal: 30,
         backgroundColor: theme.colors.tertiary,
         borderRadius: 22,
+        paddingVertical: 12,
         padding: 10,
+        width: screenWidth*0.4,
     },
     textButton:{
         color: theme.colors.primary,
-        fontSize:20,
-        fontWeight: '500',
+        fontSize: 16,
+        alignSelf: 'center',
+        fontWeight: "bold",
     }
 })
