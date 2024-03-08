@@ -5,11 +5,8 @@ import ProfileHeader from "../components/ProfileHeader";
 import StoryItem from "../components/StoryItem";
 import { HISTORY_DATA, theme } from "../../constants";
 import DropdownSelector from "../components/DropdownSelector";
-import { StatusBar } from "expo-status-bar";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-
-const secondary = theme.colors.secondary;
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
@@ -35,7 +32,6 @@ const NewScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* <StatusBar style="ligth" backgroundColor={secondary} /> */}
       <View style={styles.header}>
         <ProfileHeader userName="Jon Doe" />
         <Cascading delay={300} animationKey={animationKey}>
