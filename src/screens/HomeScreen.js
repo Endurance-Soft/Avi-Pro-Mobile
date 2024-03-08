@@ -35,7 +35,7 @@ const NewScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="ligth" backgroundColor={secondary} />
+      {/* <StatusBar style="ligth" backgroundColor={secondary} /> */}
       <View style={styles.header}>
         <ProfileHeader userName="Jon Doe" />
         <Cascading delay={300} animationKey={animationKey}>
