@@ -14,20 +14,22 @@ const ClientPaymentScreen = ({ route }) => {
   const client = DATA.find((item) => item.id == clientId);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-          <Icon name="back" size={30} color="black" />
-        </TouchableOpacity>
-        <View style={styles.headerCenter}>
-          <View style={styles.text}>
-            <Text style={styles.code}>{client.code}</Text>
-            <Text style={styles.name}>{client.name}</Text>
+      <View style={styles.headerWithoutComponents}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
+            <Icon name="back" size={30} color="black" />
+          </TouchableOpacity>
+          <View style={styles.headerCenter}>
+            <View style={styles.text}>
+              <Text style={styles.code}>{client.code}</Text>
+              <Text style={styles.name}>{client.name}</Text>
+            </View>
           </View>
-          <ClientDebit 
-            clientInfo = {client}
-          /> 
+          
         </View>
-
+        <ClientDebit
+            clientInfo={client}
+          />
       </View>
     </SafeAreaView>
   )
@@ -39,13 +41,15 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: theme.colors.primary,
   },
-  header: {
+  headerWithoutComponents: {
     zIndex: 1,
     backgroundColor: theme.colors.secondary,
     borderBottomLeftRadius: 22,
     borderBottomRightRadius: 22,
     elevation: 7,
-    paddingVertical: 20,
+  },
+  header: {
+    paddingTop: 20,
     paddingHorizontal: 20,
     flexDirection: 'row',
   },
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
   headerCenter: {
     alignItems: 'center',
   },
-  text:{
+  text: {
     alignItems: 'center',
     padding: 20,
   },

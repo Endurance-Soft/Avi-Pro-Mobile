@@ -43,16 +43,7 @@ export const DATA = [
     balance: "4670 Bs.",
     pendingNotes: "5",
     lastPayment: "10/03/22",
-  },
-  {
-    id: 6,
-    icon: "person-circle",
-    name: "Samuel Herbas",
-    code: "11020102001006",
-    balance: "1500 Bs.",
-    pendingNotes: "5",
-    lastPayment: "14/03/22",
-  },
+  }
 ];
 export const theme = {
   colors: {

@@ -21,13 +21,13 @@ const ClientDebit = ({clientInfo}) => {
 
     return(
         <View style={clientDebitStyles.container}>
-            <Text> {totalDebit} Bs</Text>
+            <Text style={clientDebitStyles.text}> {totalDebit} Bs</Text>
             <View style={clientDebitStyles.spaceButtons}>
                 <TouchableOpacity onPress={()=>{}} style={clientDebitStyles.button}>
-                    <Text>Automático</Text>
+                    <Text style={clientDebitStyles.textButton}>Automático</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{}} style={clientDebitStyles.button}>
-                    <Text style={color='white'}>Imprimir</Text>
+                    <Text style={clientDebitStyles.textButton}>Recibo</Text>
                 </TouchableOpacity>
             </View>
         </View>
