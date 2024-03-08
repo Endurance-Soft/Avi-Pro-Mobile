@@ -31,12 +31,10 @@ export const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems: 'center',
       justifyContent: 'space-between',
-      elevation: 5,
       paddingVertical: 12,
       paddingHorizontal: 25,
       backgroundColor: theme.colors.tertiary,
       borderRadius: 22,
-      elevation: 5,
       width: 200,
     },
     menuTriggerInter: {
@@ -58,7 +56,6 @@ export const styles = StyleSheet.create({
       borderRadius: 20,
       width: 200,
       backgroundColor: theme.colors.tertiary,
-      elevation: 5,
     },
     optionsWrapper: {
       marginLeft: 20,
