@@ -11,6 +11,9 @@ const secondary = theme.colors.secondary;
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
+  const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
+  const title = 'Actividad';
+
   const renderHistoryItem = ({ item }) => (
     <StoryItem
       story={item}
@@ -30,6 +33,8 @@ const NewScreen = () => {
       <View style={styles.header}>
         <ProfileHeader userName="Jon Doe" />
         <DropdownSelector
+          title={title}
+          options={OPCIONES}
           selectedOption={selectedOption}
           onOptionChange={onOptionChange}
         />

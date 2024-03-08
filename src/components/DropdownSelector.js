@@ -5,7 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 import {styles} from './styles/DropdownSelectorStyles'
 
-const DropdownSelector = ({ selectedOption, onOptionChange }) => {
+const DropdownSelector = ({ title, options, selectedOption, onOptionChange }) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -15,7 +15,7 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
   return (
     <View style={styles.container}>
       <View style={styles.label}>
-        <Text style={styles.optionText}>Actividad</Text>
+        <Text style={styles.optionText}>{title}</Text>
       </View>
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={styles.trigger}>
@@ -29,7 +29,7 @@ const DropdownSelector = ({ selectedOption, onOptionChange }) => {
           </View>
         </MenuTrigger>
         <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, }}>
-          {['Hoy', 'Esta Semana', 'Este Mes', 'Todo'].map((option) => (
+          {options.map((option) => (
             <MenuOption key={option} onSelect={() => { onOptionChange(option); setMenuVisible(false); }}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text style={styles.optionsText}>{option}</Text>

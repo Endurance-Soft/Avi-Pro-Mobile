@@ -1,29 +1,28 @@
-//ClientPayment.js
+//ClientSelectedPayment.js
 import React, { useState } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View } from 'react-native';
-import { DATA, HISTORY_DATA2, theme } from '../../constants';
+import { DATA, theme } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ClientDebit from '../components/ClientDebit';
-import NoteItem from "../components/NoteItem";
+import ClientItem from "../components/ClientItem";
 import DropdownSelector from "../components/DropdownSelector";
+import { renderers } from "react-native-popup-menu";
 
-const ClientPaymentScreen = ({ route }) => {
+const secondary = theme.colors.secondary;
+
+const ClientPaymentSelectedScreen = ({ route }) => {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
   const { clientId } = route.params;
-  const title = 'Notas';
-  const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
+
   const client = DATA.find((item) => item.id == clientId);
-  const filteredData = HISTORY_DATA2.filter((obj) => obj.name == client.name);
   
+
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
 
-  const renderItem = ({ item }) => (
-    <NoteItem note={item} onSelect={() => {}}/>
-  );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>
@@ -39,22 +38,8 @@ const ClientPaymentScreen = ({ route }) => {
           </View>
         </View>
         <ClientDebit clientInfo={client} />
-        <DropdownSelector
-          title={title}
-          options={OPCIONES}  
-          selectedOption= {selectedOption}
-          onOptionChange= {handleOptionChange}
-        />
       </View>
-      <View style={styles.listContainer}>
-        <FlatList
-            data={filteredData}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            // ListHeaderComponent={<View style={{ height: 10 }} />}
-            // ListFooterComponent={<View style={{ height: 10 }} />}
-        />
-      </View> 
+      
     </SafeAreaView>
   )
 };
@@ -101,10 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textTransform: 'uppercase',
   },
-  listContainer:{
-    flex: 1,
 
-  },
 })
 
-export default ClientPaymentScreen;
+export default ClientPaymentSelectedScreen;

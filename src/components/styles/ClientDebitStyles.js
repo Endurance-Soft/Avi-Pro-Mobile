@@ -11,6 +11,7 @@ export const clientDebitStyles = StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         display: 'flex',
+        marginBottom: 20,
     },
     spaceButtons: {
         flexDirection: 'row',
@@ -19,7 +20,7 @@ export const clientDebitStyles = StyleSheet.create({
         marginTop: 20,
     },
     text: {
-        fontSize: 36,
+        fontSize: 38,
         fontWeight: 'bold',
     },
     button:{

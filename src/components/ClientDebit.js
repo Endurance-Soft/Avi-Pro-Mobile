@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { clientDebitStyles } from './styles/ClientDebitStyles';
-import { DATA } from "../../constants";
+import { HISTORY_DATA } from "../../constants";
 import { styles } from "./styles/ProfileHeaderStyles";
 
 const ClientDebit = ({clientInfo}) => {
@@ -12,10 +12,10 @@ const ClientDebit = ({clientInfo}) => {
         return array.reduce((prev, current)=> prev + current, 0 )
     }
     useEffect(()=> {
-        const concentration = DATA.filter(
+        const concentration = HISTORY_DATA.filter(
             (client)=> client.name == clientInfo.name)
         const total = calculation(
-            concentration.map(obj => parseFloat(obj.balance.replace(' Bs.', ''))));
+            concentration.map(obj => parseFloat(obj.amount)));
         setTotalDebit(total); 
     }, [clientInfo]);   
 
