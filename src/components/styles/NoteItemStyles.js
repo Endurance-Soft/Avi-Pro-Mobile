@@ -1,14 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from '../../../constants';
-const windowWidth = Dimensions.get("window").width;
 
 export const noteItemstyles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: theme.colors.primary,
       paddingVertical: 8,
       paddingHorizontal: 20,
-      marginVertical: 10,
+      marginVertical: 2,
       marginHorizontal: 20,
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -40,5 +38,6 @@ export const noteItemstyles = StyleSheet.create({
     textButton:{
       color: theme.colors.primary,
       fontWeight: 'bold',
+      fontSize: 16,
     },
 });

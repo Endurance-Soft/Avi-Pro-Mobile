@@ -206,7 +206,7 @@ export const HISTORY_DATA2 = [
     name: "Samuel Herbas",
     amount: "130.00",
     date: "2024/03/01",
-    note: "150"
+    note: "130"
   },
   { id: "8", 
     name: "Henry Peña", 
@@ -218,14 +218,14 @@ export const HISTORY_DATA2 = [
     name: "Louisa Cespedez",
     amount: "200.00",
     date: "2024/03/01",
-    note: "161",
+    note: "167",
   },
   {
     id: "10",
     name: "Samuel Herbas",
     amount: "130.00",
     date: "2024/03/01",
-    note: "150",
+    note: "159",
   },
   {
     id: "11",

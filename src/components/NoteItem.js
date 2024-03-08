@@ -5,7 +5,7 @@ import { noteItemstyles } from "./styles/NoteItemStyles";
 
 const NoteItem = ({ note, onSelect }) => {
   return (
-    <TouchableOpacity onPress={() => onSelect(note.id)} style={noteItemstyles}>
+    <TouchableOpacity onPress={() => onSelect(note.name)} style={noteItemstyles}>
       <View style={noteItemstyles.container}>
         <View>
           <Text style={noteItemstyles.textNro}>N° {note.note}</Text>

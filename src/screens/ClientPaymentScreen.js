@@ -22,7 +22,7 @@ const ClientPaymentScreen = ({ route }) => {
   };
 
   const renderItem = ({ item }) => (
-    <NoteItem note={item} onSelect={() => {}}/>
+    <NoteItem note={item} onSelect={() => navigation.navigate('ClientPaymentSelectedScreen', {itemName: item.name})}/>
   );
   return (
     <SafeAreaView style={styles.container}>
@@ -51,8 +51,6 @@ const ClientPaymentScreen = ({ route }) => {
             data={filteredData}
             renderItem={renderItem}
             keyExtractor={item => item.id}
-            // ListHeaderComponent={<View style={{ height: 10 }} />}
-            // ListFooterComponent={<View style={{ height: 10 }} />}
         />
       </View> 
     </SafeAreaView>
@@ -103,7 +101,7 @@ const styles = StyleSheet.create({
   },
   listContainer:{
     flex: 1,
-
+    marginTop: 20,
   },
 })
 
