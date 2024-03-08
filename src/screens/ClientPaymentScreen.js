@@ -22,7 +22,7 @@ const ClientPaymentScreen = ({ route }) => {
   };
 
   const renderItem = ({ item }) => (
-    <NoteItem note={item} onSelect={() => navigation.navigate('ClientPaymentSelectedScreen', {itemName: item.name})}/>
+    <NoteItem note={item} onSelect={() => navigation.navigate('ClientPaymentSelectedScreen', {itemName: item.name, itemNote: item.note})}/>
   );
   return (
     <SafeAreaView style={styles.container}>
