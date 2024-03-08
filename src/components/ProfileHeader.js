@@ -4,16 +4,16 @@ import { View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import {styles} from './styles/ProfileHeaderStyles';
-          import Cascading from '../animation/CascadingFadeInView';
-          import { useFocusEffect } from '@react-navigation/native';
+import Cascading from '../animation/CascadingFadeInView';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ProfileHeader = ({ userName }) => {
-          const [animationKey, setAnimationKey] = useState(Date.now());
-          useFocusEffect(
-            useCallback(() => {
-                setAnimationKey(Date.now());
-            }, [])
-          );
+  const [animationKey, setAnimationKey] = useState(Date.now());
+  useFocusEffect(
+    useCallback(() => {
+        setAnimationKey(Date.now());
+    }, [])
+  );
 
   const navigation = useNavigation();
   return (

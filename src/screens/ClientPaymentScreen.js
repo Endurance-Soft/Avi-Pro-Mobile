@@ -1,5 +1,5 @@
 //ClientPayment.js
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View } from 'react-native';
 import { DATA, HISTORY_DATA2, theme } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import ClientDebit from '../components/ClientDebit';
 import NoteItem from "../components/NoteItem";
 import DropdownSelector from "../components/DropdownSelector";
+import Cascading from "../animation/CascadingFadeInView";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ClientPaymentScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -16,17 +18,25 @@ const ClientPaymentScreen = ({ route }) => {
   const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
   const client = DATA.find((item) => item.id == clientId);
   const filteredData = HISTORY_DATA2.filter((obj) => obj.name == client.name);
-  
+  const [animationKey, setAnimationKey] = useState(Date.now());
+  useFocusEffect(
+    useCallback(() => {
+      setAnimationKey(Date.now());
+    }, [])
+  );
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
 
-  const renderItem = ({ item }) => (
-    <NoteItem note={item} onSelect={() => navigation.navigate('ClientPaymentSelectedScreen', {itemName: item.name, itemNote: item.note})}/>
+  const renderItem = ({ item, index }) => (
+    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+      <NoteItem note={item} onSelect={() => {}}/>
+    </Cascading>
   );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>
+      <Cascading delay={100} animationKey={animationKey}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
             <Icon name="back" size={30} color="black" />
@@ -38,19 +48,26 @@ const ClientPaymentScreen = ({ route }) => {
             </View>
           </View>
         </View>
+        </Cascading>
+        <Cascading delay={200} animationKey={animationKey}>
         <ClientDebit clientInfo={client} />
+        </Cascading>
+        <Cascading delay={300} animationKey={animationKey}>
         <DropdownSelector
           title={title}
           options={OPCIONES}  
           selectedOption= {selectedOption}
           onOptionChange= {handleOptionChange}
         />
+        </Cascading>
       </View>
       <View style={styles.listContainer}>
         <FlatList
             data={filteredData}
             renderItem={renderItem}
             keyExtractor={item => item.id}
+            ListHeaderComponent={<View style={{ height: 10 }} />}
+            ListFooterComponent={<View style={{ height: 10 }} />}
         />
       </View> 
     </SafeAreaView>
@@ -89,19 +106,20 @@ const styles = StyleSheet.create({
   },
   text: {
     alignItems: 'center',
-    padding: 20,
+    paddingLeft: 20,
+    paddingVertical: 15,
+
   },
   code: {
-    fontSize: 18,
+    fontSize: 15,
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 20,
     textTransform: 'uppercase',
   },
   listContainer:{
     flex: 1,
-    marginTop: 20,
   },
 })
 

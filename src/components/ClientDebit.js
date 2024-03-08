@@ -1,12 +1,19 @@
 //ClientDebit.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { clientDebitStyles } from './styles/ClientDebitStyles';
 import { HISTORY_DATA } from "../../constants";
-import { styles } from "./styles/ProfileHeaderStyles";
+import Cascading from '../animation/CascadingFadeInView';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ClientDebit = ({clientInfo}) => {
     const [totalDebit, setTotalDebit] = useState(0);
+    const [animationKey, setAnimationKey] = useState(Date.now());
+        useFocusEffect(
+            useCallback(() => {
+                setAnimationKey(Date.now());
+            }, [])
+        );
 
     const calculation = (array) =>{
         return array.reduce((prev, current)=> prev + current, 0 )
