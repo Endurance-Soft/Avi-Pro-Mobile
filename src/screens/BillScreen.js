@@ -27,8 +27,6 @@ const Receipt = () => {
         <View style={styles.receiptContainer}>
             <Image source={zigzag} style={styles.zigzagBorderBottom} resizeMode="repeat" />
             <View style={styles.receiptContent}>
-                {/* Aquí va el contenido del texto del recibo */}
-                
                 <View style={styles.textTitleContainer}>
                     <Text style={styles.receiptTextTitle}>CASH RECEIPT</Text>
                 </View>            
