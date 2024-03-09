@@ -1,11 +1,11 @@
 // SearchBar.js
 import React, { useState } from "react";
-import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Menu, MenuOptions, MenuOption, MenuTrigger,
-} from "react-native-popup-menu";
-import { searchBarStyles } from "./styles/SearchBarStyles";
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
+import { theme } from "../../constants";
+const windowWidth = Dimensions.get("window").width;
 
 const SearchBar = ({ searchQuery, setSearchQuery, selectedOption, onOptionChange,}) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -48,5 +48,51 @@ const SearchBar = ({ searchQuery, setSearchQuery, selectedOption, onOptionChange
     </View>
   );
 };
-
+const searchBarStyles = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+    flexDirection: "row",
+    padding: 8,
+    paddingLeft: 12,
+    backgroundColor: theme.colors.skyBlue,
+    borderRadius: 22,
+    alignItems: "center",
+    marginHorizontal: windowWidth * 0.05,
+  },
+  searchTextInput: {
+    flex: 1,
+    marginLeft: 7,
+    marginRight: 10,
+    fontSize: 17,
+    color: theme.colors.primaryText,
+  },
+  trigger: {
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    backgroundColor: theme.colors.tertiary,
+    borderRadius: 22,
+  },
+  triggerText: {
+    color: theme.colors.primary,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 12,
+  },
+  optionsContainer: {
+    paddingVertical: 15,
+    marginTop: 55,
+    marginLeft: 0,
+    borderRadius: 20,
+    width: 142,
+    backgroundColor: theme.colors.tertiary,
+  },
+  optionsWrapper: {
+    marginLeft: 20,
+  },
+  optionsText: {
+    color: theme.colors.primary,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 export default SearchBar;
