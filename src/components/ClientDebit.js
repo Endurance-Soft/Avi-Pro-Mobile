@@ -1,12 +1,11 @@
 //ClientDebit.js
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { clientDebitStyles } from "./styles/ClientDebitStyles";
+import { View, Text, TouchableOpacity, Dimensions, StyleSheet} from "react-native";
 import { HISTORY_DATA, theme } from "../../constants";
-import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "../modals/SimpleModal";
 import { StatusBar } from "expo-status-bar";
+const screenWidth = Dimensions.get('window').width;
 
 const ClientDebit = ({ clientInfo }) => {
   const [totalDebit, setTotalDebit] = useState(0);
@@ -78,4 +77,39 @@ const ClientDebit = ({ clientInfo }) => {
     </View>
   );
 };
+
+const clientDebitStyles = StyleSheet.create({
+  container: {
+      backgroundColor: theme.colors.skyBlue,
+      borderRadius:22,
+      width: screenWidth-40,
+      alignSelf: 'center',
+      marginBottom: 20,
+  },
+  spaceButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingHorizontal: 10,
+      marginBottom: 10,
+  },
+  text: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      alignSelf: 'center',
+      padding: 15,
+  },
+  button:{
+      backgroundColor: theme.colors.tertiary,
+      borderRadius: 22,
+      paddingVertical: 12,
+      padding: 10,
+      width: screenWidth*0.4,
+  },
+  textButton:{
+      color: theme.colors.primary,
+      fontSize: 16,
+      alignSelf: 'center',
+      fontWeight: "bold",
+  }
+})
 export default ClientDebit;
