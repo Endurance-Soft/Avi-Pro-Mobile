@@ -6,6 +6,7 @@ import ClientSearchScreen from './src/screens/ClientSearchScreen';
 import BillScreen from './src/screens/BillScreen'
 import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
 import ClientPaymentSelectedScreen from './src/screens/ClientPaymentSelectedScreen';
+import PayScreen from './src/screens/PayScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,12 @@ function AppNavigator() {
           options={{
             headerShown: false,
           }}/>
+
+        <Stack.Screen 
+          name="PayScreen" 
+          component={PayScreen} 
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

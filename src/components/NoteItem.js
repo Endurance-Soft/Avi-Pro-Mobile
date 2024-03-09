@@ -2,8 +2,12 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { noteItemstyles } from "./styles/NoteItemStyles";
+import { useNavigation } from "@react-navigation/native";
 
 const NoteItem = ({ note, onSelect }) => {
+
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity onPress={() => onSelect(note.name)} style={noteItemstyles}>
       <View style={noteItemstyles.container}>
@@ -15,7 +19,7 @@ const NoteItem = ({ note, onSelect }) => {
           <Text style={noteItemstyles.amount}>{note.amount} Bs</Text>
         </View>
         <View>
-          <TouchableOpacity onPress={() => {}} style={noteItemstyles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate("PayScreen")} style={noteItemstyles.button}>
             <Text style={noteItemstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>
