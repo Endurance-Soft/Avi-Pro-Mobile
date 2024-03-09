@@ -10,9 +10,11 @@ import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 
+
 const ClientPaymentScreen = ({ route }) => {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
+  
   const { clientId } = route.params;
   const title = 'Notas';
   const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
@@ -27,7 +29,6 @@ const ClientPaymentScreen = ({ route }) => {
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
-
   const renderItem = ({ item, index }) => (
     <Cascading delay={400 + 80 * index} animationKey={animationKey}>
       <NoteItem note={item} onSelect={() => {}}/>

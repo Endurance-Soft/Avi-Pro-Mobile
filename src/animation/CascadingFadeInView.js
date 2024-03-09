@@ -51,12 +51,12 @@ export default CascadingFadeInView;
 // import { useFocusEffect } from '@react-navigation/native';
 
 
-// const [animationKey, setAnimationKey] = useState(Date.now());
-// useFocusEffect(
-// useCallback(() => {
-//     setAnimationKey(Date.now());
-// }, [])
-// );
+    // const [animationKey, setAnimationKey] = useState(Date.now());
+    // useFocusEffect(
+    // useCallback(() => {
+    //     setAnimationKey(Date.now());
+    // }, [])
+    // );
 
 {/* <Cascading delay={100} animationKey={animationKey}>
 </Cascading> */}
