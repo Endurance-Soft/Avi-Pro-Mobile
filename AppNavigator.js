@@ -5,7 +5,6 @@ import NewScreen from './src/screens/HomeScreen';
 import ClientSearchScreen from './src/screens/ClientSearchScreen';
 import BillScreen from './src/screens/BillScreen'
 import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
-import ClientPaymentSelectedScreen from './src/screens/ClientPaymentSelectedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,12 +38,6 @@ function AppNavigator() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name='ClientPaymentSelectedScreen'
-          component={ClientPaymentSelectedScreen}
-          options={{
-            headerShown: false,
-          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
