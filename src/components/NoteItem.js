@@ -1,7 +1,6 @@
 //NoteItem.js
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { noteItemstyles } from "./styles/NoteItemStyles";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { theme } from "../../constants";
 
