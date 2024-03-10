@@ -1,12 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import NewScreen from './src/screens/HomeScreen';
-import ClientSearchScreen from './src/screens/ClientSearchScreen';
-import BillScreen from './src/screens/BillScreen'
-import ClientPaymentScreen from './src/screens/ClientPaymentScreen';
-import ClientPaymentSelectedScreen from './src/screens/ClientPaymentSelectedScreen';
-import PayScreen from './src/screens/PayScreen';
+import NewScreen from '../screens/HomeScreen';
+import ClientSearchScreen from '../screens/ClientSearchScreen';
+import BillScreen from '../screens/BillScreen'
+import ClientPaymentScreen from '../screens/ClientPaymentScreen';
+import PayScreen from '../screens/PayScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,13 +39,6 @@ function AppNavigator() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name='ClientPaymentSelectedScreen'
-          component={ClientPaymentSelectedScreen}
-          options={{
-            headerShown: false,
-          }}/>
-
         <Stack.Screen 
           name="PayScreen" 
           component={PayScreen} 
