@@ -5,17 +5,22 @@ import NewScreen from '../screens/HomeScreen';
 import ClientSearchScreen from '../screens/ClientSearchScreen';
 import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
-
+import PassCodeV1 from '../../PassCodeKeyboard';
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewScreen" 
+      <Stack.Navigator initialRouteName="Pass" 
         screenOptions={{
         animationEnabled: false,
       }}
       >
+        <Stack.Screen 
+          name="Pass" 
+          component={PassCodeV1} 
+          options={{ headerShown: false }} 
+        />
         <Stack.Screen 
           name="NewScreen" 
           component={NewScreen} 
