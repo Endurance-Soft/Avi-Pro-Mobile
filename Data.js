@@ -132,7 +132,7 @@ const cobradores = [
   ];
 
   const clientes = [
-    //   },{ cliente_id: Asignaremos un ID único a cada cliente.
+    //   cliente_id: Asignaremos un ID único a cada cliente.
     //   cobrador_id: Asignaremos a cada cliente un cobrador cuyo empresa_id coincida con el empresa_id del cliente. Esto implica que necesitamos hacer coincidir los cobradores con las empresas de los clientes de manera equitativa.
     //   cuenta: Generaremos un número de cuenta único de 14 dígitos para cada cliente.
     //   dirección: Por simplicidad, generaremos una dirección ficticia para cada cliente.
@@ -440,3 +440,25 @@ const cobradores = [
     ,{ cliente_id: 79, empresa_id: 1, fecha: '2022-07-14', fecha_vence: '2022-10-12', fecha_venta: '2022-07-14', importe_nota: 290.48, monto_pagado: 0, nro_nota: 215, saldo_pendiente: 290.48, sucursal_id: 23 }
     ,{ cliente_id: 79, empresa_id: 1, fecha: '2022-09-21', fecha_vence: '2022-12-20', fecha_venta: '2022-09-21', importe_nota: 746.03, monto_pagado: 0, nro_nota: 216, saldo_pendiente: 746.03, sucursal_id: 27 }
     ];
+
+
+// DEP816491, 10000000000001, 1, '2022-06-26', '2022-06-22', Transferencia, USD, 503.73, 360, 'Pago realizado satisfactoriamente.', 360, REF57259, 1
+// DEP188795, 10000000000001, 1, '2022-04-08', '2022-05-07', Transferencia, USD, 793.21, 990, 'Pago realizado satisfactoriamente.', 990, REF45359, 1
+// DEP459746, 10000000000002, 1, '2023-12-09', '2022-03-14', Cheque, USD, 131.26, 232, 'Pago realizado satisfactoriamente.', 232, REF77661, 2
+// DEP243228, 10000000000002, 1, '2023-12-05', '2022-06-01', Transferencia, USD, 212.8, 905, 'Pago realizado satisfactoriamente.', 905, REF53503, 2
+// DEP646888, 10000000000003, 1, '2022-07-25', '2023-10-12', Efectivo, USD, 331.55, 402, 'Pago realizado satisfactoriamente.', 402, REF50457, 3
+// DEP713072, 10000000000003, 1, '2023-03-16', '2022-12-29', Cheque, USD, 304.93, 537, 'Pago realizado satisfactoriamente.', 537, REF66364, 3
+// DEP558831, 10000000000004, 1, '2022-08-03', '2023-10-05', Transferencia, USD, 761.42, 218, 'Pago realizado satisfactoriamente.', 218, REF97580, 4
+// DEP252880, 10000000000004, 1, '2022-06-10', '2022-11-25', Transferencia, USD, 472.23, 973, 'Pago realizado satisfactoriamente.', 973, REF68349, 4
+// DEP187169, 10000000000005, 1, '2022-04-06', '2023-05-05', Efectivo, USD, 412.46, 231, 'Pago realizado satisfactoriamente.', 231, REF24925, 5
+// DEP176924, 10000000000005, 1, '2022-08-07', '2024-01-03', Transferencia, USD, 211.86, 750, 'Pago realizado satisfactoriamente.', 750, REF13390, 5
+// DEP523264, 10000000000006, 1, '2024-03-04', '2022-10-17', Transferencia, USD, 667.1, 797, 'Pago realizado satisfactoriamente.', 797, REF45318, 6
+// DEP381256, 10000000000006, 1, '2023-12-07', '2022-11-11', Transferencia, USD, 528.24, 680, 'Pago realizado satisfactoriamente.', 680, REF90817, 6
+// DEP442449, 10000000000007, 1, '2023-11-22', '2022-04-24', Cheque, USD, 353.9, 472, 'Pago realizado satisfactoriamente.', 472, REF89874, 7
+// DEP167527, 10000000000007, 1, '2023-06-19', '2023-02-04', Cheque, USD, 424.89, 62, 'Pago realizado satisfactoriamente.', 62, REF37670, 7
+// DEP613126, 10000000000008, 1, '2023-10-30', '2022-05-07', Transferencia, USD, 412.91, 543, 'Pago realizado satisfactoriamente.', 543, REF41838, 8
+// DEP834225, 10000000000008, 1, '2023-11-04', '2023-10-26', Cheque, USD, 743.88, 184, 'Pago realizado satisfactoriamente.', 184, REF46821, 8
+// DEP487935, 10000000000009, 1, '2023-09-15', '2023-12-09', Cheque, USD, 564.59, 521, 'Pago realizado satisfactoriamente.', 521, REF30405, 9
+// DEP471471, 10000000000009, 1, '2022-05-06', '2022-06-06', Cheque, USD, 316.48, 301, 'Pago realizado satisfactoriamente.', 301, REF40295, 9
+// DEP485946, 100000000000010, 1, '2022-06-14', '2023-07-03', Cheque, USD, 629.22, 195, 'Pago realizado satisfactoriamente.', 195, REF52030, 10
+// DEP208171, 100000000000010, 1, '2023-10-02', '2023-02-26', Cheque, USD, 141.08, 105, 'Pago realizado satisfactoriamente.', 105, REF34412, 10
