@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { theme } from '../../constants';
+import StyledText from "../StyledText";
 const windowWidth = Dimensions.get('window').width;
 
 const ClientItem = ({ client, onSelect }) => {
@@ -13,14 +14,14 @@ const ClientItem = ({ client, onSelect }) => {
           <Text style={styles.icon}>{client.name.charAt(0)}</Text>
         </View>
         <View style={styles.detailsContainer}>
-          <Text style={styles.name}>{client.name}</Text>
+          <StyledText boldText>{client.name}</StyledText>
           <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
-            <Text style={styles.code}>{client.code}</Text>
+            <StyledText regularText style={{marginLeft:5}}>{client.code}</StyledText>
           </View>
           <View style={styles.codeContainer}>
             <FontAwesome5 name="money-bill" size={13} color="black" />
-            <Text style={styles.balance}>{client.balance}</Text>
+            <StyledText regularText style={{marginLeft:8}}>{client.balance}</StyledText>
           </View>
         </View>
       </View>
@@ -28,12 +29,8 @@ const ClientItem = ({ client, onSelect }) => {
         <View style={styles.line}></View>
       </View>
       <View style={styles.notesContainer}>
-        <Text style={styles.notes}>
-          Notas pendientes: {client.pendingNotes}
-        </Text>
-        <Text style={styles.lastPayment}>
-          Ultimo pago: {client.lastPayment}
-        </Text>
+        <StyledText regularText>Notas pendientes: {client.pendingNotes}</StyledText>
+        <StyledText regularText>Ultimo pago: {client.lastPayment}</StyledText>
       </View>
     </TouchableOpacity>
   );
@@ -71,19 +68,9 @@ const styles = StyleSheet.create({
   detailsContainer: {
     marginLeft: 17,
   },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: theme.colors.tertiary
-  },
   codeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  code: {
-    fontSize: 16,
-    marginLeft: 5,
-    color: theme.colors.secondaryText,
   },
   balance: {
     fontSize: 16,
@@ -95,10 +82,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   notes: {
-    fontSize: 16,
-    color: theme.colors.secondaryText,
-  },
-  lastPayment: {
     fontSize: 16,
     color: theme.colors.secondaryText,
   },
