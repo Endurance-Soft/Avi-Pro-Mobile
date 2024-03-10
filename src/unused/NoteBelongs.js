@@ -1,34 +1,34 @@
-//NoteItem.js
+//NoteBelongs.js
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import { theme } from "../../constants";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
+import { theme } from '../../constants';
 
-const NoteItem = ({ note, onSelect }) => {
+const NoteBelongs = ({ note, onSelect }) => {
   return (
-    <TouchableOpacity onPress={() => onSelect(note.name)} style={noteItemstyles}>
-      <View style={noteItemstyles.container}>
+    <TouchableOpacity onPress={() => onSelect(note.name)} style={noteBelongstyles}>
+      <View style={noteBelongstyles.container}>
         <View>
-          <Text style={noteItemstyles.textNro}>N° {note.note}</Text>
-          <Text style={noteItemstyles.textDate}>{note.date}</Text>
+          <Text style={noteBelongstyles.textNro}>N° {note.note}</Text>
+          <Text style={noteBelongstyles.textDate}>{note.date}</Text>
         </View>
         <View>
-          <Text style={noteItemstyles.amount}>{note.amount} Bs</Text>
+          <Text style={noteBelongstyles.amount}>{note.amount} Bs</Text>
         </View>
         <View>
-          <TouchableOpacity onPress={() => {}} style={noteItemstyles.button}>
-            <Text style={noteItemstyles.textButton}>Pagar</Text>
+          <TouchableOpacity onPress={() => {}} style={noteBelongstyles.button}>
+            <Text style={noteBelongstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
   )
 };
-const noteItemstyles = StyleSheet.create({
+const noteBelongstyles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.primary,
-    paddingVertical: 15,
+    paddingVertical: 8,
     paddingHorizontal: 20,
-    marginVertical: 8,
+    marginVertical: 2,
     marginHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -36,10 +36,12 @@ const noteItemstyles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 20,
     borderColor: theme.colors.otherWhite,
+    display: 'flex',
+    marginVertical: 8,
   },
   textNro:{
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
     color: theme.colors.tertiary
   },
   textDate:{
@@ -48,7 +50,7 @@ const noteItemstyles = StyleSheet.create({
   },
   amount:{
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
     color: theme.colors.green,
   },
   button:{
@@ -59,9 +61,8 @@ const noteItemstyles = StyleSheet.create({
   },
   textButton:{
     color: theme.colors.primary,
+    fontWeight: 'bold',
     fontSize: 16,
-    alignSelf: 'center',
-    fontWeight: "bold",
   },
 });
-export default NoteItem;
+export default NoteBelongs;

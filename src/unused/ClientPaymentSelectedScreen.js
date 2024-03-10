@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import ClientDebit from '../components/ClientDebit';
 import NoteBelongs from "../components/NoteBelongs";
-import {styles} from '../components/styles/DropdownSelectorStyles';
+// import {styles} from '../components/styles/DropdownSelectorStyles';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 
 const ClientPaymentSelectedScreen = ({ route }) => {

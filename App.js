@@ -1,7 +1,6 @@
 import React from 'react';
 import { MenuProvider } from 'react-native-popup-menu';
-import AppLoading from 'expo-app-loading';
-import AppNavigator from './AppNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 
 const App = () => {
   return (
