@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     color: theme.colors.secondaryText,
   },
   buttonText:{
+    color: theme.colors.primary,
+    fontSize: 16,
+    fontWeight: "bold",
   }
 });
 
