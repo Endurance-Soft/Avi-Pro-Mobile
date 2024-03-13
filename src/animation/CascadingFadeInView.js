@@ -7,7 +7,7 @@ const CascadingFadeInView = ({ children, delay = 0, style, animationKey }) => {
 
     useEffect(() => {
         fadeAnim.setValue(0);
-        yPosition.setValue(20);
+        yPosition.setValue(5);
 
         const timer = setTimeout(() => {
             Animated.parallel([

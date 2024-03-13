@@ -18,11 +18,13 @@ import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import useStore from "../store";
-import { clientes, notas_pendientes } from "../../DB";
 
 const secondary = theme.colors.secondary;
 
 const ClientSearchScreen = () => {
+  const clientesConNotas = useStore((state) => state.clientesConNotas);
+
+  console.log(clientesConNotas);
   function agregarNotasPendientesAClientes(clientes, notasPendientes) {
     const mapaNotasPorCuenta = notasPendientes.reduce((acc, nota) => {
         const cuenta = nota.Cuenta.trim();
@@ -41,28 +43,6 @@ const ClientSearchScreen = () => {
     });
 }
 
-const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendientes);
-//   Empresa_ID: 2,
-//   sucursal_ID: 1,
-//   cliente_ID: "00C",
-//   Cuenta: "11201010013",
-//   Nombre: "ARANCIBIA HEBERTO",
-//   Direccion: "CHIQUICOLLO",
-//   Telefono: "4248174 - 75467019",
-//   cobrador_ID: "01"
-//   NotasPendientes[{
-//          "Empresa_ID": 2,
-//          "sucursal_ID": 1,
-//          "Cuenta": "11201010011",
-//          "Fecha": "2024-01-01",
-//          "nro_nota": "R01225066",
-//          "importe_nota": 696.0,
-//          "Monto_pagado": 0.0,
-//          "Saldo_pendiente": 696.0,
-//          "Fecha_venta": "2022-10-26",
-//          "Fecha_vence": "2022-12-25"
-//          }]
-  
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
@@ -91,11 +71,11 @@ const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendien
   };
 
   const renderItem = ({ item, index }) => (
-    <Cascading delay={index > 15 ? 0 : 400 + 80 * index} animationKey={animationKey}>
+    <Cascading delay={index > 15 ? 0 : 400 + 50 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
         onSelect={() =>
-          navigation.navigate("ClientPaymentScreen", { clientId: item.cliente_ID })
+          navigation.navigate("ClientPaymentScreen", { itemClient: item })
         }
       />
     </Cascading>
@@ -136,12 +116,32 @@ const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendien
           keyExtractor={(item) => item.cliente_ID}
           ListHeaderComponent={<View style={{ height: 10 }} />}
           ListFooterComponent={<View style={{ height: 10 }} />}
+          initialNumToRender={10}
         />
       </View>
     </SafeAreaView>
   );
 };
-
+//   Empresa_ID: 2,
+//   sucursal_ID: 1,
+//   cliente_ID: "00C",
+//   Cuenta: "11201010013",
+//   Nombre: "ARANCIBIA HEBERTO",
+//   Direccion: "CHIQUICOLLO",
+//   Telefono: "4248174 - 75467019",
+//   cobrador_ID: "01"
+//   NotasPendientes[{
+//          "Empresa_ID": 2,
+//          "sucursal_ID": 1,
+//          "Cuenta": "11201010011",
+//          "Fecha": "2024-01-01",
+//          "nro_nota": "R01225066",
+//          "importe_nota": 696.0,
+//          "Monto_pagado": 0.0,
+//          "Saldo_pendiente": 696.0,
+//          "Fecha_venta": "2022-10-26",
+//          "Fecha_vence": "2022-12-25"
+//          }]
 const styles = StyleSheet.create({
   cover: {
     backgroundColor: theme.colors.primary,

@@ -22,11 +22,12 @@ const BorderBox = ({ children, onPress, style }) => {
   };
 
   const handlePress = () => {
-    animatePressIn();
-    setTimeout(() => {
-      animatePressOut();
-    }, 100);
-    if (onPress) onPress();
+    // // animatePressIn();
+    // setTimeout(() => {
+    //   animatePressOut();
+    // }, 100);
+    // if (onPress) onPress();
+    onPress();
   };
 
   return (
