@@ -1,4 +1,4 @@
-const Cobradores = [
+const cobradores = [
     {"Empresa_ID": 2, "Cobrador_ID": "01", "Nombre": "OFICINA CENTRAL CBBA"},
     {"Empresa_ID": 2, "Cobrador_ID": "02", "Nombre": "ING. HUMBERTO ARANA DAZA"},
     {"Empresa_ID": 2, "Cobrador_ID": "04", "Nombre": "ING. MARIO MAMANI"},
@@ -10,9 +10,9 @@ const Cobradores = [
     {"Empresa_ID": 2, "Cobrador_ID": "0N", "Nombre": "IMBA S.A."},
     {"Empresa_ID": 2, "Cobrador_ID": "0O", "Nombre": "VALERIO CASTRO"},
     {"Empresa_ID": 2, "Cobrador_ID": "0P", "Nombre": "DRA. ROCIO VASQUEZ"}
-  ]
+];
   
-const Cuentas_deposito =  [
+const cuentas_deposito =  [
     {"Empresa_ID": 2, "Cuenta": "11101010001", "Descripcion": "CAJA GENERAL DE EFECTIVO", "Tipo": "E"},
     {"Empresa_ID": 2, "Cuenta": "11101010002", "Descripcion": "EFECTIVO A RENDIR", "Tipo": "E"},
     {"Empresa_ID": 2, "Cuenta": "11101020001", "Descripcion": "CAJA VTAS. CHQ. NO DEPOSITADOS CBBA-SCZ", "Tipo": "E"},
@@ -22,9 +22,9 @@ const Cuentas_deposito =  [
     {"Empresa_ID": 2, "Cuenta": "1110201S002", "Descripcion": "BCO. UNION CTA Nº 1-18604442 Bs", "Tipo": "B"},
     {"Empresa_ID": 2, "Cuenta": "1110201S004", "Descripcion": "BCO. BNB CTA. CTE. Nº 300017-4016 Bs", "Tipo": "B"},
     {"Empresa_ID": 2, "Cuenta": "1110202S002", "Descripcion": "BCO. BISA CTA. Nº 4454772011 $US", "Tipo": "B"}
-  ]
+];
 
-const Clientes = [
+const clientes = [
     {
         "Empresa_ID": 2,
         "sucursal_ID": 1,
@@ -3985,13 +3985,13 @@ const Clientes = [
         "Telefono": NaN,
         "cobrador_ID": "0O"
     }
-]
+];
 
-const Notas_pendientes = [
+const notas_pendientes = [
     {
         "Empresa_ID": 2,
         "sucursal_ID": 1,
-        "Cuenta": "11201010011    ",
+        "Cuenta": "11201010011",
         "Fecha": "2024-01-01",
         "nro_nota": "R01225066",
         "importe_nota": 696.0,
@@ -13336,17 +13336,19 @@ const Notas_pendientes = [
         "Fecha_venta": "2024-02-07",
         "Fecha_vence": "2024-03-08"
     }
-] 
+];
 
-const joinClientesConNotas = (clientes, notasPendientes) => {
-    const clientesConNotas = clientes.map(cliente => {
-      const notasDelCliente = notasPendientes.filter(nota => nota.Cuenta.trim() === cliente.Cuenta.trim());
-      return {
-        ...cliente,
-        NotasPendientes: notasDelCliente
-      };
-    });
-    return clientesConNotas;
-  };
-  const resultado = joinClientesConNotas(Clientes, Notas_pendientes);
-  console.log(resultado);
+export { cobradores, cuentas_deposito, clientes, notas_pendientes };
+
+    // const joinClientesConNotas = (clientes, notasPendientes) => {
+    //     const clientesConNotas = clientes.map(cliente => {
+    //     const notasDelCliente = notasPendientes.filter(nota => nota.Cuenta.trim() === cliente.Cuenta.trim());
+    //     return {
+    //         ...cliente,
+    //         NotasPendientes: notasDelCliente
+    //     };
+    //     });
+    //     return clientesConNotas;
+    // };
+    // const resultado = joinClientesConNotas(Clientes, Notas_pendientes);
+    // console.log(resultado);

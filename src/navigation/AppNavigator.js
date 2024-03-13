@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewScreen" 
+      <Stack.Navigator initialRouteName="ClientSearchScreen" 
         screenOptions={{
         animationEnabled: false,
       }}

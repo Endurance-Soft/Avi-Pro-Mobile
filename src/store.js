@@ -1,7 +1,7 @@
 // store.js
-import create from 'zustand';
+import {create} from 'zustand';
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
     cobradores : [
         {"Empresa_ID": 2, "Cobrador_ID": "01", "Nombre": "OFICINA CENTRAL CBBA"},
         {"Empresa_ID": 2, "Cobrador_ID": "02", "Nombre": "ING. HUMBERTO ARANA DAZA"},
@@ -15,7 +15,6 @@ const useStore = create((set) => ({
         {"Empresa_ID": 2, "Cobrador_ID": "0O", "Nombre": "VALERIO CASTRO"},
         {"Empresa_ID": 2, "Cobrador_ID": "0P", "Nombre": "DRA. ROCIO VASQUEZ"}
       ],
-      
     cuentas_deposito : [
         {"Empresa_ID": 2, "Cuenta": "11101010001", "Descripcion": "CAJA GENERAL DE EFECTIVO", "Tipo": "E"},
         {"Empresa_ID": 2, "Cuenta": "11101010002", "Descripcion": "EFECTIVO A RENDIR", "Tipo": "E"},
@@ -27,7 +26,6 @@ const useStore = create((set) => ({
         {"Empresa_ID": 2, "Cuenta": "1110201S004", "Descripcion": "BCO. BNB CTA. CTE. Nº 300017-4016 Bs", "Tipo": "B"},
         {"Empresa_ID": 2, "Cuenta": "1110202S002", "Descripcion": "BCO. BISA CTA. Nº 4454772011 $US", "Tipo": "B"}
       ],
-    
     clientes : [
         {
             "Empresa_ID": 2,
@@ -3990,7 +3988,6 @@ const useStore = create((set) => ({
             "cobrador_ID": "0O"
         }
       ],
-    
     notas_pendientes : [
         {
             "Empresa_ID": 2,
@@ -13340,7 +13337,40 @@ const useStore = create((set) => ({
             "Fecha_venta": "2024-02-07",
             "Fecha_vence": "2024-03-08"
         }
-    ] ,
-}));
+      ],
+      getClientesNotasJoin: () => {
+        const clientes = get().clientes;
+        const notasPendientes = get().notas_pendientes;
+    
+        return clientes.map(cliente => ({
+          ...cliente,
+          notas: notasPendientes.filter(nota => nota.Cuenta.trim() === cliente.Cuenta.trim()),
+        }));
+      },
 
+    
+    // datos: [],
+
+
+    // inicializarDatos: (clientes, notasPendientes) => set(() => ({
+    //     datos: joinClientesConNotas(clientes, notasPendientes)
+    //   })),
+    //   obtenerDatosClientes: () => {
+    //     const datos = get().datos;
+    //     return datos.map(cliente => ({
+    //         Nombre: cliente.Nombre,
+    //         Cuenta: cliente.Cuenta.trim(),
+    //         NumeroNotasPendientes: cliente.NotasPendientes.length,
+    //         TotalDeuda: cliente.NotasPendientes.reduce((total, nota) => total + nota.importe_nota, 0)
+    //     }));
+    // },
+    }));
+    // const joinClientesConNotas = (clientes, notasPendientes) => clientes.map(cliente => {
+    //     const notasDelCliente = notasPendientes.filter(nota => nota.Cuenta.trim() === cliente.Cuenta.trim());
+    //     return {
+    //       ...cliente,
+    //       NotasPendientes: notasDelCliente
+    //     };
+    //   });
+    
 export default useStore;

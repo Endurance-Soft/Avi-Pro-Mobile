@@ -1,5 +1,5 @@
 // ClientSearchScreen.js
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -10,18 +10,41 @@ import {
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
-import ClientPaymentScreen from './ClientPaymentScreen';
+import ClientPaymentScreen from "./ClientPaymentScreen";
 import { StatusBar } from "expo-status-bar";
 import { DATA, theme } from "../../constants";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-
+import useStore from "../store";
+import { clientes, notas_pendientes } from "../../DB";
 
 const secondary = theme.colors.secondary;
 
 const ClientSearchScreen = () => {
+  function agregarNotasPendientesAClientes(clientes, notasPendientes) {
+    const mapaNotasPorCuenta = notasPendientes.reduce((acc, nota) => {
+        const cuenta = nota.Cuenta.trim();
+        if (!acc[cuenta]) {
+            acc[cuenta] = [];
+        }
+        acc[cuenta].push(nota);
+        return acc;
+    }, {});
+
+    return clientes.map(cliente => {
+        const cuentaCliente = cliente.Cuenta.trim();
+        return {
+            ...cliente,
+            NotasPendientes: mapaNotasPorCuenta[cuentaCliente] || []
+        };
+    });
+}
+
+const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendientes);
+// console.log(clientesConNotas[1].Notas_Pendientes);
+  
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
@@ -53,8 +76,8 @@ const ClientSearchScreen = () => {
     <Cascading delay={400 + 80 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
-        onSelect={() => 
-          navigation.navigate('ClientPaymentScreen', {clientId: item.id})
+        onSelect={() =>
+          navigation.navigate("ClientPaymentScreen", { clientId: item.id })
         }
       />
     </Cascading>
