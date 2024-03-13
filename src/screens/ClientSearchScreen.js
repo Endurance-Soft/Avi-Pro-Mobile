@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     backgroundColor: theme.colors.primary,
+    paddingHorizontal: 20,
   },
 });
 

@@ -1,18 +1,54 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { theme } from "../../constants";
+import React, { useState } from 'react';
+import { View, TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
+import { theme } from '../../constants'; 
 
-const BorderBox = ({ children }) => {
-  return <View style={styles.container}>{children}</View>;
+const BorderBox = ({ children, onPress, style }) => {
+    const [scale, setScale] = useState(new Animated.Value(1));
+
+  const animatePressIn = () => {
+    Animated.timing(scale, {
+      toValue: 0.95, // Ligeramente más grande que el botón para no perder mucha visibilidad.
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const animatePressOut = () => {
+    Animated.timing(scale, {
+      toValue: 1,
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePress = () => {
+    animatePressIn();
+    setTimeout(() => {
+      animatePressOut();
+    }, 100);
+    if (onPress) onPress();
+  };
+
+  return (
+    <TouchableWithoutFeedback onPressIn={animatePressIn} onPressOut={animatePressOut} onPress={handlePress}>
+      <Animated.View style={[styles.container, { transform: [{ scale }] }, style]}>
+        {children}
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    borderWidth: 2,
-    borderColor: 'red', // Puedes ajustar el color del borde según tu preferencia
-    padding: 16, // Ajusta el padding según necesites
-    borderRadius: 8, // Opcional: si deseas bordes redondeados
-  },
-});
+  
+  const styles = StyleSheet.create({
+    container: {
+      paddingVertical: 20,
+      paddingHorizontal: 20,
+      backgroundColor: theme.colors.primary,
+      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: theme.colors.otherWhite,
+    },
+  });
+  
 
 export default BorderBox;

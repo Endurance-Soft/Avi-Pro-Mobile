@@ -15,20 +15,19 @@ const ClientItem = ({ client, onSelect }) => {
   const vNotasPendientes = client.NotasPendientes.length;
   const vUltimoPago = ''; // Aquí podrías poner lógica para determinar el último pago si la información está disponible.
   return (
-    <TouchableOpacity onPress={() => onSelect(client.id)} style={styles.item}>
+    // onPress={() => onSelect(client.id)} 
+    // <TouchableOpacity onPress={() => onSelect(client.id)} style={styles.item}>
+      <BorderBox style={{marginVertical: 10}}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
           <Text style={styles.icon}>{vNombre.charAt(0)}</Text>
         </View>
+
         <View style={styles.detailsContainer}>
           <StyledText boldText>{vNombre}</StyledText>
           <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
-            <StyledText regularText style={{marginLeft:5}}>{vCuenta}</StyledText>
-          </View>
-          <View style={styles.codeContainer}>
-            <FontAwesome5 name="money-bill" size={13} color="black" />
-            <StyledText regularText style={{marginLeft:8}}>{vBalance} Bs</StyledText>
+            <StyledText regularText style={{marginLeft:5,}}>{vCuenta}</StyledText>
           </View>
         </View>
       </View>
@@ -37,27 +36,23 @@ const ClientItem = ({ client, onSelect }) => {
       </View>
       <View style={styles.notesContainer}>
         <StyledText regularText>Notas pendientes: {vNotasPendientes}</StyledText>
+        <StyledText regularText>Saldo total : {vBalance} Bs</StyledText>
+        {/* <View style={styles.codeContainer}>
+          <FontAwesome5 name="money-bill" size={13} color="black" />
+          <StyledText regularText style={{marginLeft:8}}>Saldo total : {vBalance} Bs</StyledText>
+        </View> */}
+        
         <StyledText regularText>Ultimo pago: {vUltimoPago}</StyledText>
       </View>
-    </TouchableOpacity>
+    </BorderBox>
   );
 };
 
 const styles = StyleSheet.create({
-  item: { 
-    paddingVertical: 13,
-    paddingHorizontal: 17,
-    backgroundColor: theme.colors.primary,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: theme.colors.otherWhite,
-  },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // overflow: 'hidden',
   },
   iconWraped: {
     justifyContent: 'center',
@@ -74,6 +69,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     marginLeft: 17,
+    flex: 1,
   },
   codeContainer: {
     flexDirection: 'row',
