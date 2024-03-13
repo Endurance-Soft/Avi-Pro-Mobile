@@ -5,7 +5,6 @@ import { theme } from "../../constants";
 import BorderBox from "../pieces/BorderBox";
 
 const NoteItem = ({ note, onSelect }) => {
-  console.log(note);
   return (
     <BorderBox onPress={() => onSelect(note.name)} style={noteItemstyles.container}>
         <View>
