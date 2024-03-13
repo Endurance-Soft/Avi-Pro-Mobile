@@ -42,7 +42,7 @@ const ClientItem = ({ client, onSelect }) => {
           <StyledText regularText style={{marginLeft:8}}>Saldo total : {vBalance} Bs</StyledText>
         </View> */}
         
-        <StyledText regularText>Ultimo pago: {vUltimoPago}</StyledText>
+        <StyledText regularText>Ultimo pago realizado: {vUltimoPago}</StyledText>
       </View>
     </BorderBox>
   );
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // overflow: 'hidden',
   },
   iconWraped: {
     justifyContent: 'center',

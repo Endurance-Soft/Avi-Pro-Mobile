@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   boldText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: theme.colors.tertiary
+    color: theme.colors.tertiary,    
   },
   regularText: {
     fontSize: 16,

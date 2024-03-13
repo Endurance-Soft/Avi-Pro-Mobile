@@ -7,7 +7,7 @@ const BorderBox = ({ children, onPress, style }) => {
 
   const animatePressIn = () => {
     Animated.timing(scale, {
-      toValue: 0.95, // Ligeramente más grande que el botón para no perder mucha visibilidad.
+      toValue: 0.95,
       duration: 100,
       useNativeDriver: true,
     }).start();
