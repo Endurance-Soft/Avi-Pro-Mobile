@@ -1,6 +1,6 @@
 //ClientPayment.js
 import React, { useState, useCallback } from "react";
-import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from 'react-native';
 import { DATA, HISTORY_DATA2, theme } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -10,20 +10,14 @@ import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import ClientItem from "../components/ClientItem";
-
-
+import StyledText from "../StyledText";
+const windowWidth = Dimensions.get('window').width;
 const ClientPaymentScreen = ({ route }) => {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
-  // // const { clientId } = route.params;
   const { itemClient } = route.params;
-  // console.log(itemClient);
   const title = 'Notas';
   const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
-  // // const client = DATA.find((item) => item.id == clientId);
-  // const client = itemClient;
-  // const filteredData = itemClient.
-  // const filteredData = HISTORY_DATA2.filter((obj) => obj.name == client.name);
   const [animationKey, setAnimationKey] = useState(Date.now());
   useFocusEffect(
     useCallback(() => {
@@ -48,14 +42,13 @@ const ClientPaymentScreen = ({ route }) => {
           </TouchableOpacity>
           <View style={styles.headerCenter}>
             <View style={styles.text}>
-              <Text style={styles.code}>{ClientItem.code}</Text>
-              <Text style={styles.name}>{ClientItem.name}</Text>
+              <Text style={styles.name}>{itemClient.Nombre}</Text>
             </View>
           </View>
         </View>
         </Cascading>
         <Cascading delay={200} animationKey={animationKey}>
-        <ClientDebit clientInfo={ClientItem} />
+        <ClientDebit clientInfo={itemClient} />
         </Cascading>
         <Cascading delay={300} animationKey={animationKey}>
         <DropdownSelector
@@ -68,7 +61,7 @@ const ClientPaymentScreen = ({ route }) => {
       </View>
       <View style={styles.listContainer}>
         <FlatList
-            data={ClientItem.NotasPendientes}
+            data={itemClient.NotasPendientes}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             ListHeaderComponent={<View style={{ height: 10 }} />}
@@ -97,6 +90,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingHorizontal: 20,
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   back: {
     justifyContent: 'center',
@@ -108,20 +103,23 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     alignItems: 'center',
+    flex : 1,
   },
   text: {
     alignItems: 'center',
-    paddingLeft: 20,
     paddingVertical: 15,
-
+    flexDirection: 'row',
+    flex: 1,
   },
   code: {
     fontSize: 15,
+    textAlign: 'center',
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 16,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
   listContainer:{
     flex: 1,

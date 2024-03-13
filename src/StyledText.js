@@ -10,6 +10,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.tertiary,    
   },
+  boldCenterText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: theme.colors.tertiary,  
+    textTransform: 'uppercase',
+    textAlign: 'center',  
+  },
   regularText: {
     fontSize: 16,
     color: theme.colors.secondaryText,

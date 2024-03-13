@@ -1,11 +1,10 @@
 // ClientSearchScreen.js
 import React, { useState, useCallback, useEffect } from "react";
-import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, } from "react-native";
+import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
-import ClientPaymentScreen from "./ClientPaymentScreen";
 import { StatusBar } from "expo-status-bar";
-import { DATA, theme } from "../../constants";
+import { theme } from "../../constants";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
@@ -89,7 +88,7 @@ const ClientSearchScreen = () => {
       </View>
       <View style={styles.listContainer}>
       <FlatList
-        data={filteredData.slice(0, visibleItemCount)} // Limita los elementos mostrados
+        data={filteredData.slice(0, visibleItemCount)}
         renderItem={renderItem}
         keyExtractor={(item) => item.cliente_ID}
         ListHeaderComponent={<View style={{ height: 10 }} />}
