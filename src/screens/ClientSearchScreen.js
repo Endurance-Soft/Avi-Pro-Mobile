@@ -32,7 +32,6 @@ const ClientSearchScreen = () => {
         acc[cuenta].push(nota);
         return acc;
     }, {});
-
     return clientes.map(cliente => {
         const cuentaCliente = cliente.Cuenta.trim();
         return {
@@ -43,12 +42,31 @@ const ClientSearchScreen = () => {
 }
 
 const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendientes);
-// console.log(clientesConNotas[1].Notas_Pendientes);
+//   Empresa_ID: 2,
+//   sucursal_ID: 1,
+//   cliente_ID: "00C",
+//   Cuenta: "11201010013",
+//   Nombre: "ARANCIBIA HEBERTO",
+//   Direccion: "CHIQUICOLLO",
+//   Telefono: "4248174 - 75467019",
+//   cobrador_ID: "01"
+//   NotasPendientes[{
+//          "Empresa_ID": 2,
+//          "sucursal_ID": 1,
+//          "Cuenta": "11201010011",
+//          "Fecha": "2024-01-01",
+//          "nro_nota": "R01225066",
+//          "importe_nota": 696.0,
+//          "Monto_pagado": 0.0,
+//          "Saldo_pendiente": 696.0,
+//          "Fecha_venta": "2022-10-26",
+//          "Fecha_vence": "2022-12-25"
+//          }]
   
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
-  const [filteredData, setFilteredData] = useState(DATA);
+  const [filteredData, setFilteredData] = useState(clientesConNotas);
   const [animationKey, setAnimationKey] = useState(Date.now());
   useFocusEffect(
     useCallback(() => {
@@ -58,11 +76,11 @@ const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendien
   const handleSearch = (text) => {
     setSearchQuery(text);
     const formattedQuery = text.toLowerCase();
-    const newData = DATA.filter((item) => {
+    const newData = clientesConNotas.filter((item) => {
       if (selectedOption === "cliente") {
-        return item.name.toLowerCase().includes(formattedQuery);
+        return item.Nombre.toLowerCase().includes(formattedQuery);
       } else if (selectedOption === "cuenta") {
-        return item.code.toLowerCase().includes(formattedQuery);
+        return item.Cuenta.toLowerCase().includes(formattedQuery);
       }
     });
     setFilteredData(newData);
@@ -73,11 +91,11 @@ const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendien
   };
 
   const renderItem = ({ item, index }) => (
-    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+    <Cascading delay={index > 15 ? 0 : 400 + 80 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
         onSelect={() =>
-          navigation.navigate("ClientPaymentScreen", { clientId: item.id })
+          navigation.navigate("ClientPaymentScreen", { clientId: item.cliente_ID })
         }
       />
     </Cascading>
@@ -115,7 +133,7 @@ const clientesConNotas = agregarNotasPendientesAClientes(clientes, notas_pendien
         <FlatList
           data={filteredData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.cliente_ID}
           ListHeaderComponent={<View style={{ height: 10 }} />}
           ListFooterComponent={<View style={{ height: 10 }} />}
         />

@@ -7,21 +7,26 @@ import StyledText from "../StyledText";
 const windowWidth = Dimensions.get('window').width;
 
 const ClientItem = ({ client, onSelect }) => {
+  const vNombre = client.Nombre;
+  const vCuenta =client.Cuenta;
+  const vBalance = parseFloat(client.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
+  const vNotasPendientes = client.NotasPendientes.length;
+  const vUltimoPago = ''; // Aquí podrías poner lógica para determinar el último pago si la información está disponible.
   return (
     <TouchableOpacity onPress={() => onSelect(client.id)} style={styles.item}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
-          <Text style={styles.icon}>{client.name.charAt(0)}</Text>
+          <Text style={styles.icon}>{vNombre.charAt(0)}</Text>
         </View>
         <View style={styles.detailsContainer}>
-          <StyledText boldText>{client.name}</StyledText>
+          <StyledText boldText>{vNombre}</StyledText>
           <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
-            <StyledText regularText style={{marginLeft:5}}>{client.code}</StyledText>
+            <StyledText regularText style={{marginLeft:5}}>{vCuenta}</StyledText>
           </View>
           <View style={styles.codeContainer}>
             <FontAwesome5 name="money-bill" size={13} color="black" />
-            <StyledText regularText style={{marginLeft:8}}>{client.balance}</StyledText>
+            <StyledText regularText style={{marginLeft:8}}>{vBalance} Bs</StyledText>
           </View>
         </View>
       </View>
@@ -29,8 +34,8 @@ const ClientItem = ({ client, onSelect }) => {
         <View style={styles.line}></View>
       </View>
       <View style={styles.notesContainer}>
-        <StyledText regularText>Notas pendientes: {client.pendingNotes}</StyledText>
-        <StyledText regularText>Ultimo pago: {client.lastPayment}</StyledText>
+        <StyledText regularText>Notas pendientes: {vNotasPendientes}</StyledText>
+        <StyledText regularText>Ultimo pago: {vUltimoPago}</StyledText>
       </View>
     </TouchableOpacity>
   );
