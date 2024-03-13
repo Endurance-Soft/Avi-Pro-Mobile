@@ -13,7 +13,7 @@ const CascadingFadeInView = ({ children, delay = 0, style, animationKey }) => {
             Animated.parallel([
                 Animated.timing(fadeAnim, {
                     toValue: 1,
-                    duration: 300,
+                    duration: 200,
                     useNativeDriver: true,
                 }),
                 Animated.timing(yPosition, {

@@ -1,13 +1,6 @@
 // ClientSearchScreen.js
 import React, { useState, useCallback, useEffect } from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  StyleSheet,
-  View,
-} from "react-native";
+import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, } from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
 import ClientPaymentScreen from "./ClientPaymentScreen";
@@ -23,34 +16,19 @@ const secondary = theme.colors.secondary;
 
 const ClientSearchScreen = () => {
   const clientesConNotas = useStore((state) => state.clientesConNotas);
-
-  console.log(clientesConNotas);
-  function agregarNotasPendientesAClientes(clientes, notasPendientes) {
-    const mapaNotasPorCuenta = notasPendientes.reduce((acc, nota) => {
-        const cuenta = nota.Cuenta.trim();
-        if (!acc[cuenta]) {
-            acc[cuenta] = [];
-        }
-        acc[cuenta].push(nota);
-        return acc;
-    }, {});
-    return clientes.map(cliente => {
-        const cuentaCliente = cliente.Cuenta.trim();
-        return {
-            ...cliente,
-            NotasPendientes: mapaNotasPorCuenta[cuentaCliente] || []
-        };
-    });
-}
-
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
   const [filteredData, setFilteredData] = useState(clientesConNotas);
   const [animationKey, setAnimationKey] = useState(Date.now());
+  const [visibleItemCount, setVisibleItemCount] = useState(10);
+  const loadMoreItems = () => {
+    setVisibleItemCount((prevItemCount) => prevItemCount + 10);
+  };
   useFocusEffect(
     useCallback(() => {
       setAnimationKey(Date.now());
+      setVisibleItemCount(7);
     }, [])
   );
   const handleSearch = (text) => {
@@ -71,7 +49,7 @@ const ClientSearchScreen = () => {
   };
 
   const renderItem = ({ item, index }) => (
-    <Cascading delay={index > 15 ? 0 : 400 + 50 * index} animationKey={animationKey}>
+    <Cascading delay={index > 9 ? 0 : 400 + 50 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
         onSelect={() =>
@@ -110,14 +88,15 @@ const ClientSearchScreen = () => {
         </View>
       </View>
       <View style={styles.listContainer}>
-        <FlatList
-          data={filteredData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.cliente_ID}
-          ListHeaderComponent={<View style={{ height: 10 }} />}
-          ListFooterComponent={<View style={{ height: 10 }} />}
-          initialNumToRender={10}
-        />
+      <FlatList
+        data={filteredData.slice(0, visibleItemCount)} // Limita los elementos mostrados
+        renderItem={renderItem}
+        keyExtractor={(item) => item.cliente_ID}
+        ListHeaderComponent={<View style={{ height: 10 }} />}
+        ListFooterComponent={<View style={{ height: 10 }} />}
+        onEndReached={loadMoreItems}
+        onEndReachedThreshold={0.5}
+      />
       </View>
     </SafeAreaView>
   );
