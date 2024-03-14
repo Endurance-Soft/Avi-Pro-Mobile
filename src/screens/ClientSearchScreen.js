@@ -95,6 +95,7 @@ const ClientSearchScreen = () => {
         ListFooterComponent={<View style={{ height: 10 }} />}
         onEndReached={loadMoreItems}
         onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
       />
       </View>
     </SafeAreaView>

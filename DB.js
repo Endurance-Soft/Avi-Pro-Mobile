@@ -13339,16 +13339,3 @@ const notas_pendientes = [
 ];
 
 export { cobradores, cuentas_deposito, clientes, notas_pendientes };
-
-    // const joinClientesConNotas = (clientes, notasPendientes) => {
-    //     const clientesConNotas = clientes.map(cliente => {
-    //     const notasDelCliente = notasPendientes.filter(nota => nota.Cuenta.trim() === cliente.Cuenta.trim());
-    //     return {
-    //         ...cliente,
-    //         NotasPendientes: notasDelCliente
-    //     };
-    //     });
-    //     return clientesConNotas;
-    // };
-    // const resultado = joinClientesConNotas(Clientes, Notas_pendientes);
-    // console.log(resultado);

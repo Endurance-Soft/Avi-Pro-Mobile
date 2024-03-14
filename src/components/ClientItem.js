@@ -15,19 +15,19 @@ const ClientItem = ({ client, onSelect }) => {
   const vNotasPendientes = client.NotasPendientes.length;
   const vUltimoPago = '';
   return (
-    // onPress={() => onSelect(client.id)} 
-    // <TouchableOpacity onPress={() => onSelect(client.id)} style={styles.item}>
       <BorderBox onPress={() => onSelect(client.id)} style={{marginVertical: 10}}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
           <Text style={styles.icon}>{vNombre.charAt(0)}</Text>
         </View>
         <View style={styles.detailsContainer}>
-          <StyledText boldText>{vNombre}</StyledText>
-          <View style={styles.codeContainer}>
+          {/* <StyledText boldText>{vNombre}</StyledText> */}
+          <Text style={styles.name}>{vNombre}</Text>
+          <Text style={styles.code}>{vCuenta}</Text>
+          {/* <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
             <StyledText regularText style={{marginLeft:5,}}>{vCuenta}</StyledText>
-          </View>
+          </View> */}
         </View>
       </View>
       <View style={styles.lineContainer}>
@@ -36,10 +36,6 @@ const ClientItem = ({ client, onSelect }) => {
       <View style={styles.notesContainer}>
         <StyledText regularText>Notas pendientes: {vNotasPendientes}</StyledText>
         <StyledText regularText>Saldo total : {vBalance} Bs</StyledText>
-        {/* <View style={styles.codeContainer}>
-          <FontAwesome5 name="money-bill" size={13} color="black" />
-          <StyledText regularText style={{marginLeft:8}}>Saldo total : {vBalance} Bs</StyledText>
-        </View> */}
         <StyledText regularText>Ultimo pago realizado: {vUltimoPago}</StyledText>
       </View>
     </BorderBox>
@@ -94,6 +90,18 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.otherWhite,
     width: windowWidth*0.8,
     height: 2,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  code: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: theme.colors.secondaryText,
+    marginLeft:20,
   },
 });
 export default ClientItem;

@@ -67,6 +67,7 @@ const ClientPaymentScreen = ({ route }) => {
             keyExtractor={item => item.id}
             ListHeaderComponent={<View style={{ height: 10 }} />}
             ListFooterComponent={<View style={{ height: 10 }} />}
+            showsVerticalScrollIndicator={false}
         />
       </View> 
     </SafeAreaView>
