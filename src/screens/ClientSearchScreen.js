@@ -1,6 +1,14 @@
 // ClientSearchScreen.js
 import React, { useState, useCallback, useEffect } from "react";
-import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+} from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
 import { StatusBar } from "expo-status-bar";
@@ -48,7 +56,10 @@ const ClientSearchScreen = () => {
   };
 
   const renderItem = ({ item, index }) => (
-    <Cascading delay={index > 9 ? 0 : 400 + 50 * index} animationKey={animationKey}>
+    <Cascading
+      delay={index > 9 ? 0 : 400 + 50 * index}
+      animationKey={animationKey}
+    >
       <ClientItem
         client={item}
         onSelect={() =>
@@ -87,16 +98,16 @@ const ClientSearchScreen = () => {
         </View>
       </View>
       <View style={styles.listContainer}>
-      <FlatList
-        data={filteredData.slice(0, visibleItemCount)}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.cliente_ID}
-        ListHeaderComponent={<View style={{ height: 10 }} />}
-        ListFooterComponent={<View style={{ height: 10 }} />}
-        onEndReached={loadMoreItems}
-        onEndReachedThreshold={0.5}
-        showsVerticalScrollIndicator={false}
-      />
+        <FlatList
+          data={filteredData.slice(0, visibleItemCount)}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.cliente_ID}
+          ListHeaderComponent={<View style={{ height: 10 }} />}
+          ListFooterComponent={<View style={{ height: 10 }} />}
+          onEndReached={loadMoreItems}
+          onEndReachedThreshold={0.5}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </SafeAreaView>
   );
@@ -115,11 +126,11 @@ const ClientSearchScreen = () => {
 //          "Cuenta": "11201010011",
 //          "Fecha": "2024-01-01",
 //          "nro_nota": "R01225066",
-//          "importe_nota": 696.0,
-//          "Monto_pagado": 0.0,
+//              "importe_nota": 696.0,
+//              "Monto_pagado": 0.0,
 //          "Saldo_pendiente": 696.0,
-//          "Fecha_venta": "2022-10-26",
-//          "Fecha_vence": "2022-12-25"
+//             "Fecha_venta": "2022-10-26",
+//             "Fecha_vence": "2022-12-25"
 //          }]
 const styles = StyleSheet.create({
   cover: {

@@ -106,6 +106,10 @@ const styles = StyleSheet.create({
   headerCenter: {
     alignItems: 'center',
     flex : 1,
+    backgroundColor: 'red',
+    backgroundColor: theme.colors.skyBlue,
+    borderRadius: 20,
+    marginLeft: 20,
   },
   text: {
     alignItems: 'center',

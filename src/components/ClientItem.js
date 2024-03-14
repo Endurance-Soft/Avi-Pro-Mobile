@@ -34,9 +34,20 @@ const ClientItem = ({ client, onSelect }) => {
         <View style={styles.line}></View>
       </View>
       <View style={styles.notesContainer}>
-        <StyledText regularText>Notas pendientes: {vNotasPendientes}</StyledText>
-        <StyledText regularText>Saldo total : {vBalance} Bs</StyledText>
-        <StyledText regularText>Ultimo pago realizado: {vUltimoPago}</StyledText>
+        <View style={styles.textLine}>
+          <StyledText regularText>notas Pendientes :</StyledText>
+          <StyledText regularText>
+            {vNotasPendientes} {vNotasPendientes === 1 ? 'nota' : 'notas'}
+          </StyledText>
+        </View>
+        <View style={styles.textLine}>
+          <StyledText regularText>saldo total :</StyledText>
+          <StyledText regularText>{vBalance} Bs</StyledText>
+        </View>
+        <View style={styles.textLine}>
+          <StyledText regularText>ultimo pago :</StyledText>
+          <StyledText regularText>2020-06-12</StyledText>
+        </View>
       </View>
     </BorderBox>
   );
@@ -75,7 +86,7 @@ const styles = StyleSheet.create({
   },
   notesContainer: {
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
   },
   notes: {
     fontSize: 16,
@@ -95,13 +106,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     textTransform: 'uppercase',
-    textAlign: 'center',
+    // textAlign: 'center',
   },
   code: {
     fontSize: 16,
-    textAlign: 'center',
+    // textAlign: 'center',
     color: theme.colors.secondaryText,
-    marginLeft:20,
+    // marginLeft:20,
+  },
+  textLine: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 export default ClientItem;
