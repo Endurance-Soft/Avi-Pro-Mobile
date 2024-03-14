@@ -10,6 +10,7 @@ import {
 import { theme } from "../../constants";
 import BorderBox from "../pieces/BorderBox";
 import StyledText from "../StyledText";
+import { useNavigation } from "@react-navigation/native";
 
 const NoteItem = ({ note, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,6 +25,8 @@ const NoteItem = ({ note, onSelect }) => {
       useNativeDriver: false,
     }).start();
   };
+
+  const navigation = useNavigation();
 
   return (
     <TouchableWithoutFeedback onPress={toggleExpansion}>
@@ -42,7 +45,7 @@ const NoteItem = ({ note, onSelect }) => {
           <Text style={noteItemstyles.amount}>{note.Saldo_pendiente}</Text>
         </View>
         <View>
-          <TouchableOpacity onPress={() => {}} style={noteItemstyles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate("PayScreen")} style={noteItemstyles.button}>
             <Text style={noteItemstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>

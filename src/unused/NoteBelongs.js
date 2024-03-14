@@ -2,8 +2,12 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
 import { theme } from '../../constants';
+import { useNavigation } from "@react-navigation/native";
 
 const NoteBelongs = ({ note, onSelect }) => {
+
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity onPress={() => onSelect(note.name)} style={noteBelongstyles}>
       <View style={noteBelongstyles.container}>
@@ -15,7 +19,7 @@ const NoteBelongs = ({ note, onSelect }) => {
           <Text style={noteBelongstyles.amount}>{note.amount} Bs</Text>
         </View>
         <View>
-          <TouchableOpacity onPress={() => {}} style={noteBelongstyles.button}>
+          <TouchableOpacity onPress={() => NavigationPreloadManager.navigate("PayScreen")} style={noteBelongstyles.button}>
             <Text style={noteBelongstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>
