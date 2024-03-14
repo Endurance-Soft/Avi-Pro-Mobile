@@ -24,6 +24,7 @@ const ClientPaymentScreen = ({ route }) => {
       setAnimationKey(Date.now());
     }, [])
   );
+  console.log(itemClient);
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };

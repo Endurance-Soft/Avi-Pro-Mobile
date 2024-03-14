@@ -13312,24 +13312,25 @@ const notas_pendientes = [
         "Fecha_vence": "2024-03-08"
     }
   ];
-const useStore = create((set, get) => ({
+  const useStore = create((set, get) => ({
     clientesConNotas: (() => {
-        const mapaNotasPorCuenta = notas_pendientes.reduce((acc, nota) => {
-          const cuenta = nota.Cuenta.trim();
-          if (!acc[cuenta]) {
-            acc[cuenta] = [];
-          }
-          acc[cuenta].push(nota);
-          return acc;
-        }, {});
-    
-        return clientes.map(cliente => {
-          const cuentaCliente = cliente.Cuenta.trim();
-          return {
-            ...cliente,
-            NotasPendientes: mapaNotasPorCuenta[cuentaCliente] || []
-          };
-        });
-      })(),
-    }));
+      const mapaNotasPorCuenta = notas_pendientes.reduce((acc, nota, index) => {
+        const cuenta = nota.Cuenta.trim();
+        if (!acc[cuenta]) {
+          acc[cuenta] = [];
+        }
+        const notaConId = { ...nota, id: index };
+        acc[cuenta].push(notaConId);
+        return acc;
+      }, {});
+  
+      return clientes.map(cliente => {
+        const cuentaCliente = cliente.Cuenta.trim();
+        return {
+          ...cliente,
+          NotasPendientes: mapaNotasPorCuenta[cuentaCliente] || []
+        };
+      });
+    })(),
+  }));
 export default useStore;
