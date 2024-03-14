@@ -14,17 +14,14 @@ import StyledText from "../StyledText";
 const NoteItem = ({ note, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const animationHeight = useRef(new Animated.Value(100)).current; // Valor inicial para la altura.
+  const animationHeight = useRef(new Animated.Value(100)).current;
 
   const toggleExpansion = () => {
-    // Alternar el estado de expansión.
     setExpanded(!expanded);
-
-    // Iniciar animación de altura.
     Animated.timing(animationHeight, {
-      toValue: expanded ? 100 : 250, // Cambiar altura según el estado de expansión.
-      duration: 300, // Duración de la animación.
-      useNativeDriver: false, // `useNativeDriver` debe ser `false` ya que estamos animando propiedades no soportadas nativamente.
+      toValue: expanded ? 100 : 250,
+      duration: 300,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -33,7 +30,7 @@ const NoteItem = ({ note, onSelect }) => {
       <Animated.View
         style={[
           noteItemstyles.container,
-          { height: animationHeight }, // Aplicar altura animada.
+          { height: animationHeight },
         ]}
       >
       <View style={noteItemstyles.row}>
@@ -49,7 +46,6 @@ const NoteItem = ({ note, onSelect }) => {
             <Text style={noteItemstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>
-        {/* Aquí puedes agregar más información que se mostrará cuando el componente esté expandido. */}
       </View>
       <View style={[noteItemstyles.textLine, { marginTop: 15 }]}>
         <StyledText regularText>importe :</StyledText>
@@ -82,10 +78,6 @@ const noteItemstyles = StyleSheet.create({
     paddingHorizontal: 20,
     marginVertical: 8,
     marginHorizontal: 20,
-    // height: 500,
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    // alignItems: "center",
     borderWidth: 2,
     borderRadius: 20,
     borderColor: theme.colors.otherWhite,
@@ -93,16 +85,9 @@ const noteItemstyles = StyleSheet.create({
   },
   row: {
     backgroundColor: theme.colors.primary,
-    // paddingVertical: 15,
-    // paddingHorizontal: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // borderWidth: 2,
-    // borderRadius: 20,
-    // borderColor: theme.colors.otherWhite,
   },
   textNro: {
     fontWeight: "bold",
