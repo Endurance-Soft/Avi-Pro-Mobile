@@ -1,45 +1,43 @@
 // ClientSearchScreen.js
-import React, { useState, useCallback } from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  StyleSheet,
-  View,
-} from "react-native";
+import React, { useState, useCallback, useEffect } from "react";
+import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from "react-native";
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
-import ClientPaymentScreen from './ClientPaymentScreen';
 import { StatusBar } from "expo-status-bar";
-import { DATA, theme } from "../../constants";
+import { theme } from "../../constants";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-
+import useStore from "../store";
 
 const secondary = theme.colors.secondary;
 
 const ClientSearchScreen = () => {
+  const clientesConNotas = useStore((state) => state.clientesConNotas);
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
-  const [filteredData, setFilteredData] = useState(DATA);
+  const [filteredData, setFilteredData] = useState(clientesConNotas);
   const [animationKey, setAnimationKey] = useState(Date.now());
+  const [visibleItemCount, setVisibleItemCount] = useState(10);
+  const loadMoreItems = () => {
+    setVisibleItemCount((prevItemCount) => prevItemCount + 10);
+  };
   useFocusEffect(
     useCallback(() => {
       setAnimationKey(Date.now());
+      setVisibleItemCount(7);
     }, [])
   );
   const handleSearch = (text) => {
     setSearchQuery(text);
     const formattedQuery = text.toLowerCase();
-    const newData = DATA.filter((item) => {
+    const newData = clientesConNotas.filter((item) => {
       if (selectedOption === "cliente") {
-        return item.name.toLowerCase().includes(formattedQuery);
+        return item.Nombre.toLowerCase().includes(formattedQuery);
       } else if (selectedOption === "cuenta") {
-        return item.code.toLowerCase().includes(formattedQuery);
+        return item.Cuenta.toLowerCase().includes(formattedQuery);
       }
     });
     setFilteredData(newData);
@@ -50,11 +48,11 @@ const ClientSearchScreen = () => {
   };
 
   const renderItem = ({ item, index }) => (
-    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+    <Cascading delay={index > 9 ? 0 : 400 + 50 * index} animationKey={animationKey}>
       <ClientItem
         client={item}
-        onSelect={() => 
-          navigation.navigate('ClientPaymentScreen', {clientId: item.id})
+        onSelect={() =>
+          navigation.navigate("ClientPaymentScreen", { itemClient: item })
         }
       />
     </Cascading>
@@ -89,18 +87,40 @@ const ClientSearchScreen = () => {
         </View>
       </View>
       <View style={styles.listContainer}>
-        <FlatList
-          data={filteredData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={<View style={{ height: 10 }} />}
-          ListFooterComponent={<View style={{ height: 10 }} />}
-        />
+      <FlatList
+        data={filteredData.slice(0, visibleItemCount)}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.cliente_ID}
+        ListHeaderComponent={<View style={{ height: 10 }} />}
+        ListFooterComponent={<View style={{ height: 10 }} />}
+        onEndReached={loadMoreItems}
+        onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
+      />
       </View>
     </SafeAreaView>
   );
 };
-
+//   Empresa_ID: 2,
+//   sucursal_ID: 1,
+//   cliente_ID: "00C",
+//   Cuenta: "11201010013",
+//   Nombre: "ARANCIBIA HEBERTO",
+//   Direccion: "CHIQUICOLLO",
+//   Telefono: "4248174 - 75467019",
+//   cobrador_ID: "01"
+//   NotasPendientes[{
+//          "Empresa_ID": 2,
+//          "sucursal_ID": 1,
+//          "Cuenta": "11201010011",
+//          "Fecha": "2024-01-01",
+//          "nro_nota": "R01225066",
+//          "importe_nota": 696.0,
+//          "Monto_pagado": 0.0,
+//          "Saldo_pendiente": 696.0,
+//          "Fecha_venta": "2022-10-26",
+//          "Fecha_vence": "2022-12-25"
+//          }]
 const styles = StyleSheet.create({
   cover: {
     backgroundColor: theme.colors.primary,
@@ -144,6 +164,7 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     backgroundColor: theme.colors.primary,
+    paddingHorizontal: 20,
   },
 });
 

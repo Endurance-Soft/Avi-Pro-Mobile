@@ -2,25 +2,24 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { theme } from "../../constants";
+import BorderBox from "../pieces/BorderBox";
 
 const NoteItem = ({ note, onSelect }) => {
   return (
-    <TouchableOpacity onPress={() => onSelect(note.name)} style={noteItemstyles}>
-      <View style={noteItemstyles.container}>
+    <BorderBox onPress={() => onSelect(note.name)} style={noteItemstyles.container}>
         <View>
-          <Text style={noteItemstyles.textNro}>N° {note.note}</Text>
-          <Text style={noteItemstyles.textDate}>{note.date}</Text>
+          <Text style={noteItemstyles.textNro}>{note.nro_nota}</Text>
+          <Text style={noteItemstyles.textDate}>{note.Fecha_venta}</Text>
         </View>
         <View>
-          <Text style={noteItemstyles.amount}>{note.amount} Bs</Text>
+          <Text style={noteItemstyles.amount}>{note.Saldo_pendiente}</Text>
         </View>
         <View>
           <TouchableOpacity onPress={() => {}} style={noteItemstyles.button}>
             <Text style={noteItemstyles.textButton}>Pagar</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </TouchableOpacity>
+    </BorderBox>
   )
 };
 const noteItemstyles = StyleSheet.create({
