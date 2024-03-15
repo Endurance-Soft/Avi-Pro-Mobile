@@ -6,6 +6,7 @@ import ClientSearchScreen from '../screens/ClientSearchScreen';
 import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import ActivationScreen from '../login/ActivationScreen';
+import LoginScreen from '../login/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,13 @@ function AppNavigator() {
         <Stack.Screen
           name='ActivationScreen'
           component={ActivationScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='LoginScreen'
+          component={LoginScreen}
           options={{
             headerShown: false,
           }}
