@@ -1,29 +1,30 @@
 //ActivationScreen.js
 import React, { useState } from "react";
-import { Image, TouchableOpacity, StyleSheet, View, Text, TextInput } from "react-native";
+import { Image, TouchableOpacity, StyleSheet, View, Text, TextInput, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {theme} from '../../constants';
+import { theme } from '../../constants';
 import { useNavigation } from "@react-navigation/native";
+const windowWidth = Dimensions.get('window').width;
 
 const ActivationScreen = () => {
 	const navigation = useNavigation();
 	return (
 		<SafeAreaView style={styles.container}>
-			<View>
-				<Image source={require('../assets/forma1.png')} style={{ width: 50, height: 50 }}/>
-				<Image source={require('../assets/formas.png')} style={{ width: 200, height: 200 }} /> 
+			<View style={styles.containerImgs}>
+				<Image source={require('../assets/forma1.png')} style={{ width: windowWidth * 0.28, height: 87 }} />
+				<Image source={require('../assets/formas.png')} style={{ width: windowWidth * 0.72, height: 206 }} />
 			</View>
 			<View>
 				<Text style={styles.title}>Avi Pro Mobile</Text>
 				<Text style={styles.subtitle}>Clave de activación</Text>
-				<TextInput placeholder="XXXX - XXXX - XXXX - XXXX" style={styles.label }/>
+				<TextInput placeholder="XXXX - XXXX - XXXX - XXXX" style={styles.label} />
 				<Text style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</Text>
 				<TouchableOpacity onPress={() => navigation.navigate("LoginScreen")} style={styles.button}>
-					<Text styles={{ fontWeight: bold, }}>Continuar</Text>
+					<Text style={styles.continueButton}>Continuar</Text>
 				</TouchableOpacity>
 				<Text style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</Text>
-			</View>		
-			
+			</View>
+
 		</SafeAreaView>
 	)
 };
@@ -31,33 +32,49 @@ const ActivationScreen = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: theme.colors.skyBlue,
+		backgroundColor: '#bbe6ec',
+		padding: 20,
+	},
+	containerImgs: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: windowWidth * 0.9,
+		marginTop: 20,
 	},
 	title: {
 		fontSize: 30,
 		fontWeight: 'bold',
 		textAlign: 'center',
 		marginTop: 20,
+		marginBottom: 40,
 	},
 	subtitle: {
-		fontSize: 20,
-		marginTop: 10,
+		fontSize: 18,
+		marginBottom: 5,
 	},
 	label: {
 		backgroundColor: 'white',
-		marginTop: 20,
+		marginVertical: 10,
 		padding: 10,
 		borderRadius: 10,
 	},
 	softText: {
 		color: theme.colors.gray,
-		textAlign: 'center',
-		fontSize: 10,
+		fontSize: 13,
+		marginVertical: 10,
 	},
 	button: {
 		backgroundColor: theme.colors.tertiary,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: 10,
+		padding: 10,
+		marginVertical: 15,
+	},
+	continueButton: {
+		color: theme.colors.primary,
+		fontSize: 19,
+		fontWeight: 'bold',
 	}
 });
 
