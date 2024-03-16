@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { theme } from '../../constants';
 import StyledText from "../utils/StyledText";
-import BorderBox from "../pieces/BorderBox";
+import BorderBox from "../utils/BorderBox";
 
 const windowWidth = Dimensions.get('window').width;
 

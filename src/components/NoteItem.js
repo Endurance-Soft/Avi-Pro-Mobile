@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { theme } from "../../constants";
-import BorderBox from "../pieces/BorderBox";
+import BorderBox from "../utils/BorderBox";
 import StyledText from "../utils/StyledText";
 
 const NoteItem = ({ note, onSelect }) => {
