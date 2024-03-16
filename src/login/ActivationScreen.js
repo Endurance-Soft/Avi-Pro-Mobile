@@ -7,6 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 const windowWidth = Dimensions.get('window').width;
 
 const ActivationScreen = () => {
+	const [activationCode, setActivationCode] = useState("");
+	const [message, setMessage] = useState(false);
+
+	const handleSend = () => {
+		if(activationCode.length === 0){
+			alert("Por favor llene todos los campos");
+			return;
+		}
+		
+		if(!activationCode.match("^[A-Z0-9]{4} - [A-Z0-9]{4} - [A-Z0-9]{4} - [A-Z0-9]{4}$")){  //veify activation code in bd
+			setMessage(true);
+			return;
+		}
+		navigation.navigate("NewScreen")
+	}
+
 	const navigation = useNavigation();
 	return (
 		<SafeAreaView style={styles.container}>
@@ -17,9 +33,17 @@ const ActivationScreen = () => {
 			<View>
 				<Text style={styles.title}>Avi Pro Mobile</Text>
 				<Text style={styles.subtitle}>Clave de activación</Text>
-				<TextInput placeholder="XXXX - XXXX - XXXX - XXXX" style={styles.label} />
+				<TextInput 
+					placeholder="XXXX - XXXX - XXXX - XXXX" 
+					style={styles.label} 
+					onChange={setActivationCode}
+					value={activationCode}
+					keyboardType="default"
+					autoCapitalize="characters"
+				/>
+				{message && <Text style={styles.errorFormat}>La clave de activación es incorrecta</Text>}
 				<Text style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</Text>
-				<TouchableOpacity onPress={() => navigation.navigate("LoginScreen")} style={styles.button}>
+				<TouchableOpacity onPress={handleSend} style={styles.button}>
 					<Text style={styles.continueButton}>Continuar</Text>
 				</TouchableOpacity>
 				<Text style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</Text>
@@ -63,6 +87,11 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		marginVertical: 10,
 	},
+	errorFormat: {
+    color: 'red',
+    fontSize: 13,
+    marginTop: -8,
+  },
 	button: {
 		backgroundColor: theme.colors.tertiary,
 		alignItems: 'center',

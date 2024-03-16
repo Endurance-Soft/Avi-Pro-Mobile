@@ -1,11 +1,28 @@
 //LoginScreen.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, TouchableOpacity, StyleSheet, SafeAreaView, View, Text, TextInput, Dimensions } from "react-native";
 import {theme} from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 const windowWidth = Dimensions.get('window').width;
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [message, setMessage] = useState(false);
+
+  const handleSend = () => {
+    if(email.length === 0 || nombre.length === 0 || apellidos.length === 0){
+      alert("Por favor llene todos los campos");
+      return;
+    }
+    if(!email.match("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")){
+      setMessage(true);
+      return;
+    }
+    navigation.navigate("NewScreen")
+  }
+
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
@@ -16,12 +33,39 @@ const LoginScreen = () => {
       <View>
         <Text style={styles.title}>Información Personal</Text>
         <Text style={styles.subtitle}>Nombre</Text>
-        <TextInput placeholder="Nombre" style={styles.label} />
+        <TextInput 
+          placeholder="Nombre" 
+          style={styles.label} 
+          onChangeText={name => {
+            if(name.length <= 30 && name.match("^[a-zA-Z ]*$")){
+               setNombre(name);
+            }
+          }}
+          value={nombre}
+          keyboardType="default"
+        />
         <Text style={styles.subtitle}>Apellidos</Text>
-        <TextInput placeholder="Apellidos" style={styles.label} />
+        <TextInput 
+          placeholder="Apellidos" 
+          style={styles.label} 
+          onChangeText={lastname => {
+            if(lastname.length <= 30 && lastname.match("^[a-zA-Z ]*$")){
+               setApellidos(lastname);
+            }}
+          }
+          value={apellidos}
+          keyboardType="default"
+        />
         <Text style={styles.subtitle}>Correo Electronico</Text>
-        <TextInput placeholder="Correo Electronico" style={styles.label} />
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("NewScreen")}>
+        <TextInput 
+          placeholder="Correo Electronico" 
+          style={styles.label} 
+          onChangeText={setEmail}
+          value={email}
+          keyboardType="email-address"
+        />
+        {message && <Text style={styles.errorFormat}>Por favor ingrese un correo válido</Text>}
+        <TouchableOpacity style={styles.button} onPress={handleSend}>
           <Text style={styles.continueButton}>Continuar</Text>
         </TouchableOpacity>
       </View>
@@ -61,6 +105,11 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		marginVertical: 10,
 	},
+  errorFormat: {
+    color: 'red',
+    fontSize: 13,
+    marginTop: -8,
+  },
 	button: {
 		backgroundColor: theme.colors.tertiary,
 		alignItems: 'center',
