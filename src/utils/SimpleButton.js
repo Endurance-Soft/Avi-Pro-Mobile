@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
-import StyledText from './src/StyledText';
-import { theme } from './constants';
+import StyledText from './StyledText';
+import { theme } from '../../constants';
 
 const SimpleButton = ({ text, onPress, width }) => {
   const [scale, setScale] = useState(new Animated.Value(1));
@@ -55,17 +55,3 @@ const styles = StyleSheet.create({
 });
 
 export default SimpleButton;
-
-// USO
-
-// import SimpleButton from './SimpleButton';
-
-// const handleButtonPress = () => {
-// console.log('El botón fue presionado!');
-// };
-
-// <SimpleButton
-// text="Presióname"
-// onPress={handleButtonPress}
-// width={200} // Opcional: especifica un ancho para el botón
-// />

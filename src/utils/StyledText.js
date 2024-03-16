@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import { theme } from "../constants";
+import { theme } from "../../constants";
 
 const styles = StyleSheet.create({
   base: {
