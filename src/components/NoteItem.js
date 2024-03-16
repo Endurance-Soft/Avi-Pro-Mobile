@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { theme } from "../../constants";
 import BorderBox from "../pieces/BorderBox";
-import StyledText from "../StyledText";
+import StyledText from "../utils/StyledText";
 
 const NoteItem = ({ note, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import { theme } from "../constants";
+import { theme } from "../../constants";
 
 const styles = StyleSheet.create({
   base: {
@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     color: theme.colors.secondaryText,
   },
   buttonText:{
+    color: theme.colors.primary,
+    fontSize: 16,
+    fontWeight: "bold",
   }
 });
 
