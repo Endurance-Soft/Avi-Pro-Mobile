@@ -3,6 +3,8 @@ import { MenuProvider } from 'react-native-popup-menu';
 import AppNavigator from './src/navigation/AppNavigator';
 import { View, Alert } from 'react-native';
 import SimpleButton from './SimpleButton';
+import { Text, FlatList, StyleSheet } from 'react-native';
+import useStore from './src/store';
 
 const App = () => {
   const showAlert = () => {
@@ -13,12 +15,13 @@ const App = () => {
 
   return (
     <MenuProvider>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <SimpleButton text=" a " onPress={showAlert} />
       <SimpleButton text=" a " onPress={showAlert} />
       <SimpleButton text="  a  " onPress={showAlert} />
-      <SimpleButton text="   a   " onPress={showAlert} />
-    </View>
+      <SimpleButton text="   a   " onPress={showAlert} /> */}
+      <AppNavigator />
+    {/* </View> */}
     </MenuProvider>
   );
 };

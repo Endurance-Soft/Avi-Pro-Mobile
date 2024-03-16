@@ -4,50 +4,56 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { theme } from '../../constants';
 import StyledText from "../StyledText";
+import BorderBox from "../pieces/BorderBox";
+
 const windowWidth = Dimensions.get('window').width;
 
 const ClientItem = ({ client, onSelect }) => {
+  const vNombre = client.Nombre;
+  const vCuenta =client.Cuenta;
+  const vBalance = parseFloat(client.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
+  const vNotasPendientes = client.NotasPendientes.length;
+  const vUltimoPago = '';
   return (
-    <TouchableOpacity onPress={() => onSelect(client.id)} style={styles.item}>
+      <BorderBox onPress={() => onSelect(client.id)} style={{marginVertical: 10}}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
-          <Text style={styles.icon}>{client.name.charAt(0)}</Text>
+          <Text style={styles.icon}>{vNombre.charAt(0)}</Text>
         </View>
         <View style={styles.detailsContainer}>
-          <StyledText boldText>{client.name}</StyledText>
-          <View style={styles.codeContainer}>
+          {/* <StyledText boldText>{vNombre}</StyledText> */}
+          <Text style={styles.name}>{vNombre}</Text>
+          <Text style={styles.code}>{vCuenta}</Text>
+          {/* <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
-            <StyledText regularText style={{marginLeft:5}}>{client.code}</StyledText>
-          </View>
-          <View style={styles.codeContainer}>
-            <FontAwesome5 name="money-bill" size={13} color="black" />
-            <StyledText regularText style={{marginLeft:8}}>{client.balance}</StyledText>
-          </View>
+            <StyledText regularText style={{marginLeft:5,}}>{vCuenta}</StyledText>
+          </View> */}
         </View>
       </View>
       <View style={styles.lineContainer}>
         <View style={styles.line}></View>
       </View>
       <View style={styles.notesContainer}>
-        <StyledText regularText>Notas pendientes: {client.pendingNotes}</StyledText>
-        <StyledText regularText>Ultimo pago: {client.lastPayment}</StyledText>
+        <View style={styles.textLine}>
+          <StyledText regularText>notas Pendientes :</StyledText>
+          <StyledText regularText>
+            {vNotasPendientes} {vNotasPendientes === 1 ? 'nota' : 'notas'}
+          </StyledText>
+        </View>
+        <View style={styles.textLine}>
+          <StyledText regularText>saldo total :</StyledText>
+          <StyledText regularText>{vBalance} Bs</StyledText>
+        </View>
+        <View style={styles.textLine}>
+          <StyledText regularText>ultimo pago :</StyledText>
+          <StyledText regularText>2020-06-12</StyledText>
+        </View>
       </View>
-    </TouchableOpacity>
+    </BorderBox>
   );
 };
 
 const styles = StyleSheet.create({
-  item: { 
-    paddingVertical: 13,
-    paddingHorizontal: 17,
-    backgroundColor: theme.colors.primary,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: theme.colors.otherWhite,
-  },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     marginLeft: 17,
+    flex: 1,
   },
   codeContainer: {
     flexDirection: 'row',
@@ -79,7 +86,7 @@ const styles = StyleSheet.create({
   },
   notesContainer: {
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
   },
   notes: {
     fontSize: 16,
@@ -94,6 +101,23 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.otherWhite,
     width: windowWidth*0.8,
     height: 2,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    textTransform: 'uppercase',
+    // textAlign: 'center',
+  },
+  code: {
+    fontSize: 16,
+    // textAlign: 'center',
+    color: theme.colors.secondaryText,
+    // marginLeft:20,
+  },
+  textLine: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 export default ClientItem;

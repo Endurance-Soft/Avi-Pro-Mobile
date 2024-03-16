@@ -1,13 +1,14 @@
 //ClientDebit.js
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet} from "react-native";
-import { HISTORY_DATA, theme } from "../../constants";
+import { theme } from "../../constants";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "../modals/SimpleModal";
 import { StatusBar } from "expo-status-bar";
 const screenWidth = Dimensions.get('window').width;
 
 const ClientDebit = ({ clientInfo }) => {
+  const vBalance = parseFloat(clientInfo.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
   const [totalDebit, setTotalDebit] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [animationKey, setAnimationKey] = useState(Date.now());
@@ -45,24 +46,12 @@ const ClientDebit = ({ clientInfo }) => {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-  const calculation = (array) => {
-    return array.reduce((prev, current) => prev + current, 0);
-  };
-  useEffect(() => {
-    const concentration = HISTORY_DATA.filter(
-      (client) => client.name == clientInfo.name
-    );
-    const total = calculation(
-      concentration.map((obj) => parseFloat(obj.amount))
-    );
-    setTotalDebit(total);
-  }, [clientInfo]);
 
   return (
     <View style={clientDebitStyles.container}>
       <StatusBar style="ligth" backgroundColor={statusBarColor} />
       <Modal isVisible={modalVisible} onClose={toggleModal} />
-      <Text style={clientDebitStyles.text}> {totalDebit} Bs</Text>
+      <Text style={clientDebitStyles.text}> {vBalance} Bs</Text>
       <View style={clientDebitStyles.spaceButtons}>
         <TouchableOpacity onPress={() => {}} style={clientDebitStyles.button}>
           <Text style={clientDebitStyles.textButton}>Automático</Text>
