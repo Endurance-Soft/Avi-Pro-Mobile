@@ -26,7 +26,7 @@ const SimpleButton = ({ text, onPress, width }) => {
     animatePressIn();
     setTimeout(() => {
       animatePressOut();
-    }, 400);
+    }, 200);
     onPress();
   };
 
