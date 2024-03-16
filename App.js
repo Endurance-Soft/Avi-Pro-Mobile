@@ -1,6 +1,6 @@
-import React from 'react';
-import { MenuProvider } from 'react-native-popup-menu';
-import AppNavigator from './src/navigation/AppNavigator';
+import React from "react";
+import { MenuProvider } from "react-native-popup-menu";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 const App = () => {
   return (
@@ -11,3 +11,4 @@ const App = () => {
 };
 
 export default App;
+

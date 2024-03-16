@@ -8,7 +8,7 @@ const SimpleButton = ({ text, onPress, width }) => {
 
   const animatePressIn = () => {
     Animated.timing(scale, {
-      toValue: 0.80,
+      toValue: 0.85,
       duration: 100,
       useNativeDriver: true,
     }).start();
