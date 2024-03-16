@@ -1,14 +1,28 @@
 //ActivationScreen.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, TouchableOpacity, StyleSheet, View, Text, TextInput, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from '../../constants';
 import { useNavigation } from "@react-navigation/native";
+import { getFirestore } from "../../config/firebase";
+
 const windowWidth = Dimensions.get('window').width;
 
 const ActivationScreen = () => {
 	const [activationCode, setActivationCode] = useState("");
 	const [message, setMessage] = useState(false);
+	const db = getFirestore();
+	const codes = db.collection('codigoActivacion');
+
+	const fecthData = async () => {
+		const data = await codes.get();
+		data.docs.forEach(doc => {
+			console.log(doc.data());
+		});
+	}
+	useEffect(() => {
+		fecthData();
+	}, []);
 
 	const handleSend = () => {
 		if(activationCode.length === 0){
