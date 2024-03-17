@@ -1,25 +1,50 @@
 //LoginScreen.js
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Image, TouchableOpacity, StyleSheet, SafeAreaView, View, Text, TextInput, Dimensions } from "react-native";
 import {theme} from '../../constants';
 import { useNavigation } from "@react-navigation/native";
+import {database} from "../../config/firebase";
+import { collection, addDoc } from 'firebase/firestore';
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellidos, setApellidos] = useState("");
+  const [info, setInfo] = useState({
+    email: "", 
+    nombre: "", 
+    apellidos: ""
+  });
   const [message, setMessage] = useState(false);
 
+  const addDocument = async (data) => {
+    try{
+      const collectionRef = collection(database, 'cobradores');
+      const docRef = await addDoc(collectionRef, data);
+      return docRef.id;
+    }catch(e){
+      console.error("Error adding document: ", e);
+    }
+    
+  };
   const handleSend = () => {
-    if(email.length === 0 || nombre.length === 0 || apellidos.length === 0){
+    if(info.email.length === 0 || info.nombre.length === 0 || info.apellidos.length === 0){
       alert("Por favor llene todos los campos");
       return;
     }
-    if(!email.match("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")){
+    if(!info.email.match("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")){
       setMessage(true);
       return;
     }
+    setMessage(false);
+
+    addDocument(info)
+      .then((id) => {
+        console.log("Document added with ID: ", id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+
     navigation.navigate("NewScreen")
   }
 
@@ -38,10 +63,10 @@ const LoginScreen = () => {
           style={styles.label} 
           onChangeText={name => {
             if(name.length <= 30 && name.match("^[a-zA-Z ]*$")){
-               setNombre(name);
+              setInfo({...info, nombre: name});
             }
           }}
-          value={nombre}
+          value={info.nombre}
           keyboardType="default"
         />
         <Text style={styles.subtitle}>Apellidos</Text>
@@ -50,18 +75,20 @@ const LoginScreen = () => {
           style={styles.label} 
           onChangeText={lastname => {
             if(lastname.length <= 30 && lastname.match("^[a-zA-Z ]*$")){
-               setApellidos(lastname);
+               setInfo({...info, apellidos: lastname});
             }}
           }
-          value={apellidos}
+          value={info.apellidos}
           keyboardType="default"
         />
         <Text style={styles.subtitle}>Correo Electronico</Text>
         <TextInput 
           placeholder="Correo Electronico" 
           style={styles.label} 
-          onChangeText={setEmail}
-          value={email}
+          onChangeText={item => {
+            setInfo({...info, email: item});
+          }}
+          value={info.email}
           keyboardType="email-address"
         />
         {message && <Text style={styles.errorFormat}>Por favor ingrese un correo válido</Text>}
@@ -83,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: windowWidth*0.9,
-    marginTop: 20,
+    marginTop: windowHeight*0.05,
   },
 	title: {
 		fontSize: 30,

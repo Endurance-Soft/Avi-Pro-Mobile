@@ -43,6 +43,7 @@ useEffect(() => {
 		  setMessage(true);
 		  return;
 		}
+		setMessage(false);
 		navigation.navigate("LoginScreen")
 	}
 
