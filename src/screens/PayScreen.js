@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions } from 'react-native';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
 import { theme } from "../../constants.js";
 import InputField from "../components/InputField.js";
+import Selector from "../components/Selector.js";
+import DateInputField from "../components/DateInputField.js";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -19,6 +21,9 @@ const PayScreen = ({ route }) => {
             setAnimationKey(Date.now());
         }, [])
     );
+    
+    const [selectedBank, setSelectedBank] = useState('');
+    const banks = ['Bank A', 'Bank B', 'Bank C']; 
 
     const {
         control,
@@ -123,23 +128,20 @@ const PayScreen = ({ route }) => {
             />
 
             {/* El input de abajo necesita usar un datetime picker para la fecha */}
-            <InputField 
+
+            <DateInputField 
                 control={control}
                 name="checkBankDate"
-                title="Fec. Cheque"
+                title="Fecha Cheque"
                 type="numeric"
-                rules={{
-                    required: "Este campo es requerido",
-                    pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Ingrese solo números",
-                    },
-                }}
-                errors={errors} 
             />
 
-            {/* Aquí va un picker para selecionar la Cta/Caja Banco */}
-
+            <Selector 
+                title="Cta/Caja Banco"
+                options={banks}
+                selectedOption={selectedBank}
+                onOptionChange={setSelectedBank}
+            />
             <InputField 
                 control={control}
                 name="reference"
