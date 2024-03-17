@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions } from 'react-native';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
-import { theme } from "../theme.js";
-import InputController from './InputController';
+import { theme } from "../../constants.js";
+import InputField from "../components/InputField.js";
 
 const screenWidth = Dimensions.get("window").width;
-const screenHeigth = Dimensions.get("window").height;
+const screenHeight = Dimensions.get("window").height;
 
 const PayScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -26,20 +26,26 @@ const PayScreen = ({ route }) => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            firstName: "",
-            lastName: "",
+            amount: "",
+            currency: "",
+            deposit: "",
+            advancePaymentNumber: "",
+            checkBankNumber: "",
+            checkBankDate: "",
+            bankAccount: "",
+            reference: "",
+            observations: "",
         },
-    })
-    const onSubmit = (data) => console.log(data)
+    });
 
-    const inputFields = [
-        { name: 'amount', label: 'Importe pagado' },
-        { name: 'deposit', label: 'Deposito' },
-    ];
+    const onSubmit = (data) => {
+        console.log(data);
+        // Aquí puedes agregar la lógica para guardar los datos
+    };
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar style="ligth" backgroundColor={secondary} />
+            <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
             <View style={styles.cover}>
                 <View style={styles.up}>
                     <Cascading delay={100} animationKey={animationKey}>
@@ -59,23 +65,115 @@ const PayScreen = ({ route }) => {
                 </View>
             </View>
             
-            {inputFields.map(field => (
-                <InputController
-                    control={control}
-                    name={field.name}
-                    label={field.label}
-                    rules={{
-                        required: "Este campo es requerido",
-                        pattern: {
-                            value: /^[0-9]+$/,
-                            message: "Ingrese solo números",
-                        },
-                    }}
-                />
-            ))}
+            <InputField 
+                control={control}
+                name="amount"
+                title="Importe pagado"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
+            <InputField 
+                control={control}
+                name="deposit"
+                title="Deposito"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
+            <InputField 
+                control={control}
+                name="advancePaymentNumber"
+                title="Nº Anticipo"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
+            <InputField 
+                control={control}
+                name="checkBankNumber"
+                title="Nº Cheque"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
 
+            {/* El input de abajo necesita usar un datetime picker para la fecha */}
+            <InputField 
+                control={control}
+                name="checkBankDate"
+                title="Fec. Cheque"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
+
+            {/* Aquí va un picker para selecionar la Cta/Caja Banco */}
+
+            <InputField 
+                control={control}
+                name="reference"
+                title="Referencia"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
+            {/* Referencia y Observaciones no son campos requeridos y no necesitan reglas y pueden usar el teclado normal */}
+            <InputField 
+                control={control}
+                name="observations"
+                title="Observaciones"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
+            />
             <View style={styles.buttonContainer}>
-                <TouchableOpacity activeOpacity={0} style={styles.button} >
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={handleSubmit(onSubmit)}
+                >
                     <Text style={styles.buttonText}>Registrar Pago</Text>
                 </TouchableOpacity>
             </View>
@@ -120,36 +218,14 @@ const styles = StyleSheet.create({
         fontSize: 22,
         marginRight: 60,
     },
-    listContainer: {
-        flex: 1,
-        backgroundColor: theme.colors.primary,
-    },
-    containerInput: {
-        marginHorizontal: 20,
-    },
-    input: {
-        height: 50,
-        borderColor: 'gray',
-        paddingHorizontal: 10,
-        backgroundColor: theme.colors.otherWhite,
-        borderRadius: 12,
-        fontSize: 18,
-        fontWeight: "bold",
-    },
-    label: {
-        color: theme.colors.slateGrey,
-        fontSize: 18,
-        marginLeft: 10,
-        marginBottom: 5
-    },
     buttonContainer: {
         marginTop: 20,
         flexDirection: "row",
         justifyContent: "center",
         alignSelf: "center",
         width: screenWidth - 240,
-      },
-      button: {
+    },
+    button: {
         justifyContent: "center",
         alignItems: "center",
         elevation: 5,
@@ -158,20 +234,12 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.tertiary,
         borderRadius: 22,
         flex: 1,
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: theme.colors.primary,
         fontSize: 16,
         fontWeight: "bold",
-      },
-        error: {
-            color: "red",
-            fontSize: 16,
-            marginLeft: 10,
-        },
-        containerInputSelector: {
-            flexDirection: "row",
-        },
+    },
 });
 
 export default PayScreen;
