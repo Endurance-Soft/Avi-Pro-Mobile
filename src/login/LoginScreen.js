@@ -1,6 +1,6 @@
 //LoginScreen.js
 import React, { useState } from "react";
-import { Image, TouchableOpacity, StyleSheet, SafeAreaView, View, Text, TextInput, Dimensions } from "react-native";
+import { Image, TouchableOpacity, StyleSheet, SafeAreaView, View, Text, ScrollView,TextInput, Dimensions, KeyboardAvoidingView } from "react-native";
 import {theme} from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 import {database} from "../../config/firebase";
@@ -51,6 +51,8 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1}} behavior="padding"> 
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.containerImgs}>
         <Image source={require('../assets/forma1.png')} style={{ width: windowWidth*0.28, height: 87 }} />
         <Image source={require('../assets/formas.png')} style={{ width: windowWidth*0.72, height: 206 }} />
@@ -96,6 +98,8 @@ const LoginScreen = () => {
           <Text style={styles.continueButton}>Continuar</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 };
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		borderRadius: 10,
 		padding: 10,
-    marginVertical: 15,
+    marginTop: 15,
 	}, 
 	continueButton: {
 		color: theme.colors.primary,

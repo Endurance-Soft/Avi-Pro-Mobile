@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: 'bold',
 		textAlign: 'center',
-		marginTop: 20,
-		marginBottom: 40,
+		marginTop: 12,
+		marginBottom: 20,
 	},
 	subtitle: {
 		fontSize: 18,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 	softText: {
 		color: theme.colors.gray,
 		fontSize: 13,
-		marginVertical: 10,
+		marginVertical: 18,
 	},
 	errorFormat: {
     color: 'red',
