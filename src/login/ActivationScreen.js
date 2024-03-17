@@ -4,37 +4,46 @@ import { Image, TouchableOpacity, StyleSheet, View, Text, TextInput, Dimensions 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from '../../constants';
 import { useNavigation } from "@react-navigation/native";
-import { getFirestore } from "../../config/firebase";
+import { database } from "../../config/firebase";
+import { collection, getDocs } from 'firebase/firestore';
 
 const windowWidth = Dimensions.get('window').width;
 
 const ActivationScreen = () => {
 	const [activationCode, setActivationCode] = useState("");
 	const [message, setMessage] = useState(false);
-	const db = getFirestore();
-	const codes = db.collection('codigoActivacion');
+	const [codes, setCodes] = useState([]);
 
-	const fecthData = async () => {
-		const data = await codes.get();
-		data.docs.forEach(doc => {
-			console.log(doc.data());
-		});
-	}
-	useEffect(() => {
-		fecthData();
-	}, []);
+const fecthData = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(database, 'codigoActivacion'));
+    const newCodes = [];
+    querySnapshot.forEach((doc) => {
+      const codigo = doc.data().codigo;
+      if (!codes.includes(codigo)) {
+        newCodes.push(codigo);
+      }
+    });
+    setCodes(prevCodes => [...prevCodes, ...newCodes]);
+  } catch (error) {
+    console.error('Error al recuperar documentos:', error);
+  }
+};
+
+useEffect(() => {
+  fecthData();
+}, []);
 
 	const handleSend = () => {
 		if(activationCode.length === 0){
 			alert("Por favor llene todos los campos");
 			return;
 		}
-		
-		if(!activationCode.match("^[A-Z0-9]{4} - [A-Z0-9]{4} - [A-Z0-9]{4} - [A-Z0-9]{4}$")){  //veify activation code in bd
-			setMessage(true);
-			return;
+		if(!codes.includes(activationCode)){  
+		  setMessage(true);
+		  return;
 		}
-		navigation.navigate("NewScreen")
+		navigation.navigate("LoginScreen")
 	}
 
 	const navigation = useNavigation();
@@ -50,7 +59,7 @@ const ActivationScreen = () => {
 				<TextInput 
 					placeholder="XXXX - XXXX - XXXX - XXXX" 
 					style={styles.label} 
-					onChange={setActivationCode}
+					onChange={(code) =>{ setActivationCode(code.nativeEvent.text)}}
 					value={activationCode}
 					keyboardType="default"
 					autoCapitalize="characters"
