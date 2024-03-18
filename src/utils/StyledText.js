@@ -5,13 +5,14 @@ const { height } = Dimensions.get('window');
 
 const regularTextSize = height * 0.025
 const bigTextSize = height * 0.025
+const grandbigText = height * 0.04
 
 const styles = StyleSheet.create({
   base: {
   },
   boldText: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: regularTextSize,
     color: theme.colors.tertiary,  
     // color: 'red',
   },
@@ -32,10 +33,9 @@ const styles = StyleSheet.create({
     color: theme.colors.primaryText,
     // color: 'red',
   },
-
   boldCenterText: {
     // extras
-    fontSize: 16,
+    fontSize: regularTextSize,
     fontWeight: 'bold',
     color: theme.colors.tertiary,  
     textTransform: 'uppercase',
@@ -52,10 +52,20 @@ const styles = StyleSheet.create({
     fontSize: 33,
     // fontWeight: 'medium',
     fontWeight: 'bold',
+  },
+  balance:{
+    fontSize: grandbigText,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  money:{
+    fontWeight: 'bold',
+    fontSize: regularTextSize,
+    color: theme.colors.green,  
   }
 });
 
-const StyledText = ({ children, style, regularText, boldText, buttonText, boldTextUpper, initial, regularIntenceText, ...rest }) => {
+const StyledText = ({ children, style, boldCenterText, regularText, boldText, buttonText, boldTextUpper, initial, regularIntenceText, balance, money, ...rest }) => {
     const customStyles = [
       regularText && styles.regularText,
       boldText && styles.boldText,
@@ -63,6 +73,9 @@ const StyledText = ({ children, style, regularText, boldText, buttonText, boldTe
       boldTextUpper && styles.boldTextUpper,
       initial && styles.initial,
       regularIntenceText && styles.regularIntenceText,
+      balance && styles.balance,
+      money && styles.money,
+      boldCenterText && styles.boldCenterText,
       style,
     ].filter(Boolean);
   

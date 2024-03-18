@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import useStore from "../store";
+import StyledText from "../utils/StyledText";
 
 const secondary = theme.colors.secondary;
 
@@ -83,7 +84,7 @@ const ClientSearchScreen = () => {
                 <Icon name="back" size={30} color="black" />
               </TouchableOpacity>
               <View style={styles.aviContainer}>
-                <Text style={styles.avi}>Avipro</Text>
+              <StyledText boldCenterText style={styles.avi}>Cobranzas</StyledText>
               </View>
             </View>
           </Cascading>
@@ -168,9 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avi: {
-    fontWeight: "bold",
-    fontSize: 22,
-    marginRight: 60,
+    marginRight: 40,
   },
   listContainer: {
     flex: 1,

@@ -1,15 +1,29 @@
 //ClientDebit.js
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet} from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import { theme } from "../../constants";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "../modals/SimpleModal";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-const screenWidth = Dimensions.get('window').width;
+import SimpleButton from "../utils/SimpleButton";
+import StyledText from "../utils/StyledText";
+
+const screenWidth = Dimensions.get("window").width;
 
 const ClientDebit = ({ clientInfo }) => {
-  const vBalance = parseFloat(clientInfo.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
+  const vBalance = parseFloat(
+    clientInfo.NotasPendientes.reduce(
+      (total, nota) => total + nota.Saldo_pendiente,
+      0
+    ).toFixed(2)
+  );
   const [totalDebit, setTotalDebit] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [animationKey, setAnimationKey] = useState(Date.now());
@@ -54,17 +68,18 @@ const ClientDebit = ({ clientInfo }) => {
     <View style={clientDebitStyles.container}>
       <StatusBar style="ligth" backgroundColor={statusBarColor} />
       <Modal isVisible={modalVisible} onClose={toggleModal} />
-      <Text style={clientDebitStyles.text}> {vBalance} Bs</Text>
+      <StyledText balance style={clientDebitStyles.text}> {vBalance} Bs</StyledText>
       <View style={clientDebitStyles.spaceButtons}>
-        <TouchableOpacity onPress={() => navigation.navigate("AutomaticPayScreen")} style={clientDebitStyles.button}>
-          <Text style={clientDebitStyles.textButton}>Automático</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        <SimpleButton
+          text="Automático"
+          onPress={() => navigation.navigate("AutomaticPayScreen")}
+          width={screenWidth * 0.4}
+        />
+        <SimpleButton
+          text="Recibo"
           onPress={toggleModal}
-          style={clientDebitStyles.button}
-        >
-          <Text style={clientDebitStyles.textButton}>Recibo</Text>
-        </TouchableOpacity>
+          width={screenWidth * 0.4}
+        />
       </View>
     </View>
   );
@@ -72,36 +87,33 @@ const ClientDebit = ({ clientInfo }) => {
 
 const clientDebitStyles = StyleSheet.create({
   container: {
-      backgroundColor: theme.colors.skyBlue,
-      borderRadius:22,
-      width: screenWidth-40,
-      alignSelf: 'center',
-      marginBottom: 20,
+    backgroundColor: theme.colors.skyBlue,
+    borderRadius: 22,
+    width: screenWidth - 40,
+    alignSelf: "center",
+    marginBottom: 20,
   },
   spaceButtons: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingHorizontal: 10,
-      marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    marginBottom: 10,
   },
   text: {
-      fontSize: 30,
-      fontWeight: 'bold',
-      alignSelf: 'center',
-      padding: 15,
+    padding: 15,
   },
-  button:{
-      backgroundColor: theme.colors.tertiary,
-      borderRadius: 22,
-      paddingVertical: 12,
-      padding: 10,
-      width: screenWidth*0.4,
+  button: {
+    backgroundColor: theme.colors.tertiary,
+    borderRadius: 22,
+    paddingVertical: 12,
+    padding: 10,
+    width: screenWidth * 0.4,
   },
-  textButton:{
-      color: theme.colors.primary,
-      fontSize: 16,
-      alignSelf: 'center',
-      fontWeight: "bold",
-  }
-})
+  textButton: {
+    color: theme.colors.primary,
+    fontSize: 16,
+    alignSelf: "center",
+    fontWeight: "bold",
+  },
+});
 export default ClientDebit;

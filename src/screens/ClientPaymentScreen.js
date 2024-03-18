@@ -12,6 +12,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import ClientItem from "../components/ClientItem";
 import StyledText from "../utils/StyledText";
 const windowWidth = Dimensions.get('window').width;
+
 const ClientPaymentScreen = ({ route }) => {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
@@ -43,7 +44,7 @@ const ClientPaymentScreen = ({ route }) => {
           </TouchableOpacity>
           <View style={styles.headerCenter}>
             <View style={styles.text}>
-              <Text style={styles.name}>{itemClient.Nombre}</Text>
+              <StyledText boldTextUpper>{itemClient.Nombre}</StyledText>
             </View>
           </View>
         </View>
