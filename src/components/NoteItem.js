@@ -39,7 +39,7 @@ const NoteItem = ({ note, onSelect }) => {
           <Text style={noteItemstyles.textDate}>{note.Fecha_venta}</Text>
         </View>
         <View>
-          <Text style={noteItemstyles.amount}>{note.Saldo_pendiente}</Text>
+          <StyledText regularText style={noteItemstyles.amount}>{note.Saldo_pendiente}</StyledText>
         </View>
         <View>
           <TouchableOpacity onPress={() => {}} style={noteItemstyles.button}>

@@ -5,8 +5,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 import { theme } from "../../constants";
+import StyledText from "../utils/StyledText";
 const windowWidth = Dimensions.get("window").width;
-
+const { height } = Dimensions.get('window');
+const regularTextSize = height * 0.021
 const SearchBar = ({ searchQuery, setSearchQuery, selectedOption, onOptionChange,}) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -21,23 +23,23 @@ const SearchBar = ({ searchQuery, setSearchQuery, selectedOption, onOptionChange
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={searchBarStyles.trigger}>
           <TouchableOpacity onPress={toggleMenu} activeOpacity={1} style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", }}>
-            <Text style={searchBarStyles.triggerText}>
+            <StyledText buttonText style={{marginRight: 12}}>
               {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
-            </Text>
+            </StyledText>
             <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="white" />
           </TouchableOpacity>
         </MenuTrigger>
         <MenuOptions customStyles={{ optionsContainer: searchBarStyles.optionsContainer, optionsWrapper: searchBarStyles.optionsWrapper, }}>
           <MenuOption onSelect={() => { onOptionChange("cliente"); setMenuVisible(false); }} >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={searchBarStyles.optionsText}>Cliente</Text>
+              <StyledText buttonText>Cliente</StyledText>
               {selectedOption === "cliente" && (
                 <FontAwesome5 name="check" size={17} color="white" marginLeft={10} />)}
             </View>
           </MenuOption>
           <MenuOption onSelect={() => { onOptionChange("cuenta"); setMenuVisible(false); }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={searchBarStyles.optionsText}>Cuenta</Text>
+              <StyledText buttonText>Cuenta</StyledText>
               {selectedOption === "cuenta" && (
                 <FontAwesome5 name="check" size={17} color="white" marginLeft={10} />
               )}
@@ -60,10 +62,10 @@ const searchBarStyles = StyleSheet.create({
     marginHorizontal: windowWidth * 0.05,
   },
   searchTextInput: {
-    flex: 1,
-    marginLeft: 7,
-    marginRight: 10,
-    fontSize: 17,
+    flex: 1,//
+    marginLeft: 7,//
+    marginRight: 10,//
+    fontSize: regularTextSize,
     color: theme.colors.primaryText,
   },
   trigger: {
@@ -71,12 +73,6 @@ const searchBarStyles = StyleSheet.create({
     paddingHorizontal: 25,
     backgroundColor: theme.colors.tertiary,
     borderRadius: 22,
-  },
-  triggerText: {
-    color: theme.colors.primary,
-    fontSize: 16,
-    fontWeight: "bold",
-    marginRight: 12,
   },
   optionsContainer: {
     paddingVertical: 15,
@@ -88,11 +84,6 @@ const searchBarStyles = StyleSheet.create({
   },
   optionsWrapper: {
     marginLeft: 20,
-  },
-  optionsText: {
-    color: theme.colors.primary,
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
 export default SearchBar;
