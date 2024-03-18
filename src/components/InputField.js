@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text, TextInput, StyleSheet, View } from 'react-native';
 import { theme } from '../../constants';
 import { Controller } from 'react-hook-form';
 
-const InputField = ({ control, name, title, type = 'default', rules, errors }) => {
+const InputField = ({ control, name, title, type = 'default', rules = {}, errors ={} }) => {
+
+  const [isFocused, setIsFocused] = useState(false);
+
+    const InputStyle = isFocused ? styles.inputFocused : styles.input;
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{title}</Text>
@@ -14,8 +18,10 @@ const InputField = ({ control, name, title, type = 'default', rules, errors }) =
                 rules={rules}
                 render={({ field: { onChange, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        style={InputStyle}
                         onChangeText={onChange}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
                         value={value}
                         keyboardType={type === 'numeric' ? 'numeric' : 'default'}
                     />
@@ -27,6 +33,7 @@ const InputField = ({ control, name, title, type = 'default', rules, errors }) =
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -41,12 +48,27 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 46,
-      borderColor: 'gray',
+      width: "auto",
+      minWidth: 245,
       paddingHorizontal: 10,
       backgroundColor: theme.colors.otherWhite,
-      borderRadius: 12,
+      borderRadius: 22,
       fontSize: 18,
       fontWeight: "bold",
+
+    },
+    inputFocused:{
+        height: 46,
+        width: "auto",
+        minWidth: 245,
+        paddingHorizontal: 10,
+        backgroundColor: theme.colors.otherWhite,
+        borderRadius: 22,
+        fontSize: 18,
+        fontWeight: "bold",
+        borderWidth: 2,
+        borderColor: theme.colors.black,
+    
     },
     error: {
         color: 'red',

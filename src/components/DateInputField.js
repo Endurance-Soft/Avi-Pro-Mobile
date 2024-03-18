@@ -11,9 +11,10 @@ const DateInputField = ({ control, name, title, type = 'default' }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+        const currentDate = selectedDate;
         setShowDatePicker(false);
         setSelectedDate(currentDate);
+        console.log('selectedDate', selectedDate);
     };
 
     return (
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 20,
         marginBottom: 10,
+        width: 145,
     },
     label: {
         color: 'gray',
@@ -64,9 +66,10 @@ const styles = StyleSheet.create({
       borderColor: 'gray',
       paddingHorizontal: 10,
       backgroundColor: theme.colors.otherWhite,
-      borderRadius: 12,
+      borderRadius: 22,
       fontSize: 18,
       fontWeight: "bold",
+      textAlign: 'center',
     },
     error: {
         color: 'red',

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions, ScrollView } from 'react-native';
 import { useForm } from "react-hook-form";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -7,14 +7,15 @@ import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
 import { theme } from "../../constants.js";
 import InputField from "../components/InputField.js";
-import Selector from "../components/Selector.js";
 import DateInputField from "../components/DateInputField.js";
+import DropdownSelector2 from "../components/DropdownSelector2.js";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const PayScreen = ({ route }) => {
     const navigation = useNavigation();
+    //const { itemClient } = route.params;
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -22,8 +23,13 @@ const PayScreen = ({ route }) => {
         }, [])
     );
     
-    const [selectedBank, setSelectedBank] = useState('');
-    const banks = ['Bank A', 'Bank B', 'Bank C']; 
+    const [selectedCurrency, setSelectedCurrency] = useState('Bs');
+    const handleCurrencyChange = (option) => {
+        setSelectedCurrency(option);
+    };
+
+    const [selectedBank, setSelectedBank] = useState('BNB 1213434789');
+    const banks = ['BNB 1213434789', 'BCP 4432765343', 'CTA 1239123234']; 
 
     const {
         control,
@@ -46,6 +52,7 @@ const PayScreen = ({ route }) => {
     const onSubmit = (data) => {
         console.log(data);
         // Aquí puedes agregar la lógica para guardar los datos
+        //navigation.navigate("ClientPaymentScreen", { itemClient: item });
     };
 
     return (
@@ -69,7 +76,8 @@ const PayScreen = ({ route }) => {
                     </Cascading>
                 </View>
             </View>
-            
+            <ScrollView>
+            <View style={styles.firstLineForm}>
             <InputField 
                 control={control}
                 name="amount"
@@ -84,6 +92,13 @@ const PayScreen = ({ route }) => {
                 }}
                 errors={errors} 
             />
+            <DropdownSelector2
+                title="Moneda"
+                options={['Bs', 'USD']}
+                selectedOption={selectedCurrency}
+                onOptionChange={handleCurrencyChange}
+            />
+            </View>
             <InputField 
                 control={control}
                 name="deposit"
@@ -129,6 +144,7 @@ const PayScreen = ({ route }) => {
 
             {/* El input de abajo necesita usar un datetime picker para la fecha */}
 
+            <View  style={styles.firstLineForm}>
             <DateInputField 
                 control={control}
                 name="checkBankDate"
@@ -136,40 +152,24 @@ const PayScreen = ({ route }) => {
                 type="numeric"
             />
 
-            <Selector 
+            <DropdownSelector2 
                 title="Cta/Caja Banco"
                 options={banks}
                 selectedOption={selectedBank}
                 onOptionChange={setSelectedBank}
             />
+            </View>
             <InputField 
                 control={control}
                 name="reference"
                 title="Referencia"
-                type="numeric"
-                rules={{
-                    required: "Este campo es requerido",
-                    pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Ingrese solo números",
-                    },
-                }}
-                errors={errors} 
+                type="default"
             />
-            {/* Referencia y Observaciones no son campos requeridos y no necesitan reglas y pueden usar el teclado normal */}
             <InputField 
                 control={control}
                 name="observations"
                 title="Observaciones"
-                type="numeric"
-                rules={{
-                    required: "Este campo es requerido",
-                    pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Ingrese solo números",
-                    },
-                }}
-                errors={errors} 
+                type="default"
             />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -179,6 +179,7 @@ const PayScreen = ({ route }) => {
                     <Text style={styles.buttonText}>Registrar Pago</Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </SafeAreaView>
     )
 };
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         elevation: 5,
         paddingVertical: 15,
-        paddingHorizontal: 25,
+        paddingHorizontal: 15,
         backgroundColor: theme.colors.tertiary,
         borderRadius: 22,
         flex: 1,
@@ -241,6 +242,9 @@ const styles = StyleSheet.create({
         color: theme.colors.primary,
         fontSize: 16,
         fontWeight: "bold",
+    },
+    firstLineForm: {
+        flexDirection: "row",
     },
 });
 
