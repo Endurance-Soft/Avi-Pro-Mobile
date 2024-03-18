@@ -55,13 +55,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const StyledText = ({ children, style, regularText, boldText, buttonText, boldTextUpper, initial, ...rest }) => {
+const StyledText = ({ children, style, regularText, boldText, buttonText, boldTextUpper, initial, regularIntenceText, ...rest }) => {
     const customStyles = [
       regularText && styles.regularText,
       boldText && styles.boldText,
       buttonText && styles.buttonText,
       boldTextUpper && styles.boldTextUpper,
       initial && styles.initial,
+      regularIntenceText && styles.regularIntenceText,
       style,
     ].filter(Boolean);
   
