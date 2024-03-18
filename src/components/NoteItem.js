@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { theme } from "../../constants";
-import BorderBox from "../pieces/BorderBox";
 import StyledText from "../StyledText";
 import { useNavigation } from "@react-navigation/native";
 
