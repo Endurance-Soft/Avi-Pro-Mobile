@@ -5,6 +5,7 @@ import { theme } from "../../constants";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "../modals/SimpleModal";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
 const screenWidth = Dimensions.get('window').width;
 
 const ClientDebit = ({ clientInfo }) => {
@@ -47,13 +48,15 @@ const ClientDebit = ({ clientInfo }) => {
     setModalVisible(!modalVisible);
   };
 
+  const navigation = useNavigation();
+
   return (
     <View style={clientDebitStyles.container}>
       <StatusBar style="ligth" backgroundColor={statusBarColor} />
       <Modal isVisible={modalVisible} onClose={toggleModal} />
       <Text style={clientDebitStyles.text}> {vBalance} Bs</Text>
       <View style={clientDebitStyles.spaceButtons}>
-        <TouchableOpacity onPress={() => {}} style={clientDebitStyles.button}>
+        <TouchableOpacity onPress={() => navigation.navigate("AutomaticPayScreen")} style={clientDebitStyles.button}>
           <Text style={clientDebitStyles.textButton}>Automático</Text>
         </TouchableOpacity>
         <TouchableOpacity
