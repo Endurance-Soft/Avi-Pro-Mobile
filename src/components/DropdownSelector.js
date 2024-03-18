@@ -5,6 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 import { theme } from '../../constants';
 import { StyleSheet, Dimensions } from 'react-native';
+import StyledText from "../utils/StyledText";
 const screenWidth = Dimensions.get('window').width;
 
 const DropdownSelector = ({ title, options, selectedOption, onOptionChange }) => {
@@ -17,15 +18,15 @@ const DropdownSelector = ({ title, options, selectedOption, onOptionChange }) =>
   return (
     <View style={styles.container}>
       <View style={styles.label}>
-        <Text style={styles.optionText}>{title}</Text>
+        <StyledText boldText>{title}</StyledText>
       </View>
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={styles.trigger}>
           <View style={styles.menuTrigger}>
             <View style={styles.menuTriggerInter}>
-              <Text style={styles.triggerText}>
-                {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
-              </Text>
+              <StyledText buttonText style={styles.triggerText}>
+              {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
+              </StyledText>
             </View>
             <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="white" />
           </View>
@@ -34,7 +35,7 @@ const DropdownSelector = ({ title, options, selectedOption, onOptionChange }) =>
           {options.map((option) => (
             <MenuOption key={option} onSelect={() => { onOptionChange(option); setMenuVisible(false); }}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={styles.optionsText}>{option}</Text>
+                <StyledText buttonText>{option}</StyledText>
                 {selectedOption === option && (
                   <FontAwesome5 name="check" size={17} color="white" style={{ marginLeft: 10 }} />
                 )}
@@ -63,15 +64,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex:1
   },
-  optionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  optionsText: {
-    color: theme.colors.primary,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
   menuTrigger: {
     flexDirection: "row",
     alignItems: 'center',
@@ -89,9 +81,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   triggerText: {
-    color: theme.colors.primary,
-      fontSize: 16,
-      fontWeight: "bold",
       marginRight: 12,
   },
   optionsContainer: {

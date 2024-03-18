@@ -18,12 +18,12 @@ const ClientItem = ({ client, onSelect }) => {
       <BorderBox onPress={() => onSelect(client.id)} style={{marginVertical: 10}}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
-          <Text style={styles.icon}>{vNombre.charAt(0)}</Text>
+          {/* <Text style={styles.icon}>{vNombre.charAt(0)}</Text> */}
+          <StyledText initial>{vNombre.charAt(0)}</StyledText>
         </View>
         <View style={styles.detailsContainer}>
-          {/* <StyledText boldText>{vNombre}</StyledText> */}
-          <Text style={styles.name}>{vNombre}</Text>
-          <Text style={styles.code}>{vCuenta}</Text>
+          <StyledText boldTextUpper>{vNombre}</StyledText>
+          <StyledText regularText>{vCuenta}</StyledText>
           {/* <View style={styles.codeContainer}>
             <MaterialCommunityIcons name="account" size={19} color="black" />
             <StyledText regularText style={{marginLeft:5,}}>{vCuenta}</StyledText>
@@ -66,11 +66,6 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
   },
-  icon: {
-    color: theme.colors.primary,
-    fontSize: 30,
-    fontWeight: 'medium',
-  },
   detailsContainer: {
     marginLeft: 17,
     flex: 1,
@@ -79,18 +74,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  balance: {
-    fontSize: 16,
-    marginLeft: 8,
-    color: theme.colors.secondaryText,
-  },
   notesContainer: {
     flexDirection: 'column',
     // alignItems: 'flex-start',
-  },
-  notes: {
-    fontSize: 16,
-    color: theme.colors.secondaryText,
   },
   lineContainer: {
     justifyContent: 'center',
@@ -101,18 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.otherWhite,
     width: windowWidth*0.8,
     height: 2,
-  },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    textTransform: 'uppercase',
-    // textAlign: 'center',
-  },
-  code: {
-    fontSize: 16,
-    // textAlign: 'center',
-    color: theme.colors.secondaryText,
-    // marginLeft:20,
   },
   textLine: {
     flexDirection: "row",

@@ -11,6 +11,7 @@ import { theme } from "../../constants";
 import BorderBox from "../utils/BorderBox";
 import StyledText from "../utils/StyledText";
 import { useNavigation } from "@react-navigation/native";
+import SimpleButton from "../utils/SimpleButton";
 
 const NoteItem = ({ note, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,17 +38,16 @@ const NoteItem = ({ note, onSelect }) => {
         ]}
       >
       <View style={noteItemstyles.row}>
-        <View style={noteItemstyles.textNro}>
-          <Text style={noteItemstyles.textNro}>{note.nro_nota}</Text>
-          <Text style={noteItemstyles.textDate}>{note.Fecha_venta}</Text>
-        </View>
         <View>
-          <Text style={noteItemstyles.amount}>{note.Saldo_pendiente}</Text>
+          <StyledText boldText>{note.nro_nota}</StyledText>
+          <StyledText regularText>{note.Fecha_venta}</StyledText>
         </View>
+        <StyledText money>{note.Saldo_pendiente} Bs</StyledText>
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate("PayScreen")} style={noteItemstyles.button}>
-            <Text style={noteItemstyles.textButton}>Pagar</Text>
-          </TouchableOpacity>
+          <SimpleButton 
+            text="Pagar" 
+            onPress={() => navigation.navigate("PayScreen")}
+          />
         </View>
       </View>
       <View style={[noteItemstyles.textLine, { marginTop: 15 }]}>
@@ -92,31 +92,11 @@ const noteItemstyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  textNro: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: theme.colors.tertiary,
-  },
-  textDate: {
-    fontSize: 16,
-    color: theme.colors.secondaryText,
-  },
-  amount: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: theme.colors.green,
-  },
   button: {
     backgroundColor: theme.colors.tertiary,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 22,
-  },
-  textButton: {
-    color: theme.colors.primary,
-    fontSize: 16,
-    alignSelf: "center",
-    fontWeight: "bold",
   },
   textLine: {
     flexDirection: "row",
