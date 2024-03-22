@@ -77,7 +77,7 @@ const ClientDebit = ({ clientInfo }) => {
         />
         <SimpleButton
           text="Recibo"
-          onPress={toggleModal}
+          onPress={() => navigation.navigate('Factura')}
           width={screenWidth * 0.4}
         />
       </View>

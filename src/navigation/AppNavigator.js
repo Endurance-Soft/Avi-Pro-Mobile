@@ -7,6 +7,7 @@ import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
+import FacturaScreen from '../screens/FacturaScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,10 @@ function AppNavigator() {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen 
+          name="Factura" 
+          component={FacturaScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>
