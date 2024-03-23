@@ -25,7 +25,7 @@ const ProfileHeader = ({ userName }) => {
     <View style={styles.maxContainer}>
       <StatusBar style="ligth" backgroundColor={secondary} />
       <Cascading delay={100} animationKey={animationKey}>
-        <TouchableOpacity style={styles.acountContainer} onPress={() => navigation.navigate("ProfileScreen")}>
+        <TouchableOpacity style={styles.acountContainer} onPress={() => navigation.navigate("ProfileScreen", {username: userName})}>
           <View style={styles.letter}>
             <Text style={styles.initialLetter}>J</Text>
           </View>
