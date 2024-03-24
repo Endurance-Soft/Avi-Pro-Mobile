@@ -6,18 +6,17 @@ import * as Sharing from 'expo-sharing';
 import StyledText from '../utils/StyledText';
 import DualTextView from '../utils/DualTextView';
 import SimpleButton from '../utils/SimpleButton';
+import PaymentStore from '../PaymentStore';
 
 const cliente = "John Doe";
 const numeroCliente = "20102353001";
 const fechaEmision = "06/08/2024";
-const pagosRealizados = [
-  { numeroNota: "215", fechaNota: "11/07/2024", total: "520.00", pagado: "210.00" },
-  { numeroNota: "221", fechaNota: "05/08/2024", total: "340.00", pagado: "340.00" }
-];
-const totalPagado = pagosRealizados.reduce((acc, pago) => acc + parseFloat(pago.pagado), 0).toFixed(2);
 
 const SimpleScreen = () => {
   const viewRef = useRef();
+  const pagosRealizados = PaymentStore((state) => state.pagosRealizados);
+  const borrarPagos = PaymentStore((state) => state.borrarPagos);
+  const totalPagado = pagosRealizados.reduce((acc, pago) => acc + parseFloat(pago.pagado), 0).toFixed(2);
 
   const captureAndShareScreenshot = async () => {
     try {
@@ -29,6 +28,10 @@ const SimpleScreen = () => {
     } catch (error) {
       Alert.alert("Error", "No se pudo capturar o compartir el comprobante: " + error.message);
     }
+  };
+  const handleBorrarPagos = () => {
+    borrarPagos();
+    Alert.alert("Borrado", "Todos los pagos han sido borrados.");
   };
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -71,6 +74,7 @@ const SimpleScreen = () => {
               leftChild={<StyledText regularIntenceText>Pagado  :</StyledText>}
               rightChild={<StyledText regularText>  {`${pago.pagado} Bs`}</StyledText>}
             />
+            
           </View>
         ))}
         <DualTextView
@@ -78,11 +82,18 @@ const SimpleScreen = () => {
           leftChild={<StyledText regularIntenceText>Total Pagado  :</StyledText>}
           rightChild={<StyledText regularText>  {`${totalPagado} Bs`}</StyledText>}
         />
+        
       </View>
       <SimpleButton 
         text="Imprimir" 
         onPress={ captureAndShareScreenshot}
       />
+      <SimpleButton 
+        text="Borrar todos los pagos" 
+        onPress={handleBorrarPagos}
+        style={{ marginTop: 10 }} // Añade un poco de margen entre los botones
+      />
+      
     </SafeAreaView>
   );
 };
