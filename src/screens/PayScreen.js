@@ -16,7 +16,6 @@ const screenHeight = Dimensions.get("window").height;
 const PayScreen = ({ route }) => {
     const { note } = route.params;
     const navigation = useNavigation();
-    //const { itemClient } = route.params;
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -51,17 +50,15 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
-        // Aquí puedes agregar la lógica para guardar los datos
-        //navigation.navigate("ClientPaymentScreen", { itemClient: item });
-        PaymentStore.getState().agregarPago({
-            numeroNota: note.nro_nota,
-            fechaNota: note.Fecha,
-            total: note.importe_nota,
-            pagado: data.amount,
-          });
-          
-          console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
+    console.log(data);
+    PaymentStore.getState().agregarPago({
+        numeroNota: note.nro_nota,
+        fechaNota: note.Fecha,
+        total: note.importe_nota,
+        pagado: data.amount,
+    });
+    console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
+    navigation.goBack();
     };
 
     return (

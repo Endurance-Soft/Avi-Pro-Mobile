@@ -58,6 +58,7 @@ function AppNavigator() {
         <Stack.Screen 
           name="Factura" 
           component={FacturaScreen} 
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
