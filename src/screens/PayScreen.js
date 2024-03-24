@@ -9,13 +9,13 @@ import { theme } from "../../constants.js";
 import InputField from "../components/InputField.js";
 import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";
-
+import PaymentStore from "../PaymentStore.js";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const PayScreen = ({ route }) => {
+    const { note } = route.params;
     const navigation = useNavigation();
-    //const { itemClient } = route.params;
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -50,9 +50,15 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
-        // Aquí puedes agregar la lógica para guardar los datos
-        //navigation.navigate("ClientPaymentScreen", { itemClient: item });
+    console.log(data);
+    PaymentStore.getState().agregarPago({
+        numeroNota: note.nro_nota,
+        fechaNota: note.Fecha,
+        total: note.importe_nota,
+        pagado: data.amount,
+    });
+    console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
+    navigation.goBack();
     };
 
     return (
