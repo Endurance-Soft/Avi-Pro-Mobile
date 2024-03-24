@@ -35,22 +35,23 @@ const SimpleScreen = () => {
     try {
       const uri = await captureRef(viewRef, {
         format: 'png',
-        quality: 0.8,
+        quality: 0.9,
       });
       await Sharing.shareAsync(uri, { dialogTitle: 'Comparte tu comprobante de pago' });
     } catch (error) {
       Alert.alert("Error", "No se pudo capturar o compartir el comprobante: " + error.message);
     }
   };
+  const handlePress = async () => {
+    await captureAndShareScreenshot();
+    handleBorrarPagos();
+  };
   const handleBorrarPagos = () => {
     borrarPagos();
-    Alert.alert("Borrado", "Todos los pagos han sido borrados.");
   };
   return (
-    <>
-    <StatusBar style="ligth" backgroundColor={theme.colors.primary} />
-    <ScrollView style={styles.safeArea}>
-    <Cascading delay={100} animationKey={animationKey}>
+    <SafeAreaView style={styles.flexContainer}>
+      <StatusBar style="ligth" backgroundColor={theme.colors.primary} />
             <View style={styles.header}>
                 <TouchableOpacity
                     style={styles.back}
@@ -63,75 +64,91 @@ const SimpleScreen = () => {
                     <Text style={styles.avi}>130. Bs</Text> */}
                 </View>
             </View>
-        </Cascading>
-      <View style={styles.container} ref={viewRef}>
-        <View style={styles.separacionInferior}>
-          <StyledText boldTextUpper style={styles.title}>{brandName}</StyledText>          
-          <StyledText regularIntenceText style={{textAlign:'center'}}>Comprobante de pago</StyledText>
-        </View>
-        <View style={styles.notaSection}>
-        <DualTextView
-          leftChild={<StyledText regularIntenceText>Cliente  :</StyledText>}
-          rightChild={<StyledText regularText>  {cliente}</StyledText>}
-        />
-        <DualTextView
-          leftChild={<StyledText regularIntenceText>N° Cliente  :</StyledText>}
-          rightChild={<StyledText regularText>  {numeroCliente}</StyledText>}
-        />
-        <DualTextView
-          leftChild={<StyledText regularIntenceText>Fecha  :</StyledText>}
-          rightChild={<StyledText regularText>  {fechaEmision}</StyledText>}
-        />
-        </View>
-        {pagosRealizados.map((pago, index) => (
-          <View key={index} style={styles.notaSection}>
+      
+      <View style={styles.flexContainer}>
+      
+        <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
+          <View style={styles.container} ref={viewRef}>
+            <View style={styles.separacionInferior}>
+              <StyledText boldTextUpper style={styles.title}>{brandName}</StyledText>          
+              <StyledText regularIntenceText style={{textAlign:'center'}}>Comprobante de pago</StyledText>
+            </View>
+            <View style={styles.notaSection}>
             <DualTextView
-              leftChild={<StyledText regularIntenceText>N° Nota  :</StyledText>}
-              rightChild={<StyledText regularText>  {pago.numeroNota}</StyledText>}
+              leftChild={<StyledText regularIntenceText>Cliente  :</StyledText>}
+              rightChild={<StyledText regularText>  {cliente}</StyledText>}
             />
             <DualTextView
-              leftChild={<StyledText regularIntenceText>Fecha Nota  :</StyledText>}
-              rightChild={<StyledText regularText>  {pago.fechaNota}</StyledText>}
+              leftChild={<StyledText regularIntenceText>N° Cliente  :</StyledText>}
+              rightChild={<StyledText regularText>  {numeroCliente}</StyledText>}
             />
             <DualTextView
-              leftChild={<StyledText regularIntenceText>Total  :</StyledText>}
-              rightChild={<StyledText regularText>  {`${pago.total} Bs`}</StyledText>}
+              leftChild={<StyledText regularIntenceText>Fecha  :</StyledText>}
+              rightChild={<StyledText regularText>  {fechaEmision}</StyledText>}
             />
-            <DualTextView
-              leftChild={<StyledText regularIntenceText>Pagado  :</StyledText>}
-              rightChild={<StyledText regularText>  {`${pago.pagado} Bs`}</StyledText>}
-            />
+            </View>
+            {pagosRealizados.map((pago, index) => (
+              <View key={index} style={styles.notaSection}>
+                <DualTextView
+                  leftChild={<StyledText regularIntenceText>N° Nota  :</StyledText>}
+                  rightChild={<StyledText regularText>  {pago.numeroNota}</StyledText>}
+                />
+                <DualTextView
+                  leftChild={<StyledText regularIntenceText>Fecha Nota  :</StyledText>}
+                  rightChild={<StyledText regularText>  {pago.fechaNota}</StyledText>}
+                />
+                <DualTextView
+                  leftChild={<StyledText regularIntenceText>Total  :</StyledText>}
+                  rightChild={<StyledText regularText>  {`${pago.total} Bs`}</StyledText>}
+                />
+                <DualTextView
+                  leftChild={<StyledText regularIntenceText>Pagado  :</StyledText>}
+                  rightChild={<StyledText regularText>  {`${pago.pagado} Bs`}</StyledText>}
+                />
 
+              </View>
+            ))}
+            <View style={styles.total}>
+              <DualTextView
+                leftChild={<StyledText regularIntenceText>Total Pagado  :</StyledText>}
+                rightChild={<StyledText regularText>  {`${totalPagado} Bs`}</StyledText>}
+              />
+            </View>
           </View>
-        ))}
-        <View style={styles.total}>
-          <DualTextView
-            leftChild={<StyledText regularIntenceText>Total Pagado  :</StyledText>}
-            rightChild={<StyledText regularText>  {`${totalPagado} Bs`}</StyledText>}
+        </ScrollView>
+        
+        <View style={styles.buttonContainer}>
+          <SimpleButton
+            text="Imprimir"
+            onPress={handlePress}
           />
         </View>
       </View>
-      <View style={{marginHorizontal:20}}>
-        <SimpleButton
-          text="Imprimir"
-          onPress={ captureAndShareScreenshot}
-        />
-      </View>
-      {/* <SimpleButton
-        text="Borrar todos los pagos"
-        onPress={handleBorrarPagos}
-        style={{ marginTop: 10 }} // Añade un poco de margen entre los botones
-      /> */}
-
-    </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  flexContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  safeArea: {
+    flex: 1,
+  },
   safeArea: {
     paddingTop: 35,
     backgroundColor:'#fff' 
+  },
+  scrollViewContent: {
+    flexGrow: 0.7,
+    justifyContent: 'center',
+    // backgroundColor:'red',
+    paddingBottom: 30,
+  },
+  buttonContainer: {
+    marginHorizontal: 20,
+    paddingBottom: 20,
   },
   container: {
     margin: 20,
@@ -167,7 +184,6 @@ const styles = StyleSheet.create({
 },
   header:{
     marginHorizontal:20,
-    flex:1,
   },
 });
 
