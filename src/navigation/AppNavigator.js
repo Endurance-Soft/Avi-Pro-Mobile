@@ -7,6 +7,7 @@ import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,13 @@ function AppNavigator() {
         <Stack.Screen
           name='AutomaticPayScreen'
           component={AutomaticPayScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='ProfileScreen'
+          component={ProfileScreen}
           options={{
             headerShown: false,
           }}
