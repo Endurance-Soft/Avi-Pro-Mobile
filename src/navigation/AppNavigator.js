@@ -8,13 +8,16 @@ import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ActivationScreen from '../login/ActivationScreen';
+import LoginScreen from '../login/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewScreen" 
+      {/* <Stack.Navigator initialRouteName="NewScreen"  */}
+      <Stack.Navigator initialRouteName="ActivationScreen"
         screenOptions={{
         animationEnabled: false,
       }}
@@ -44,6 +47,8 @@ function AppNavigator() {
         <Stack.Screen
           name='PayScreen'
           component={PayScreen}
+          name='ActivationScreen'
+          component={ActivationScreen}
           options={{
             headerShown: false,
           }}
@@ -58,6 +63,12 @@ function AppNavigator() {
         <Stack.Screen
           name='ProfileScreen'
           component={ProfileScreen}
+          options={{
+            headerShown: false,
+          }}/>
+        <Stack.Screen
+          name='LoginScreen'
+          component={LoginScreen}
           options={{
             headerShown: false,
           }}
