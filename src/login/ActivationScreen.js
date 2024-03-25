@@ -6,6 +6,7 @@ import { theme } from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 import { database } from "../../config/firebase";
 import { collection, getDocs } from 'firebase/firestore';
+import {StyledText} from "../utils/StyledText";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -56,7 +57,7 @@ useEffect(() => {
 			</View>
 			<View>
 				<Text style={styles.title}>Avi Pro Mobile</Text>
-				<Text style={styles.subtitle}>Clave de activación</Text>
+				<Text  style={styles.subtitle}>Clave de activación</Text>
 				<TextInput 
 					placeholder="XXXX - XXXX - XXXX - XXXX" 
 					style={styles.label} 
@@ -65,12 +66,12 @@ useEffect(() => {
 					keyboardType="default"
 					autoCapitalize="characters"
 				/>
-				{message && <Text style={styles.errorFormat}>La clave de activación es incorrecta</Text>}
-				<Text style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</Text>
+				{message && <Text  style={styles.errorFormat}>La clave de activación es incorrecta</Text>}
+				<Text  style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</Text>
 				<TouchableOpacity onPress={handleSend} style={styles.button}>
-					<Text style={styles.continueButton}>Continuar</Text>
+					<Text  style={styles.continueButton}>Continuar</Text>
 				</TouchableOpacity>
-				<Text style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</Text>
+				<Text  style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</Text>
 			</View>
 
 		</SafeAreaView>
