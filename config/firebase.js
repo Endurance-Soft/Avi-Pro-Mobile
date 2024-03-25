@@ -3,16 +3,16 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import Constants from "expo-constants";
 import { getAnalytics } from "firebase/analytics";
-// import 'dotenv/config';
+import 'dotenv/config';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBiWzVuJjqL3N6zkzB2UbBaFPDWeZ1aMc0",
-    authDomain: "avi-pro-mobile.firebaseapp.com",
-    projectId: "avi-pro-mobile",
-    storageBucket: "avi-pro-mobile.appspot.com",
-    messagingSenderId: "714379198452",
-    appId: "1:714379198452:web:53e907ba46c524e06403a1",
-    measurementId: "G-XVHVGNEVGE",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID,
   };
 
 const app = initializeApp(firebaseConfig);
