@@ -1,6 +1,6 @@
 //ProfileScreen.js
 import React, { useState, useCallback } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, Dimensions, Image, SafeAreaView } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Dimensions, Image, SafeAreaView } from "react-native";
 import StyledText from "../utils/StyledText";
 import { theme } from "../../constants";
 import imgprofile from "../assets/imgprofile.png";
@@ -11,6 +11,7 @@ import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 // import { database } from "../../config/firebase";
 // import { collection, getDocs } from 'firebase/firestore';
+
 const screenWidth = Dimensions.get('window').width;
 
 const ProfileScreen = ({ route }) => {
