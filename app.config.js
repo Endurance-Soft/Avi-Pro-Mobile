@@ -41,7 +41,6 @@ export default{
     plugins: [
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      "@react-native-firebase/analytics",
     ],
     web: {
       favicon: "./assets/favicon.png"
