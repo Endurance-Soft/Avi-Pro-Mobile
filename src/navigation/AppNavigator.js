@@ -1,5 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import NewScreen from '../screens/HomeScreen';
 import ClientSearchScreen from '../screens/ClientSearchScreen';
@@ -9,67 +10,105 @@ import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
 import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import HistoryScreen from '../screens/HistoryScreen';
+import OthersScreen from '../screens/OthersScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { theme } from '../../constants';
 
 const Stack = createNativeStackNavigator();
 
+const Tab = createBottomTabNavigator();
+
+const TabIcon = ({ name, color, size }) => {
+  return <Icon name={name} color={color} size={size} />;
+};
+
+
 function AppNavigator() {
   return (
-    <NavigationContainer>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarActiveTintColor: theme.colors.tertiary,
+            tabBarInactiveTintColor: theme.colors.slateGrey,
+            headerShown: false,
+          }}
+        >
+          <Tab.Screen
+          name="Inicio"
+          component={StackNavigator}
+          options={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon name={focused ? 'home' : 'home-outline'} color={color} size={size}/>
+              
+            ),
+          })}
+        />
+          <Tab.Screen
+          name="Historial"
+          component={HistoryScreen}
+          options={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon name={focused ? 'newspaper' : 'newspaper-outline'} color={color} size={size} />
+            ),
+            tabBarBadge: 3, //borrar
+          })}
+        />
+          <Tab.Screen
+          name="Otros"
+          component={OthersScreen}
+          options={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon name={focused ? 'menu' : 'menu-outline'} color={color} size={size} />
+            ),
+          })}
+        />
+        </Tab.Navigator>
+      </NavigationContainer>
+  );
+}
+
+function StackNavigator() {
+  return (
       <Stack.Navigator initialRouteName="NewScreen" 
         screenOptions={{
         animationEnabled: false,
+        headerShown: false,
       }}
       >
         <Stack.Screen 
           name="NewScreen" 
-          component={NewScreen} 
-          options={{ headerShown: false }} 
+          component={NewScreen}
         />
         <Stack.Screen 
           name="ClientSearchScreen" 
-          component={ClientSearchScreen} 
-          options={{ headerShown: false }} 
+          component={ClientSearchScreen}
         />
         <Stack.Screen 
           name="BillScreen" 
-          component={BillScreen} 
-          options={{ headerShown: false }} 
+          component={BillScreen}
         />
         <Stack.Screen
           name='ClientPaymentScreen'
           component={ClientPaymentScreen}
-          options={{
-            headerShown: false,
-          }}
         />
         <Stack.Screen
           name='PayScreen'
           component={PayScreen}
-          options={{
-            headerShown: false,
-          }}
         />
         <Stack.Screen
           name='AutomaticPayScreen'
           component={AutomaticPayScreen}
-          options={{
-            headerShown: false,
-          }}
         />
         <Stack.Screen 
           name="Factura" 
-          component={FacturaScreen} 
-          options={{ headerShown: false }} 
+          component={FacturaScreen}
         />
         <Stack.Screen
           name='ProfileScreen'
           component={ProfileScreen}
-          options={{
-            headerShown: false,
-          }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 
