@@ -1,6 +1,6 @@
 // store.js
 import {create} from 'zustand';
-const clientes = [
+export const clientes = [
     {
         "Empresa_ID": 2,
         "sucursal_ID": 1,
@@ -3962,7 +3962,7 @@ const clientes = [
         "cobrador_ID": "0O"
     }
   ];
-const notas_pendientes = [
+export const notas_pendientes = [
     {
         "Empresa_ID": 2,
         "sucursal_ID": 1,
