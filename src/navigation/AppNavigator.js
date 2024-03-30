@@ -98,6 +98,8 @@ function StackNavigator() {
         <Stack.Screen
           name='PayScreen'
           component={PayScreen}
+        />
+        <Stack.Screen
           name='ActivationScreen'
           component={ActivationScreen}
           options={{
@@ -111,10 +113,6 @@ function StackNavigator() {
         <Stack.Screen 
           name="Factura" 
           component={FacturaScreen}
-        />
-        <Stack.Screen
-          name='ProfileScreen'
-          component={ProfileScreen}
         />
         <Stack.Screen
           name='ProfileScreen'
