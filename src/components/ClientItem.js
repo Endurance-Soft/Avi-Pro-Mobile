@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   line: {
-    marginVertical: 13 ,
+    marginVertical: 3 ,
     backgroundColor: theme.colors.otherWhite,
     width: windowWidth*0.8,
     height: 2,
