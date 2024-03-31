@@ -5,6 +5,7 @@ import {theme} from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 import {database} from "../../config/firebase";
 import { collection, addDoc } from 'firebase/firestore';
+import InputField from "../components/InputField.js";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -12,7 +13,7 @@ const LoginScreen = () => {
   const [info, setInfo] = useState({
     email: "", 
     nombre: "", 
-    apellidos: ""
+    empresa: ""
   });
   const [message, setMessage] = useState(false);
 
@@ -27,7 +28,7 @@ const LoginScreen = () => {
     
   };
   const handleSend = () => {
-    if(info.email.length === 0 || info.nombre.length === 0 || info.apellidos.length === 0){
+    if(info.email.length === 0 || info.nombre.length === 0 || info.empresa.length === 0){
       alert("Por favor llene todos los campos");
       return;
     }
@@ -71,16 +72,16 @@ const LoginScreen = () => {
           value={info.nombre}
           keyboardType="default"
         />
-        <Text style={styles.subtitle}>Apellidos</Text>
+        <Text style={styles.subtitle}>empresa</Text>
         <TextInput 
-          placeholder="Apellidos" 
+          placeholder="Empresa" 
           style={styles.label} 
           onChangeText={lastname => {
             if(lastname.length <= 30 && lastname.match("^[a-zA-Z ]*$")){
-               setInfo({...info, apellidos: lastname});
+               setInfo({...info, empresa: lastname});
             }}
           }
-          value={info.apellidos}
+          value={info.empresa}
           keyboardType="default"
         />
         <Text style={styles.subtitle}>Correo Electronico</Text>
