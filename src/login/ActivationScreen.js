@@ -6,7 +6,7 @@ import { theme } from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 import { database } from "../../config/firebase";
 import { collection, getDocs } from 'firebase/firestore';
-import {StyledText} from "../utils/StyledText";
+import StyledText from "../utils/StyledText";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -56,8 +56,8 @@ useEffect(() => {
 				<Image source={require('../assets/formas.png')} style={{ width: windowWidth * 0.72, height: 206 }} />
 			</View>
 			<View>
-				<Text style={styles.title}>Avi Pro Mobile</Text>
-				<Text  style={styles.subtitle}>Clave de activación</Text>
+				<StyledText style={styles.title}>Avi Pro Mobile</StyledText>
+				<StyledText  style={styles.subtitle}>Clave de activación</StyledText>
 				<TextInput 
 					placeholder="XXXX - XXXX - XXXX - XXXX" 
 					style={styles.label} 
@@ -66,12 +66,12 @@ useEffect(() => {
 					keyboardType="default"
 					autoCapitalize="characters"
 				/>
-				{message && <Text  style={styles.errorFormat}>La clave de activación es incorrecta</Text>}
-				<Text  style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</Text>
+				{message && <StyledText  style={styles.errorFormat}>La clave de activación es incorrecta</StyledText>}
+				<StyledText  style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</StyledText>
 				<TouchableOpacity onPress={handleSend} style={styles.button}>
-					<Text  style={styles.continueButton}>Continuar</Text>
+					<StyledText  style={styles.continueButton}>Continuar</StyledText>
 				</TouchableOpacity>
-				<Text  style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</Text>
+				<StyledText  style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</StyledText>
 			</View>
 
 		</SafeAreaView>

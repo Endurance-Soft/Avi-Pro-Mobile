@@ -60,8 +60,8 @@ const LoginScreen = () => {
         <Image source={require('../assets/formas.png')} style={{ width: windowWidth*0.72, height: 206 }} />
       </View>
       <View>
-        <StyledText style={styles.title}>Información Personal</StyledText>
-        <StyledText style={styles.subtitle}>Nombre</StyledText>
+        <StyledText boldCenterText style={styles.title}>Información Personal</StyledText>
+        <StyledText boldText style={styles.subtitle}>Nombre</StyledText>
         <TextInput 
           placeholder="Nombre" 
           style={styles.label} 
@@ -73,7 +73,7 @@ const LoginScreen = () => {
           value={info.nombre}
           keyboardType="default"
         />
-        <StyledText style={styles.subtitle}>empresa</StyledText>
+        <StyledText boldText style={styles.subtitle}>Empresa</StyledText>
         <TextInput 
           placeholder="Empresa" 
           style={styles.label} 
@@ -85,7 +85,7 @@ const LoginScreen = () => {
           value={info.empresa}
           keyboardType="default"
         />
-        <StyledText style={styles.subtitle}>Correo Electronico</StyledText>
+        <StyledText boldText style={styles.subtitle}>Correo Electronico</StyledText>
         <TextInput 
           placeholder="Correo Electronico" 
           style={styles.label} 
@@ -95,9 +95,9 @@ const LoginScreen = () => {
           value={info.email}
           keyboardType="email-address"
         />
-        {message && <StyledText style={styles.errorFormat}>Por favor ingrese un correo válido</StyledText>}
+        {message && <StyledText regularText style={styles.errorFormat}>Por favor ingrese un correo válido</StyledText>}
         <TouchableOpacity style={styles.button} onPress={handleSend}>
-          <StyledText style={styles.continueButton}>Continuar</StyledText>
+          <StyledText boldText style={styles.continueButton}>Continuar</StyledText>
         </TouchableOpacity>
       </View>
       </ScrollView>
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
 	continueButton: {
 		color: theme.colors.primary,
 		fontSize: 19,
-		fontWeight: 'bold',
 	}
 });
 
