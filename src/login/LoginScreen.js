@@ -7,6 +7,8 @@ import {database} from "../../config/firebase";
 import { collection, addDoc } from 'firebase/firestore';
 import StyledText from "../utils/StyledText";
 import InputField from "../components/InputField.js";
+import userStore from "../store/userStore"; 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -17,7 +19,7 @@ const LoginScreen = () => {
     empresa: ""
   });
   const [message, setMessage] = useState(false);
-
+  const { setUser } = userStore();
   const addDocument = async (data) => {
     try{
       const collectionRef = collection(database, 'cobradores');
@@ -42,6 +44,7 @@ const LoginScreen = () => {
     addDocument(info)
       .then((id) => {
         console.log("Document added with ID: ", id);
+        setUser(id);
       })
       .catch((error) => {
         console.error("Error adding document: ", error);

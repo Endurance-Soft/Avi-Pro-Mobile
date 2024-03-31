@@ -1,5 +1,5 @@
 //ProfileScreen.js
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { TouchableOpacity, View, StyleSheet, Dimensions, Image, SafeAreaView } from "react-native";
 import StyledText from "../utils/StyledText";
 import { theme } from "../../constants";
@@ -9,8 +9,9 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-// import { database } from "../../config/firebase";
-// import { collection, getDocs } from 'firebase/firestore';
+import userStore from "../store/userStore"; 
+import {database} from "../../config/firebase";
+import { doc, getDoc } from 'firebase/firestore';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -18,6 +19,29 @@ const ProfileScreen = ({ route }) => {
   const { username } = route.params;
   const navigation = useNavigation();
   const [animationKey, setAnimationKey] = useState(Date.now());
+  const {user, setUser} = userStore();
+  const [userData, setUserData] = useState({});
+
+  const fetchUserData = async () => {
+    try{
+      const docRef = doc(database, 'cobradores', user);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const { nombre, empresa, email } = data;
+        setUserData({ nombre, empresa, email });
+        console.log("Document data:", data);
+      } else {
+        console.log('Ningun documento!');
+      
+    }}catch(e){
+      console.error("Error al obtener documento: ", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  },[user]);
 
   useFocusEffect(
     useCallback(() => {
@@ -35,7 +59,7 @@ const ProfileScreen = ({ route }) => {
         <View style={styles.header}>
           <StyledText boldText style={styles.text}>Perfil</StyledText>
           <Image source={imgprofile} style={styles.avatar}></Image>
-          <StyledText boldText style={styles.text}>{username}</StyledText>
+          <StyledText boldText style={styles.text}>{userData.nombre}</StyledText>
           <StyledText regularText style={styles.textSub}>Cobrador</StyledText>
         </View>
         </Cascading>
@@ -46,7 +70,7 @@ const ProfileScreen = ({ route }) => {
         <TouchableData
           label="Nombre completo"
           icon="person-circle-outline"
-          value="Ejemplo hoy dia"
+          value={userData.nombre}
           fieldName="nombre"
         />
         </Cascading>
@@ -54,7 +78,7 @@ const ProfileScreen = ({ route }) => {
         <TouchableData
           label="Empresa"
           icon="business-outline"
-          value="AssureSoft"
+          value={userData.empresa}
           fieldName="empresa"
         />
         </Cascading>
@@ -62,7 +86,7 @@ const ProfileScreen = ({ route }) => {
         <TouchableData
           label="Email"
           icon="mail-open-outline"
-          value="hola@gmail.com"
+          value={userData.email}
           fieldName="email"
         />
         </Cascading>
