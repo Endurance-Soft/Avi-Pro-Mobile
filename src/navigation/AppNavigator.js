@@ -12,7 +12,6 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ActivationScreen from '../login/ActivationScreen';
 import LoginScreen from '../login/LoginScreen';
 import FacturaScreen from '../screens/FacturaScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import OthersScreen from '../screens/OthersScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -73,7 +72,7 @@ function AppNavigator() {
 
 function StackNavigator() {
   return (
-      <Stack.Navigator initialRouteName="NewScreen" 
+      <Stack.Navigator initialRouteName="ActivationScreen" 
         screenOptions={{
         animationEnabled: false,
         headerShown: false,

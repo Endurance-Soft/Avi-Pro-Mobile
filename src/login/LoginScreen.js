@@ -5,6 +5,7 @@ import {theme} from '../../constants';
 import { useNavigation } from "@react-navigation/native";
 import {database} from "../../config/firebase";
 import { collection, addDoc } from 'firebase/firestore';
+import StyledText from "../utils/StyledText";
 import InputField from "../components/InputField.js";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -59,8 +60,8 @@ const LoginScreen = () => {
         <Image source={require('../assets/formas.png')} style={{ width: windowWidth*0.72, height: 206 }} />
       </View>
       <View>
-        <Text style={styles.title}>Información Personal</Text>
-        <Text style={styles.subtitle}>Nombre</Text>
+        <StyledText style={styles.title}>Información Personal</StyledText>
+        <StyledText style={styles.subtitle}>Nombre</StyledText>
         <TextInput 
           placeholder="Nombre" 
           style={styles.label} 
@@ -72,7 +73,7 @@ const LoginScreen = () => {
           value={info.nombre}
           keyboardType="default"
         />
-        <Text style={styles.subtitle}>empresa</Text>
+        <StyledText style={styles.subtitle}>empresa</StyledText>
         <TextInput 
           placeholder="Empresa" 
           style={styles.label} 
@@ -84,7 +85,7 @@ const LoginScreen = () => {
           value={info.empresa}
           keyboardType="default"
         />
-        <Text style={styles.subtitle}>Correo Electronico</Text>
+        <StyledText style={styles.subtitle}>Correo Electronico</StyledText>
         <TextInput 
           placeholder="Correo Electronico" 
           style={styles.label} 
@@ -94,9 +95,9 @@ const LoginScreen = () => {
           value={info.email}
           keyboardType="email-address"
         />
-        {message && <Text style={styles.errorFormat}>Por favor ingrese un correo válido</Text>}
+        {message && <StyledText style={styles.errorFormat}>Por favor ingrese un correo válido</StyledText>}
         <TouchableOpacity style={styles.button} onPress={handleSend}>
-          <Text style={styles.continueButton}>Continuar</Text>
+          <StyledText style={styles.continueButton}>Continuar</StyledText>
         </TouchableOpacity>
       </View>
       </ScrollView>
