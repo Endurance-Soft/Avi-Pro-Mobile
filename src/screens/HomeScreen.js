@@ -1,5 +1,5 @@
 // NewScreen.js
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList, Text } from "react-native";
 import ProfileHeader from "../components/ProfileHeader";
 import StoryItem from "../components/StoryItem";
@@ -7,11 +7,37 @@ import { HISTORY_DATA, theme } from "../../constants";
 import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
+import userStore from "../store/userStore"; 
+import {database} from "../../config/firebase";
+import { doc, getDoc } from 'firebase/firestore';
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
   const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
   const title = 'Actividad';
+  const {user, setUser} = userStore();
+  const [nombreF, setNombreF] = useState("");
+
+  const fetchUserData = async () => {
+    try{
+      const docRef = doc(database, 'cobradores', user);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const { nombre, empresa, email } = data;
+        setNombreF(nombre);
+      } else {
+        console.log('Ningun documento!');
+      
+    }}catch(e){
+      console.error("Error al obtener documento: ", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  },[user]);
+
 
   const renderHistoryItem = ({ item, index }) => (
     <Cascading delay={400 + 80 * index} animationKey={animationKey}>
@@ -36,7 +62,7 @@ const NewScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <ProfileHeader userName="Jon Doe" />
+        <ProfileHeader userName={nombreF} />
         <Cascading delay={300} animationKey={animationKey}>
           <DropdownSelector
             title={title}
