@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import useStore from "../store";
+import useStore from "../stores/store";
 import StyledText from "../utils/StyledText";
 
 const secondary = theme.colors.secondary;
