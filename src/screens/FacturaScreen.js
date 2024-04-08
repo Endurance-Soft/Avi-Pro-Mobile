@@ -6,11 +6,11 @@ import * as Sharing from 'expo-sharing';
 import StyledText from '../utils/StyledText';
 import DualTextView from '../utils/DualTextView';
 import SimpleButton from '../utils/SimpleButton';
-import PaymentStore from '../PaymentStore';
+import PaymentStore from '../stores/PaymentStore';
 import Cascading from '../animation/CascadingFadeInView';
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { theme } from "../../constants.js";
+import { theme } from "../assets/Theme";
 import { StatusBar } from 'expo-status-bar';
 
 const cliente = "John Doe";

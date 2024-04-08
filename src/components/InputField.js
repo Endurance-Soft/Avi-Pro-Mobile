@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Text, TextInput, StyleSheet, View } from 'react-native';
-import { theme } from '../../constants';
+import { theme } from "../assets/Theme";
 import { Controller } from 'react-hook-form';
 
 const InputField = ({ control, name, title, type = 'default', rules = {}, errors ={} }) => {

@@ -7,7 +7,7 @@ import {
   Animated,
   TouchableWithoutFeedback,
 } from "react-native";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import BorderBox from "../utils/BorderBox";
 import StyledText from "../utils/StyledText";
 import { useNavigation } from "@react-navigation/native";

@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 import { View, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
-import { theme } from '../../constants';
+import { theme } from '../assets/Theme';
 import { StyleSheet, Dimensions } from 'react-native';
 import StyledText from "../utils/StyledText";
 const screenWidth = Dimensions.get('window').width;

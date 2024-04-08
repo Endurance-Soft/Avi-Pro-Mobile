@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
 import StyledText from './StyledText';
-import { theme } from '../../constants';
+import { theme } from '../assets/Theme';
 
 const SimpleButton = ({ text, onPress, width }) => {
   const [scale, setScale] = useState(new Animated.Value(1));
