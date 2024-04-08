@@ -1,9 +1,7 @@
 //ClientDebit.js
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import {
   View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   StyleSheet,
 } from "react-native";
