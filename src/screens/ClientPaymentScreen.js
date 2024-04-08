@@ -29,10 +29,14 @@ const ClientPaymentScreen = ({ route }) => {
     setSelectedOption(option);
   };
   const renderItem = ({ item, index }) => (
-    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+    <Cascading
+      delay={index > 6 ? 0 : 400 + 80 * index}
+      animationKey={animationKey}
+    >
       <NoteItem note={item} onSelect={() => {}}/>
     </Cascading>
   );
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>

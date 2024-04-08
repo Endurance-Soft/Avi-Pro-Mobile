@@ -51,7 +51,8 @@ const SimpleScreen = () => {
   };
   return (
     <SafeAreaView style={styles.flexContainer}>
-      <StatusBar style="ligth" backgroundColor={theme.colors.primary} />
+      <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
+      <Cascading delay={200} animationKey={animationKey}>
             <View style={styles.header}>
                 <TouchableOpacity
                     style={styles.back}
@@ -60,14 +61,14 @@ const SimpleScreen = () => {
                     <Icon name="back" size={30} color="black" />
                 </TouchableOpacity>
                 <View style={styles.aviContainer}>
-                    {/* <Text style={styles.avi}>Nº 150</Text>
-                    <Text style={styles.avi}>130. Bs</Text> */}
                 </View>
             </View>
+            </Cascading>
       
       <View style={styles.flexContainer}>
       
         <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
+        <Cascading delay={400} animationKey={animationKey}>
           <View style={styles.container} ref={viewRef}>
             <View style={styles.separacionInferior}>
               <StyledText boldTextUpper style={styles.title}>{brandName}</StyledText>          
@@ -115,14 +116,16 @@ const SimpleScreen = () => {
               />
             </View>
           </View>
+          </Cascading>
         </ScrollView>
-        
+        <Cascading delay={500} animationKey={animationKey}>
         <View style={styles.buttonContainer}>
           <SimpleButton
             text="Imprimir"
             onPress={handlePress}
           />
         </View>
+        </Cascading>
       </View>
     </SafeAreaView>
   );
@@ -131,14 +134,14 @@ const SimpleScreen = () => {
 const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.secondary,
   },
   safeArea: {
     flex: 1,
   },
   safeArea: {
     paddingTop: 35,
-    backgroundColor:'#fff' 
+    backgroundColor:theme.colors.secondary, 
   },
   scrollViewContent: {
     flexGrow: 0.7,
@@ -158,7 +161,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     borderRadius: 10,
     backgroundColor: '#fff',
-    elevation: 9,
+    // elevation: 9,
   },
   separacionInferior:{
     margin: 20,
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
   back: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.colors.otherWhite,
+    backgroundColor: theme.colors.skyBlue,
     borderRadius: 20,
     width: 60,
     height: 60,

@@ -58,7 +58,7 @@ const ClientSearchScreen = () => {
 
   const renderItem = ({ item, index }) => (
     <Cascading
-      delay={index > 9 ? 0 : 400 + 50 * index}
+      delay={index > 9 ? 0 : 400 + 100 * index}
       animationKey={animationKey}
     >
       <ClientItem
