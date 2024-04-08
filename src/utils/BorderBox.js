@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
-import { theme } from '../../constants'; 
+import { theme } from '../assets/Theme'; 
 
 const BorderBox = ({ children, onPress, style }) => {
     const [scale, setScale] = useState(new Animated.Value(1));

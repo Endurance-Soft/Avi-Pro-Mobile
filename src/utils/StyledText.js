@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, Dimensions } from 'react-native';
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 const { height } = Dimensions.get('window');
 
 const regularTextSize = height * 0.025

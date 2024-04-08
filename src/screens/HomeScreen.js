@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList, Text } from "react-native";
 import ProfileHeader from "../components/ProfileHeader";
 import StoryItem from "../components/StoryItem";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";

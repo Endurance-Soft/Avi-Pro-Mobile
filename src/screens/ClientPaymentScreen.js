@@ -1,7 +1,7 @@
 //ClientPayment.js
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from 'react-native';
-import { theme } from '../../constants';
+import { theme } from '../assets/Theme';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ClientDebit from '../components/ClientDebit';

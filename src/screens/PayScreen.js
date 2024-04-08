@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
-import { theme } from "../../constants.js";
+import { theme } from "../assets/Theme";
 import InputField from "../components/InputField.js";
 import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";

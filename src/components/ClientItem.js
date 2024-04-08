@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { theme } from '../../constants';
+import { theme } from '../assets/Theme';
 import StyledText from "../utils/StyledText";
 import BorderBox from "../utils/BorderBox";
 

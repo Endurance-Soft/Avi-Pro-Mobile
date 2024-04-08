@@ -5,7 +5,7 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import SimpleButton from "../utils/SimpleButton";

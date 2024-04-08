@@ -4,7 +4,7 @@ import zigzag from '../assets/zigzagBorder.png';
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 import Icon from 'react-native-vector-icons/AntDesign';
-import { theme } from '../../constants'
+import { theme } from '../assets/Theme'
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
