@@ -51,8 +51,8 @@ const DateInputField = ({ control, name, title, type = 'default' }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
-        marginBottom: 10,
+        marginHorizontal: 10,
+        marginBottom: 20,
         width: 145,
     },
     label: {
