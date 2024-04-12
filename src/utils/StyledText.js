@@ -3,7 +3,7 @@ import { Text, StyleSheet, Dimensions } from 'react-native';
 import { theme } from "../assets/Theme";
 const { height } = Dimensions.get('window');
 
-const regularTextSize = height * 0.025
+const regularTextSize = height * 0.024
 const bigTextSize = height * 0.025
 const grandbigText = height * 0.04
 
