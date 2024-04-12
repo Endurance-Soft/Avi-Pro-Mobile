@@ -50,16 +50,19 @@ const SelectPaymentMethodScreen = ({ route }) => {
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"efectivo" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>En Efectivo</StyledText>
+                        <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"banco" })}>
                     <View style = {styles.itemContainer}>
-                        <StyledText boldText>Deposito o Transferencia Bancaria</StyledText>
+                        <StyledText boldText>Transferencia Bancaria</StyledText>
+                        <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"cheque" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>Cheque</StyledText>
+                        <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -114,6 +117,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: theme.colors.otherWhite,
         overflow: 'hidden',
+        flexDirection: "row",
+        justifyContent: "space-between",
     }
 });
 
