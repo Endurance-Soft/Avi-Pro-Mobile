@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 
 const StoryItem = ({ story, onSelect }) => {
   const dateTime = new Date(story.date);

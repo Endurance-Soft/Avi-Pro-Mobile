@@ -1,7 +1,7 @@
 //ClientPayment.js
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from 'react-native';
-import { DATA, HISTORY_DATA2, theme } from '../../constants';
+import { theme } from '../assets/Theme';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ClientDebit from '../components/ClientDebit';
@@ -29,10 +29,14 @@ const ClientPaymentScreen = ({ route }) => {
     setSelectedOption(option);
   };
   const renderItem = ({ item, index }) => (
-    <Cascading delay={400 + 80 * index} animationKey={animationKey}>
+    <Cascading
+      delay={index > 6 ? 0 : 400 + 80 * index}
+      animationKey={animationKey}
+    >
       <NoteItem note={item} onSelect={() => {}}/>
     </Cascading>
   );
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>

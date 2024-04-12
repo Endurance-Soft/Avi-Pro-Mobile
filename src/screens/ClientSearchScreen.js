@@ -12,12 +12,12 @@ import {
 import SearchBar from "../components/SearchBar";
 import ClientItem from "../components/ClientItem";
 import { StatusBar } from "expo-status-bar";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import useStore from "../store";
+import useStore from "../stores/store";
 import StyledText from "../utils/StyledText";
 
 const secondary = theme.colors.secondary;
@@ -58,7 +58,7 @@ const ClientSearchScreen = () => {
 
   const renderItem = ({ item, index }) => (
     <Cascading
-      delay={index > 9 ? 0 : 400 + 50 * index}
+      delay={index > 9 ? 0 : 400 + 100 * index}
       animationKey={animationKey}
     >
       <ClientItem

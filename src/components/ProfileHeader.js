@@ -8,7 +8,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 // Local imports
 import Cascading from "../animation/CascadingFadeInView";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 
 secondary = theme.colors.secondary;
 const screenWidth = Dimensions.get('window').width;

@@ -1,7 +1,7 @@
 //TouchableData.js
 import React,{useState} from 'react';
 import { Text, StyleSheet, Dimensions, View, TouchableOpacity, TextInput } from 'react-native';
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import StyledText from "../utils/StyledText";
 const { height } = Dimensions.get('window');
 import { Ionicons } from "@expo/vector-icons";

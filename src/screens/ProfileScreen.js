@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Dimensions, Image, SafeAreaView } from "react-native";
 import StyledText from "../utils/StyledText";
-import { theme } from "../../constants";
+import { theme } from "../assets/Theme";
 import imgprofile from "../assets/imgprofile.png";
 import TouchableData from "../components/TouchableData";
 import Icon from "react-native-vector-icons/AntDesign";
