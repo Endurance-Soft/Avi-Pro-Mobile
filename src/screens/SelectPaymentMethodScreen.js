@@ -5,6 +5,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
 import { theme } from "../assets/Theme";
+import StyledText from "../utils/StyledText";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
@@ -47,18 +48,18 @@ const SelectPaymentMethodScreen = ({ route }) => {
             </View>
             <View>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"efectivo" })}>
-                    <View>
-                        <Text>En Efectivo</Text>
+                    <View style = {styles.itemContainer}>
+                        <StyledText boldText>En Efectivo</StyledText>
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"banco" })}>
-                    <View>
-                        <Text>Deposito o Transferencia Bancaria</Text>
+                    <View style = {styles.itemContainer}>
+                        <StyledText boldText>Deposito o Transferencia Bancaria</StyledText>
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"cheque" })}>
-                    <View>
-                        <Text>Cheque</Text>
+                    <View style = {styles.itemContainer}>
+                        <StyledText boldText>Cheque</StyledText>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -102,6 +103,17 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 22,
         marginRight: 60,
+    },
+    itemContainer: {
+        backgroundColor: theme.colors.primary,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        marginVertical: 8,
+        marginHorizontal: 20,
+        borderWidth: 2,
+        borderRadius: 20,
+        borderColor: theme.colors.otherWhite,
+        overflow: 'hidden',
     }
 });
 
