@@ -1,4 +1,4 @@
-// DropdownSelector.js
+// DropdownSelector2.js
 import React, { useState, useCallback } from "react";
 import { View, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { theme } from "../assets/Theme";
 import { StyleSheet, Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 
-const DropdownSelector = ({ title, options, selectedOption, onOptionChange, size=200 }) => {
+const DropdownSelector2 = ({ title, options, selectedOption, onOptionChange, size=200 }) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -15,7 +15,7 @@ const DropdownSelector = ({ title, options, selectedOption, onOptionChange, size
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Menu opened={menuVisible} onBackdropPress={() => setMenuVisible(false)}>
         <MenuTrigger onPress={toggleMenu} style={styles.trigger}>
@@ -53,12 +53,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   container: {
-    marginHorizontal: 20,
-    borderRadius: 20,
-    backgroundColor: theme.colors.skyBlue,
-    padding: 7,
-    flexDirection: "row",
-    justifyContent: 'flex-end',
+    marginHorizontal: 10,
   },
   label: {
     flexDirection: "row",
@@ -102,7 +97,6 @@ const styles = StyleSheet.create({
   optionsContainer: {
     paddingVertical: 15,
     marginTop: 55,
-    marginLeft: 0,
     borderRadius: 20,
     backgroundColor: theme.colors.tertiary,
   },
@@ -110,4 +104,4 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 });
-export default DropdownSelector;
+export default DropdownSelector2;

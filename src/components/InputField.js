@@ -37,8 +37,8 @@ const InputField = ({ control, name, title, type = 'default', rules = {}, errors
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
-        marginBottom: 10,
+        marginHorizontal: 10,
+        marginBottom: 20,
     },
     label: {
         color: 'gray',

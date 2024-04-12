@@ -5,11 +5,11 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Cascading from "../animation/CascadingFadeInView";
-import { theme } from "../assets/Theme";
+import { theme } from "../../constants.js";
 import InputField from "../components/InputField.js";
 import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";
-import PaymentStore from "../stores/PaymentStore.js";
+import PaymentStore from "../PaymentStore.js";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
@@ -88,8 +88,8 @@ const PayScreen = ({ route }) => {
                     </Cascading>
                 </View>
             </View>
-            <View style={styles.formContainer}>
-            <View style={styles.lineForm}>
+            <ScrollView>
+            <View style={styles.firstLineForm}>
             <InputField 
                 control={control}
                 name="amount"
@@ -111,13 +111,19 @@ const PayScreen = ({ route }) => {
                 onOptionChange={handleCurrencyChange}
             />
             </View>
-            
-            <View style={styles.lineForm}>
-            <DropdownSelector2
-                title="Modo de Pago"
-                options={payModes}
-                selectedOption={selectedPayMode}
-                onOptionChange={setSelectedPayMode}
+            <InputField 
+                control={control}
+                name="deposit"
+                title="Deposito"
+                type="numeric"
+                rules={{
+                    required: "Este campo es requerido",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Ingrese solo números",
+                    },
+                }}
+                errors={errors} 
             />
             <InputField 
                 control={control}
@@ -133,7 +139,6 @@ const PayScreen = ({ route }) => {
                 }}
                 errors={errors} 
             />
-            </View>
             <InputField 
                 control={control}
                 name="checkBankNumber"
@@ -151,7 +156,7 @@ const PayScreen = ({ route }) => {
 
             {/* El input de abajo necesita usar un datetime picker para la fecha */}
 
-            <View  style={styles.lineForm}>
+            <View  style={styles.firstLineForm}>
             <DateInputField 
                 control={control}
                 name="checkBankDate"
@@ -186,7 +191,7 @@ const PayScreen = ({ route }) => {
                     <Text style={styles.buttonText}>Registrar Pago</Text>
                 </TouchableOpacity>
             </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 };
@@ -239,7 +244,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         elevation: 5,
-        paddingVertical: 12,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
         backgroundColor: theme.colors.tertiary,
         borderRadius: 22,
         flex: 1,
@@ -249,13 +255,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
-    lineForm: {
+    firstLineForm: {
         flexDirection: "row",
-    },
-    formContainer: {
-        flex: 1,
-        marginHorizontal: 10,
-        marginVertical: 10,
     },
 });
 
