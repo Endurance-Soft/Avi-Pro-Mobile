@@ -8,6 +8,7 @@ import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
+import SelectPaymentMethodScreen from '../screens/SelectPaymentMethodScreen';
 import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
@@ -55,6 +56,10 @@ function AppNavigator() {
         <Stack.Screen
           name='AutomaticPayScreen'
           component={AutomaticPayScreen}
+        />
+        <Stack.Screen
+          name='SelectPaymentMethodScreen'
+          component={SelectPaymentMethodScreen}
         />
         <Stack.Screen 
           name="Factura" 

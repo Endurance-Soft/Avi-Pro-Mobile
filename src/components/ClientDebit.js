@@ -30,7 +30,7 @@ const ClientDebit = ({ clientInfo }) => {
       <View style={clientDebitStyles.spaceButtons}>
         <SimpleButton
           text="Automático"
-          onPress={() => navigation.navigate("AutomaticPayScreen")}
+          onPress={() => navigation.navigate("SelectPaymentMethodScreen", { payMode: "automatico" })}
           width={screenWidth * 0.4}
         />
         <SimpleButton
