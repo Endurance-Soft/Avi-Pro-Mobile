@@ -23,7 +23,6 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
     const fetchUserData = async () => {
       try{
         const docRef = doc(database, 'cobradores', user);
-        console.log(docRef);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           await updateDoc(docRef, {[fieldName]: valueEdit});

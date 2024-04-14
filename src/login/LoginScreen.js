@@ -22,6 +22,8 @@ const LoginScreen = () => {
   const { setUser } = userStore();
   const addDocument = async (data) => {
     try{
+      const cobrador_id = Math.floor(Math.random() * 1000000);
+      data.cobrador_id = cobrador_id;
       const collectionRef = collection(database, 'cobradores');
       const docRef = await addDoc(collectionRef, data);
       return docRef.id;

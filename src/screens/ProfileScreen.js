@@ -9,8 +9,8 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import userStore from "../store/userStore"; 
-import {database} from "../../config/firebase";
+import userStore from "../store/userStore";
+import { database } from "../../config/firebase";
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { err } from "react-native-svg";
 
@@ -20,24 +20,25 @@ const ProfileScreen = ({ route }) => {
   const { username } = route.params;
   const navigation = useNavigation();
   const [animationKey, setAnimationKey] = useState(Date.now());
-  const {user, setUser} = userStore();
+  const { user, setUser } = userStore();
   const [userData, setUserData] = useState({});
 
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
     const docRef = doc(database, 'cobradores', user);
     const unsubscribe = onSnapshot(docRef, (doc) => {
       if (doc.exists()) {
         const data = doc.data();
-        const {nombre, empresa, email} = data;
-        setUserData({nombre, empresa, email});
+        const { nombre, empresa, email } = data;
+        setUserData({ nombre, empresa, email });
       } else {
         console.log('Ningun documento!');
-    }},(error) => {
+      }
+    }, (error) => {
       console.error("Error al obtener documento: ", error);
     });
-  },[user]);
+  }, [user]);
 
   useFocusEffect(
     useCallback(() => {
@@ -47,47 +48,49 @@ const ProfileScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Cascading delay={150} animationKey={animationKey}>
-      <View style={styles.headerAll}>
-        <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-          <Icon name="back" size={30} color="black" />
-        </TouchableOpacity>
+        <View style={styles.headerAll}>
+          <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
+            <Icon name="back" size={30} color="black" />
+          </TouchableOpacity>
+          <StyledText boldText style={styles.text}>Perfil</StyledText>
+          <View></View>
+        </View>
+        
         <Cascading delay={200} animationKey={animationKey}>
         <View style={styles.header}>
-          <StyledText boldText style={styles.text}>Perfil</StyledText>
           <Image source={imgprofile} style={styles.avatar}></Image>
           <StyledText boldText style={styles.text}>{userData.nombre}</StyledText>
           <StyledText regularText style={styles.textSub}>Cobrador</StyledText>
         </View>
-        </Cascading>
-      </View>
       </Cascading>
-      <View style={styles.containerInfo}>
-        <Cascading delay={200} animationKey={animationKey}>
-        <TouchableData
-          label="Nombre completo"
-          icon="person-circle-outline"
-          value={userData.nombre}
-          fieldName="nombre"
-        />
-        </Cascading>
-        <Cascading delay={300} animationKey={animationKey}>
-        <TouchableData
-          label="Empresa"
-          icon="business-outline"
-          value={userData.empresa}
-          fieldName="empresa"
-        />
-        </Cascading>
-        <Cascading delay={400} animationKey={animationKey}>
-        <TouchableData
-          label="Email"
-          icon="mail-open-outline"
-          value={userData.email}
-          fieldName="email"
-        />
-        </Cascading>
-      </View>
-    </SafeAreaView>
+      </Cascading>
+  <View style={styles.containerInfo}>
+    <Cascading delay={200} animationKey={animationKey}>
+      <TouchableData
+        label="Nombre completo"
+        icon="person-circle-outline"
+        value={userData.nombre}
+        fieldName="nombre"
+      />
+    </Cascading>
+    <Cascading delay={300} animationKey={animationKey}>
+      <TouchableData
+        label="Empresa"
+        icon="business-outline"
+        value={userData.empresa}
+        fieldName="empresa"
+      />
+    </Cascading>
+    <Cascading delay={400} animationKey={animationKey}>
+      <TouchableData
+        label="Email"
+        icon="mail-open-outline"
+        value={userData.email}
+        fieldName="email"
+      />
+    </Cascading>
+  </View>
+    </SafeAreaView >
   )
 };
 
@@ -97,10 +100,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: theme.colors.secondary,
   },
-  headerAll:{
-    padding: 20,
+  headerAll: {
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: screenWidth * 0.2,
     flexDirection: 'row',
-    gap: screenWidth*0.11,
+    justifyContent: 'space-between',
+    gap: screenWidth * 0.11,
   },
   back: {
     justifyContent: 'center',
@@ -113,7 +119,6 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 20,
   },
   text: {
     paddingVertical: 10,
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     color: theme.colors.slateGrey,
     fontSize: 16,
   },
-  containerInfo:{
+  containerInfo: {
     marginVertical: 20,
   }
 })
