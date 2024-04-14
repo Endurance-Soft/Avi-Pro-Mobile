@@ -11,7 +11,8 @@ import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import userStore from "../store/userStore"; 
 import {database} from "../../config/firebase";
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { err } from "react-native-svg";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -22,25 +23,20 @@ const ProfileScreen = ({ route }) => {
   const {user, setUser} = userStore();
   const [userData, setUserData] = useState({});
 
-  const fetchUserData = async () => {
-    try{
-      const docRef = doc(database, 'cobradores', user);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const { nombre, empresa, email } = data;
-        setUserData({ nombre, empresa, email });
-        console.log("Document data:", data);
-      } else {
-        console.log('Ningun documento!');
-      
-    }}catch(e){
-      console.error("Error al obtener documento: ", e);
-    }
-  };
 
   useEffect(() => {
-    fetchUserData();
+    if(!user) return;
+    const docRef = doc(database, 'cobradores', user);
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      if (doc.exists()) {
+        const data = doc.data();
+        const {nombre, empresa, email} = data;
+        setUserData({nombre, empresa, email});
+      } else {
+        console.log('Ningun documento!');
+    }},(error) => {
+      console.error("Error al obtener documento: ", error);
+    });
   },[user]);
 
   useFocusEffect(

@@ -18,23 +18,23 @@ const NewScreen = () => {
   const {user, setUser} = userStore();
   const [nombreF, setNombreF] = useState("");
 
-  const fetchUserData = async () => {
-    try{
-      const docRef = doc(database, 'cobradores', user);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const { nombre, empresa, email } = data;
-        setNombreF(nombre);
-      } else {
-        console.log('Ningun documento!');
-      
-    }}catch(e){
-      console.error("Error al obtener documento: ", e);
-    }
-  };
 
   useEffect(() => {
+    if(!user) return;
+    const docRef = doc(database, 'cobradores', user);
+    const fetchUserData = async () => {
+      try{
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const {nombre} = data;
+          setNombreF(nombre);
+        } else {
+          console.log('Ningun documento!');
+      }}catch(e){
+        console.error("Error al obtener documento: ", e);
+      }
+    };
     fetchUserData();
   },[user]);
 

@@ -1,17 +1,40 @@
 //TouchableData.js
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Text, StyleSheet, Dimensions, View, TouchableOpacity, TextInput } from 'react-native';
 import { theme } from "../../constants";
 import StyledText from "../utils/StyledText";
 const { height } = Dimensions.get('window');
 import { Ionicons } from "@expo/vector-icons";
+import userStore from "../store/userStore"; 
+import {database} from "../../config/firebase";
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const TouchableData = ({ label, icon, value, fieldName }) => {
   const [valueEdit, setValueEdit] = useState(value);
-  
+  const [updatedData, setUpdatedData] = useState(false);
+  const {user, setUser} = userStore();
+
   const handleEditPress = () => {
     // firebase.database().ref(`cobradores/${idCobrador}/${fieldName}`).set(valueEdit);
+    setUpdatedData(!updatedData);
   };
+
+  useEffect(()=> {
+    const fetchUserData = async () => {
+      try{
+        const docRef = doc(database, 'cobradores', user);
+        console.log(docRef);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          await updateDoc(docRef, {[fieldName]: valueEdit});
+        } else {
+          console.log('Ningun documento!');
+      }}catch(e){
+        console.error("Error al obtener documento: ", e);
+      }
+    };
+    fetchUserData();
+  }, [updatedData, fieldName]);
 
   return (
     <View style={styles.container}>
@@ -34,7 +57,7 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
           />
         </View>
       </View>
-      <TouchableOpacity onPress={this.handleEditPress}>
+      <TouchableOpacity onPress={handleEditPress}>
         <StyledText regularText style={styles.textLink}>Editar </StyledText>
       </TouchableOpacity>
     </View>
