@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 export default{
   expo: {
     name: "avi-pro-mobile",
@@ -35,8 +33,13 @@ export default{
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.endurancesoft.avipromobile"
+      package: "com.endurancesoft.avipromobile",
+      googleServicesFile: "./google-services.json",
     },
+    plugins: [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+    ],
     web: {
       favicon: "./assets/favicon.png"
     },
@@ -45,13 +48,6 @@ export default{
         projectId: "68722059-896d-4f90-9039-57984284a8d6",
         owner: "endurancesoft",
       },
-      apiKey: process.env.API_KEY,
-      authDomain: process.env.AUTH_DOMAIN,
-      projectId: process.env.PROJECT_ID,
-      storageBucket: process.env.STORAGE_BUCKET,
-      messagingSenderId: process.env.MESSAGING_SENDER_ID,
-      appId: process.env.APP_ID,
-      measurementId: process.env.MEASUREMENT_ID,
       }
   },
 };
