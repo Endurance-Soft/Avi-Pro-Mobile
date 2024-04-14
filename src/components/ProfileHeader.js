@@ -59,7 +59,7 @@ const ProfileHeader = ({ userName }) => {
             onPress={() => handleDisabledClick("Pedidos")}
             disabled={true}
           >
-            <Icon name="list-alt" size={40} color="#768DAD" />
+            <Icon name="list-alt" size={40} color="#8097B6" />
             <Text style={styles.buttonText2}>Pedidos</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -67,7 +67,7 @@ const ProfileHeader = ({ userName }) => {
             onPress={() => handleDisabledClick("Ventas")}
             disabled={true}
           >
-            <Icon name="line-chart" size={40} color="#768DAD" />
+            <Icon name="line-chart" size={40} color="#8097B6" />
             <Text style={styles.buttonText2}>Ventas</Text>
           </TouchableOpacity>
         </View>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
   },
   disabledButton: {
-    backgroundColor: '#A3C1EB',
+    backgroundColor: '#A0BEE4',
   },
   buttonText: {
     marginTop: 3,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   buttonText2: {
     marginTop: 3,
     fontWeight: 'bold',
-    color: '#768DAD',
+    color: '#8097B6',
   },
 });
 
