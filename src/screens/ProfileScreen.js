@@ -1,5 +1,5 @@
 //ProfileScreen.js
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Dimensions, Image, SafeAreaView } from "react-native";
 import StyledText from "../utils/StyledText";
 import { theme } from "../assets/Theme";
