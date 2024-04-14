@@ -45,7 +45,7 @@ useEffect(() => {
 		  return;
 		}
 		setMessage(false);
-		navigation.navigate("LoginScreen")
+		navigation.replace("LoginScreen")
 	}
 
 	const navigation = useNavigation();

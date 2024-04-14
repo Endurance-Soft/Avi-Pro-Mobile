@@ -50,7 +50,7 @@ const LoginScreen = () => {
         console.error("Error adding document: ", error);
       });
 
-    navigation.navigate("NewScreen")
+    navigation.replace("NewScreen")
   }
 
   const navigation = useNavigation();
