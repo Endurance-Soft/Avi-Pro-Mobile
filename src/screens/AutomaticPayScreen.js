@@ -17,6 +17,9 @@ const screenHeight = Dimensions.get("window").height;
 const PayScreen = ({ route }) => {
     const navigation = useNavigation();
     //const { itemClient } = route.params;
+    const { note } = route.params;
+    const { payMode } = route.params;
+    const { criteria } = route.params;
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {

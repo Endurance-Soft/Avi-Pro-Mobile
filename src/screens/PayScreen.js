@@ -28,9 +28,6 @@ const PayScreen = ({ route }) => {
         setSelectedCurrency(option);
     };
 
-    const [selectedPayMode, setSelectedPayMode] = useState('Al Contado');
-    const payModes = ['Al Contado', 'Cheque', 'Banco'];
-
     const [selectedCash, setSelectedCash] = useState('CTA 1239123234');
     const cash_accounts = ['CTA 1239123234', 'CTA 1239123235', 'CTA 1239123236'];
 
@@ -111,14 +108,6 @@ const PayScreen = ({ route }) => {
                 onOptionChange={handleCurrencyChange}
             />
             </View>
-            
-            <View style={styles.lineForm}>
-            <DropdownSelector2
-                title="Modo de Pago"
-                options={payModes}
-                selectedOption={selectedPayMode}
-                onOptionChange={setSelectedPayMode}
-            />
             <InputField 
                 control={control}
                 name="advancePaymentNumber"
@@ -133,7 +122,6 @@ const PayScreen = ({ route }) => {
                 }}
                 errors={errors} 
             />
-            </View>
             <InputField 
                 control={control}
                 name="checkBankNumber"
