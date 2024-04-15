@@ -8,6 +8,7 @@ import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
+import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ActivationScreen from '../login/ActivationScreen';
 import LoginScreen from '../login/LoginScreen';
@@ -112,6 +113,11 @@ function StackNavigator() {
         <Stack.Screen 
           name="Factura" 
           component={FacturaScreen}
+        />
+        <Stack.Screen 
+          name="Factura" 
+          component={FacturaScreen} 
+          options={{ headerShown: false }} 
         />
         <Stack.Screen
           name='ProfileScreen'
