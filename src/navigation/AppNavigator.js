@@ -12,6 +12,8 @@ import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import OthersScreen from '../screens/OthersScreen';
+import ActivationScreen from '../screens/ActivationScreen';
+import LoginScreen from '../screens/LoginScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../assets/Theme';
 
@@ -27,7 +29,7 @@ const TabIcon = ({ name, color, size }) => {
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NewScreen" 
+      <Stack.Navigator initialRouteName="ActivationScreen" 
       screenOptions={{
       animationEnabled: false,
       headerShown: false,
@@ -63,6 +65,14 @@ function AppNavigator() {
         <Stack.Screen
           name='ProfileScreen'
           component={ProfileScreen}
+        />
+        <Stack.Screen
+          name='ActivationScreen'
+          component={ActivationScreen}
+        />
+        <Stack.Screen
+          name='LoginScreen'
+          component={LoginScreen}
         />
       </Stack.Navigator>    
     </NavigationContainer>
