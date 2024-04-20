@@ -26,7 +26,7 @@ const NewScreen = () => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          const {nombre} = data;
+          const {nombre, email, cobrador_id, empresa} = data;
           setNombreF(nombre);
         } else {
           console.log('Ningun documento!');

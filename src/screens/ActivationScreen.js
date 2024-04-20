@@ -4,8 +4,9 @@ import { Image, TouchableOpacity, StyleSheet, View, Text, TextInput, Dimensions 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../assets/Theme";
 import { useNavigation } from "@react-navigation/native";
-import { database } from "../../config/firebase";
-import { collection, getDocs } from 'firebase/firestore';
+import { db } from "../../config/firebase";
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+
 import StyledText from "../utils/StyledText";
 
 const windowWidth = Dimensions.get('window').width;
@@ -15,35 +16,42 @@ const ActivationScreen = () => {
 	const [message, setMessage] = useState(false);
 	const [codes, setCodes] = useState([]);
 
-const fecthData = async () => {
-  try {
-    const querySnapshot = await getDocs(collection(database, 'codigoActivacion'));
-    const newCodes = [];
-    querySnapshot.forEach((doc) => {
-      const codigo = doc.data().codigo;
-      if (!codes.includes(codigo)) {
-        newCodes.push(codigo);
-      }
-    });
-    setCodes(prevCodes => [...prevCodes, ...newCodes]);
-  } catch (error) {
-    console.error('Error al recuperar documentos:', error);
-  }
-};
+	const fecthData = async () => {
+		try {
+			const querySnapshot = await getDocs(collection(db, 'codigoActivacion'));
+			const newCodes = [];
+			querySnapshot.forEach((doc) => {
+				const codigo = doc.data().codigo;
+				const used = doc.data().visto;
+				if (!codes.includes(codigo) && !used) {
+					newCodes.push(codigo);
+				}
+			});
+			setCodes(prevCodes => [...prevCodes, ...newCodes]);
+		} catch (error) {
+			console.error('Error al recuperar documentos:', error);
+		}
+	};
 
-useEffect(() => {
-  fecthData();
-}, []);
+	useEffect(() => {
+		fecthData();
+	}, []);
 
-	const handleSend = () => {
-		if(activationCode.length === 0){
+	const handleSend = async () => {
+		if (activationCode.length === 0) {
 			alert("Por favor llene todos los campos");
 			return;
 		}
-		if(!codes.includes(activationCode)){  
-		  setMessage(true);
-		  return;
+		if (!codes.includes(activationCode)) {
+			setMessage(true);
+			return;
 		}
+		const codeDocum = codes.find(code => code === activationCode);
+		if(codeDocum){
+			const codeRef = doc(db, 'codigoActivacion', codeDocum.id);
+			await updateDoc(codeRef, { usado: true });
+		}
+
 		setMessage(false);
 		navigation.replace("LoginScreen")
 	}
@@ -57,21 +65,21 @@ useEffect(() => {
 			</View>
 			<View>
 				<StyledText style={styles.title}>Avi Pro Mobile</StyledText>
-				<StyledText  style={styles.subtitle}>Clave de activación</StyledText>
-				<TextInput 
-					placeholder="XXXX - XXXX - XXXX - XXXX" 
-					style={styles.label} 
-					onChange={(code) =>{ setActivationCode(code.nativeEvent.text)}}
+				<StyledText style={styles.subtitle}>Clave de activación</StyledText>
+				<TextInput
+					placeholder="XXXX - XXXX - XXXX - XXXX"
+					style={styles.label}
+					onChange={(code) => { setActivationCode(code.nativeEvent.text) }}
 					value={activationCode}
 					keyboardType="default"
 					autoCapitalize="characters"
 				/>
-				{message && <StyledText  style={styles.errorFormat}>La clave de activación es incorrecta</StyledText>}
-				<StyledText  style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</StyledText>
+				{message && <StyledText style={styles.errorFormat}>La clave de activación es incorrecta</StyledText>}
+				<StyledText style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</StyledText>
 				<TouchableOpacity onPress={handleSend} style={styles.button}>
-					<StyledText  style={styles.continueButton}>Continuar</StyledText>
+					<StyledText style={styles.continueButton}>Continuar</StyledText>
 				</TouchableOpacity>
-				<StyledText  style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</StyledText>
+				<StyledText style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</StyledText>
 			</View>
 
 		</SafeAreaView>
@@ -113,10 +121,10 @@ const styles = StyleSheet.create({
 		marginVertical: 18,
 	},
 	errorFormat: {
-    color: 'red',
-    fontSize: 13,
-    marginTop: -8,
-  },
+		color: 'red',
+		fontSize: 13,
+		marginTop: -8,
+	},
 	button: {
 		backgroundColor: theme.colors.tertiary,
 		alignItems: 'center',
