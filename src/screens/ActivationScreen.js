@@ -8,6 +8,7 @@ import { db } from "../../config/firebase";
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 
 import StyledText from "../utils/StyledText";
+import { set } from "date-fns";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,10 +22,16 @@ const ActivationScreen = () => {
 			const querySnapshot = await getDocs(collection(db, 'codigoActivacion'));
 			const newCodes = [];
 			querySnapshot.forEach((doc) => {
+        console.log(doc.id);
 				const codigo = doc.data().codigo;
-				const used = doc.data().visto;
+				const used = doc.data().activo;
+        const codigoConId = {
+          id: doc.id,
+          codigo: codigo,
+          activo: used
+        }
 				if (!codes.includes(codigo) && !used) {
-					newCodes.push(codigo);
+					newCodes.push(codigoConId);
 				}
 			});
 			setCodes(prevCodes => [...prevCodes, ...newCodes]);
@@ -42,18 +49,19 @@ const ActivationScreen = () => {
 			alert("Por favor llene todos los campos");
 			return;
 		}
-		if (!codes.includes(activationCode)) {
+    const codeDocum = codes.find(code => code.codigo === activationCode);
+		if (!codeDocum) {
 			setMessage(true);
 			return;
 		}
-		const codeDocum = codes.find(code => code === activationCode);
-		if(codeDocum){
-			const codeRef = doc(db, 'codigoActivacion', codeDocum.id);
-			await updateDoc(codeRef, { usado: true });
-		}
-
-		setMessage(false);
-		navigation.replace("LoginScreen")
+		const docRef = doc(db, 'codigoActivacion', codeDocum.id);
+		try{
+      await updateDoc(docRef, { activo: true });
+      setMessage(false);
+      navigation.replace("LoginScreen");
+    }catch(e){
+      setMessage(true);
+    }
 	}
 
 	const navigation = useNavigation();
