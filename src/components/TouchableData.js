@@ -26,12 +26,14 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
     const fetchUserData = async () => {
       try{
         if (valueEdit === undefined) {
-          console.error(`valueEdit is undefined for field ${fieldName}`);
+          console.log(`valueEdit is undefined for field ${fieldName}`);
           return;
+        }else{
+          const docRef = doc(db, 'cobradores', user.idDoc);
+          console.log(docRef.id, "si se obtiene");
+          await updateDoc(docRef, {[fieldName]: valueEdit});
         }
-        const docRef = doc(db, 'cobradores', user.idDoc);
-        console.log(docRef.id, "si se obtiene");
-        await updateDoc(docRef, {[fieldName]: valueEdit});
+       
         }catch(e){
         console.error("Error al obtener documento: ", e);
       }
