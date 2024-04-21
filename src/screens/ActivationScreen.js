@@ -6,9 +6,8 @@ import { theme } from "../assets/Theme";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../../config/firebase";
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-
+import userStore from "../stores/userStore";
 import StyledText from "../utils/StyledText";
-import { set } from "date-fns";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -16,20 +15,24 @@ const ActivationScreen = () => {
 	const [activationCode, setActivationCode] = useState("");
 	const [message, setMessage] = useState(false);
 	const [codes, setCodes] = useState([]);
+	const { setEmpresa } = userStore(state => ({
+		setEmpresa: state.setEmpresa
+	}));
 
 	const fecthData = async () => {
 		try {
 			const querySnapshot = await getDocs(collection(db, 'codigoActivacion'));
 			const newCodes = [];
 			querySnapshot.forEach((doc) => {
-        console.log(doc.id);
+				console.log(doc.id);
 				const codigo = doc.data().codigo;
 				const used = doc.data().activo;
-        const codigoConId = {
-          id: doc.id,
-          codigo: codigo,
-          activo: used
-        }
+				const codigoConId = {
+					id: doc.id,
+					codigo: codigo,
+					activo: used,
+					empresa: doc.data().empresa_id  //nombre directamente
+				}
 				if (!codes.includes(codigo) && !used) {
 					newCodes.push(codigoConId);
 				}
@@ -49,19 +52,20 @@ const ActivationScreen = () => {
 			alert("Por favor llene todos los campos");
 			return;
 		}
-    const codeDocum = codes.find(code => code.codigo === activationCode);
+		const codeDocum = codes.find(code => code.codigo === activationCode);
 		if (!codeDocum) {
 			setMessage(true);
 			return;
 		}
 		const docRef = doc(db, 'codigoActivacion', codeDocum.id);
-		try{
-      await updateDoc(docRef, { activo: true });
-      setMessage(false);
-      navigation.replace("LoginScreen");
-    }catch(e){
-      setMessage(true);
-    }
+		try {
+			await updateDoc(docRef, { activo: true });
+			setMessage(false);
+			setEmpresa(codeDocum.empresa);
+			navigation.replace("LoginScreen");
+		} catch (e) {
+			setMessage(true);
+		}
 	}
 
 	const navigation = useNavigation();

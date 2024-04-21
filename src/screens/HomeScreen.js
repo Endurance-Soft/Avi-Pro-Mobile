@@ -8,25 +8,32 @@ import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import userStore from "../stores/userStore"; 
-import {database} from "../../config/firebase";
+import {db} from "../../config/firebase";
 import { doc, getDoc } from 'firebase/firestore';
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
   const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
   const title = 'Actividad';
-  const {user, setUser} = userStore();
+  const {user, setUser} = userStore(state =>({
+    user: state.user,
+    setUser: state.setUser
+  })
+  );
   const [nombreF, setNombreF] = useState("");
 
   useEffect(() => {
-    if(!user) return;
-    const docRef = doc(database, 'cobradores', user);
+    if(!user){ 
+      return;
+    }else{
+    const docRef = doc(db, 'cobradores', user.idDoc);
     const fetchUserData = async () => {
       try{
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
+          console.log('Document data:', docSnap.data());
           const data = docSnap.data();
-          const {nombre, email, cobrador_id, empresa} = data;
+          const {nombre} = data;
           setNombreF(nombre);
         } else {
           console.log('Ningun documento!');
@@ -34,7 +41,7 @@ const NewScreen = () => {
         console.error("Error al obtener documento: ", e);
       }
     };
-    fetchUserData();
+    fetchUserData();}
   },[user]);
 
   const HISTORY_DATA = [
