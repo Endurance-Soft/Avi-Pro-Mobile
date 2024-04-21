@@ -33,7 +33,7 @@ const ActivationScreen = () => {
 					activo: used,
 					empresa: doc.data().empresa_id  //nombre directamente
 				}
-				if (!codes.includes(codigo) && !used) {
+				if (!codes.includes(codigo) && used) {
 					newCodes.push(codigoConId);
 				}
 			});
@@ -59,7 +59,7 @@ const ActivationScreen = () => {
 		}
 		const docRef = doc(db, 'codigoActivacion', codeDocum.id);
 		try {
-			await updateDoc(docRef, { activo: true });
+			await updateDoc(docRef, { activo: false });
 			setMessage(false);
 			setEmpresa(codeDocum.empresa);
 			navigation.replace("LoginScreen");
