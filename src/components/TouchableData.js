@@ -30,7 +30,6 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
           return;
         }else{
           const docRef = doc(db, 'cobradores', user.idDoc);
-          console.log(docRef.id, "si se obtiene");
           await updateDoc(docRef, {[fieldName]: valueEdit});
         }
        

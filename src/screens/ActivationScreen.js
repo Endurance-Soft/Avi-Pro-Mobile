@@ -24,7 +24,6 @@ const ActivationScreen = () => {
 			const querySnapshot = await getDocs(collection(db, 'codigoActivacion'));
 			const newCodes = [];
 			querySnapshot.forEach((doc) => {
-				console.log(doc.id);
 				const codigo = doc.data().codigo;
 				const used = doc.data().activo;
 				const codigoConId = {
