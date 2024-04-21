@@ -10,6 +10,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import userStore from "../stores/userStore"; 
 import {db} from "../../config/firebase";
 import { doc, getDoc } from 'firebase/firestore';
+import shallow from 'zustand/shallow';
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
@@ -23,7 +24,8 @@ const NewScreen = () => {
   const [nombreF, setNombreF] = useState("");
 
   useEffect(() => {
-    if(!user){ 
+    if(!user || !user.idDoc){ 
+      console.log('Usuario no definido o ID de documento no definido.');
       return;
     }else{
     const docRef = doc(db, 'cobradores', user.idDoc);
@@ -31,7 +33,7 @@ const NewScreen = () => {
       try{
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data());
+          console.log('Document data:', docSnap.data());  //raro porque sin esto no funciona
           const data = docSnap.data();
           const {nombre} = data;
           setNombreF(nombre);
@@ -42,7 +44,7 @@ const NewScreen = () => {
       }
     };
     fetchUserData();}
-  },[user]);
+  },[user?.idDoc, user?.nombre]);
 
   const HISTORY_DATA = [
     {

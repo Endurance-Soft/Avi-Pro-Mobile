@@ -27,9 +27,10 @@ const LoginScreen = () => {
     try{
       const cobrador_id = Math.floor(Math.random() * 1000000);
       data.cobrador_id = cobrador_id;
-      data.empresa_id = user.empresa;
+      data.empresa_id = user.empresa_id;
       const collectionRef = collection(db, 'cobradores');
       const docRef = await addDoc(collectionRef, data);
+      console.log("Document written with ID: ", docRef.id, docRef);
       return docRef.id;
     }catch(e){
       console.error("Error adding document why: ", e);

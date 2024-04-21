@@ -45,7 +45,7 @@ const ActivationScreen = () => {
 
 	useEffect(() => {
 		fecthData();
-	}, []);
+	}, [db]);
 
 	const handleSend = async () => {
 		if (activationCode.length === 0) {
