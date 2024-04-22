@@ -6,13 +6,16 @@ import StyledText from "../utils/StyledText";
 const { height } = Dimensions.get('window');
 import { Ionicons } from "@expo/vector-icons";
 import userStore from "../stores/userStore"; 
-import {database} from "../../config/firebase";
+import {db} from "../../config/firebase";
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const TouchableData = ({ label, icon, value, fieldName }) => {
   const [valueEdit, setValueEdit] = useState(value);
   const [updatedData, setUpdatedData] = useState(false);
-  const {user, setUser} = userStore();
+  const {user, setUser} = userStore(state => ({
+    user: state.user,
+    setUser: state.setUser
+  }));
 
   const handleEditPress = () => {
     // firebase.database().ref(`cobradores/${idCobrador}/${fieldName}`).set(valueEdit);
@@ -22,18 +25,20 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
   useEffect(()=> {
     const fetchUserData = async () => {
       try{
-        const docRef = doc(database, 'cobradores', user);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
+        if (valueEdit === undefined) {
+          console.log(`valueEdit is undefined for field ${fieldName}`);
+          return;
+        }else{
+          const docRef = doc(db, 'cobradores', user.idDoc);
           await updateDoc(docRef, {[fieldName]: valueEdit});
-        } else {
-          console.log('Ningun documento!');
-      }}catch(e){
+        }
+       
+        }catch(e){
         console.error("Error al obtener documento: ", e);
       }
     };
     fetchUserData();
-  }, [updatedData, fieldName]);
+  }, [updatedData, fieldName, valueEdit]);
 
 
   return (
@@ -47,7 +52,7 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
           <TextInput 
             style={styles.text}
             onChangeText={name => {
-              if(name.length <= 30 && name.match("^[a-zA-Z ]*$")){
+              if(name.length <= 30){
                  setValueEdit(name);
               }}
             }
@@ -58,7 +63,7 @@ const TouchableData = ({ label, icon, value, fieldName }) => {
         </View>
       </View>
       <TouchableOpacity onPress={handleEditPress}>
-        <StyledText regularText style={styles.textLink}>Editar </StyledText>
+        <StyledText regularText style={styles.textLink}>Guardar </StyledText>
       </TouchableOpacity>
     </View>
   );

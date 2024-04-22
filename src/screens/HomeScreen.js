@@ -8,23 +8,32 @@ import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import userStore from "../stores/userStore"; 
-import {database} from "../../config/firebase";
+import {db} from "../../config/firebase";
 import { doc, getDoc } from 'firebase/firestore';
+import shallow from 'zustand/shallow';
 
 const NewScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Hoy");
   const OPCIONES = ['Hoy', 'Esta Semana', 'Este Mes', 'Todo'];
   const title = 'Actividad';
-  const {user, setUser} = userStore();
+  const {user, setUser} = userStore(state =>({
+    user: state.user,
+    setUser: state.setUser
+  })
+  );
   const [nombreF, setNombreF] = useState("");
 
   useEffect(() => {
-    if(!user) return;
-    const docRef = doc(database, 'cobradores', user);
+    if(!user || !user.idDoc){ 
+      console.log('Usuario no definido o ID de documento no definido.');
+      return;
+    }else{
+    const docRef = doc(db, 'cobradores', user.idDoc);
     const fetchUserData = async () => {
       try{
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
+          console.log('Document data:', docSnap.data());  //raro porque sin esto no funciona
           const data = docSnap.data();
           const {nombre} = data;
           setNombreF(nombre);
@@ -34,8 +43,8 @@ const NewScreen = () => {
         console.error("Error al obtener documento: ", e);
       }
     };
-    fetchUserData();
-  },[user]);
+    fetchUserData();}
+  },[user?.idDoc, user?.nombre]);
 
   const HISTORY_DATA = [
     {

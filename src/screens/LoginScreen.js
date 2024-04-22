@@ -3,10 +3,9 @@ import React, { useState } from "react";
 import { Image, TouchableOpacity, StyleSheet, SafeAreaView, View, Text, ScrollView,TextInput, Dimensions, KeyboardAvoidingView } from "react-native";
 import {theme} from "../assets/Theme";
 import { useNavigation } from "@react-navigation/native";
-import {database} from "../../config/firebase";
+import {db} from "../../config/firebase";
 import { collection, addDoc } from 'firebase/firestore';
 import StyledText from "../utils/StyledText";
-import InputField from "../components/InputField.js";
 import userStore from "../stores/userStore"; 
 
 const windowWidth = Dimensions.get('window').width;
@@ -16,24 +15,30 @@ const LoginScreen = () => {
   const [info, setInfo] = useState({
     email: "", 
     nombre: "", 
-    empresa: ""
   });
   const [message, setMessage] = useState(false);
-  const { setUser } = userStore();
+  const { user, setUser, setUserId, setName } = userStore(state => ({
+    user: state.user,
+    setUser: state.setUser,
+    setUserId: state.setUserId,
+    setName: state.setName,
+  }));
   const addDocument = async (data) => {
     try{
       const cobrador_id = Math.floor(Math.random() * 1000000);
       data.cobrador_id = cobrador_id;
-      const collectionRef = collection(database, 'cobradores');
+      data.empresa_id = user.empresa_id;
+      const collectionRef = collection(db, 'cobradores');
       const docRef = await addDoc(collectionRef, data);
+      console.log("Document written with ID: ", docRef.id, docRef);
       return docRef.id;
     }catch(e){
-      console.error("Error adding document: ", e);
+      console.error("Error adding document why: ", e);
     }
     
   };
   const handleSend = () => {
-    if(info.email.length === 0 || info.nombre.length === 0 || info.empresa.length === 0){
+    if(info.email.length === 0 || info.nombre.length === 0 ){
       alert("Por favor llene todos los campos");
       return;
     }
@@ -46,7 +51,8 @@ const LoginScreen = () => {
     addDocument(info)
       .then((id) => {
         console.log("Document added with ID: ", id);
-        setUser(id);
+        setUserId(id);
+        setName(info.nombre);
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
@@ -78,18 +84,7 @@ const LoginScreen = () => {
           value={info.nombre}
           keyboardType="default"
         />
-        <StyledText boldText style={styles.subtitle}>Empresa</StyledText>
-        <TextInput 
-          placeholder="Empresa" 
-          style={styles.label} 
-          onChangeText={lastname => {
-            if(lastname.length <= 30 && lastname.match("^[a-zA-Z ]*$")){
-               setInfo({...info, empresa: lastname});
-            }}
-          }
-          value={info.empresa}
-          keyboardType="default"
-        />
+
         <StyledText boldText style={styles.subtitle}>Correo Electronico</StyledText>
         <TextInput 
           placeholder="Correo Electronico" 
