@@ -37,7 +37,7 @@ const PayScreen = ({ route }) => {
     const banks = ['BNB 1213434789', 'BCP 4432765343', 'CTA 1239123234'];
 
     const [selectedPay, setSelectedPay] = useState('PEPS');
-    const payMode = ['Primera Nota en entrar Primera en Pagar', 'Ultima Nota en entrar Primera en Pagar', 'De mayor importe a menor', 'De menor importe a mayor' ]; 
+    const payModes = ['Primera Nota en entrar Primera en Pagar', 'Ultima Nota en entrar Primera en Pagar', 'De mayor importe a menor', 'De menor importe a mayor' ]; 
 
     const {
         control,
