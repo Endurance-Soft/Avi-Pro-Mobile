@@ -50,7 +50,6 @@ const NewScreen = () => {
           const {nombre} = data;
           setNombreF(nombre);
         } else {
-          console.log('Ningun documento!');
       }}catch(e){
         console.error("Error al obtener documento: ", e);
       }
@@ -133,14 +132,14 @@ const NewScreen = () => {
           />
         </Cascading>
       </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 20 }}>
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 20 }}>
         <Button title="Log Clientes" onPress={logClientes} />
         <Button title="Log Notas" onPress={logNotasPendientes} />
         <Button title="Combinar" onPress={() => {
           useStore.getState().combinarClientesConNotas();
           setTimeout(logClientesConNotas, 0);
         }} />
-      </View>
+      </View> */}
       <View style={styles.listContainer}>
         <FlatList
           data={HISTORY_DATA}

@@ -12,14 +12,14 @@ const useStore = create((set, get) => ({
       const clientes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       set({ clientes });
       get().combinarClientesConNotas();
-      console.log("Clientes actualizados en tiempo real");
+      // console.log("Clientes actualizados en tiempo real");
     });
 
     const unsubscribeNotas = onSnapshot(collection(db, 'notas_pendientes'), (snapshot) => {
       const notasPendientes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       set({ notasPendientes });
       get().combinarClientesConNotas();
-      console.log("Notas pendientes actualizadas en tiempo real");
+      // console.log("Notas pendientes actualizadas en tiempo real");
     });
 
     return () => {
@@ -46,7 +46,7 @@ const useStore = create((set, get) => ({
     });
 
     set({ clientesConNotas });
-    console.log("Clientes con notas pendientes combinados y actualizados en el estado.");
+    // console.log("Clientes con notas pendientes combinados y actualizados en el estado.");
   }
 
 }));
