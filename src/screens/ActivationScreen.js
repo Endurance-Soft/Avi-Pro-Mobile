@@ -15,9 +15,10 @@ const ActivationScreen = () => {
 	const [activationCode, setActivationCode] = useState("");
 	const [message, setMessage] = useState(false);
 	const [codes, setCodes] = useState([]);
-	const { setEmpresa } = userStore(state => ({
-		setEmpresa: state.setEmpresa
-	}));
+	const { setEmpresa, setUser } = userStore(state => ({
+        setEmpresa: state.setEmpresa,
+        setUser: state.setUser
+    }));
 
 	const fecthData = async () => {
 		try {
@@ -68,6 +69,15 @@ const ActivationScreen = () => {
 	}
 
 	const navigation = useNavigation();
+
+	const handleSkip = () => {
+        setUser({
+            idDoc: "generic_id",
+            nombre: "Generic User",
+            empresa_id: "generic_empresa"
+        });
+        navigation.navigate("NewScreen");
+    };
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.containerImgs}>
@@ -90,6 +100,9 @@ const ActivationScreen = () => {
 				<TouchableOpacity onPress={handleSend} style={styles.button}>
 					<StyledText style={styles.continueButton}>Continuar</StyledText>
 				</TouchableOpacity>
+				<TouchableOpacity onPress={handleSkip} style={styles.button}>
+                    <StyledText style={styles.continueButton}>Saltar</StyledText>
+                </TouchableOpacity>
 				<StyledText style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</StyledText>
 			</View>
 

@@ -1,5 +1,5 @@
 //ClientPayment.js
-import React, { useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from 'react-native';
 import { theme } from '../assets/Theme';
 import { useNavigation } from '@react-navigation/native';
@@ -12,14 +12,31 @@ import { useFocusEffect } from "@react-navigation/native";
 import ClientItem from "../components/ClientItem";
 import StyledText from "../utils/StyledText";
 const windowWidth = Dimensions.get('window').width;
+import useStore from '../stores/store';
 
 const ClientPaymentScreen = ({ route }) => {
+  const { itemClient } = route.params;
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
-  const { itemClient } = route.params;
+  const clientesConNotas = useStore((state) => state.clientesConNotas);
+  const [clientData, setClientData] = useState(null);
   const title = 'Notas';
   const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
   const [animationKey, setAnimationKey] = useState(Date.now());
+  
+  useEffect(() => {
+    const accountId = itemClient.Cuenta.trim();
+    const data = clientesConNotas.find(client => client.Cuenta.trim() === accountId);
+    setClientData(data);
+  
+    if (data) {
+      console.log("Datos del cliente obtenidos:", JSON.stringify(data, null, 2));
+    } else {
+      console.log("No se encontraron datos para la cuenta:", accountId);
+    }
+  }, [itemClient, clientesConNotas]);;
+  
+
   useFocusEffect(
     useCallback(() => {
       setAnimationKey(Date.now());
@@ -36,37 +53,39 @@ const ClientPaymentScreen = ({ route }) => {
       <NoteItem note={item} onSelect={() => {}}/>
     </Cascading>
   );
-  
+  if (!clientData) {
+    return <Text>Cargando datos...</Text>;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>
-      <Cascading delay={100} animationKey={animationKey}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.back} onPress={() => navigation.navigate("ClientSearchScreen")}>
-            <Icon name="back" size={30} color="black" />
-          </TouchableOpacity>
-          <View style={styles.headerCenter}>
-            <View style={styles.text}>
-              <StyledText boldTextUpper>{itemClient.Nombre}</StyledText>
+        <Cascading delay={100} animationKey={animationKey}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.back} onPress={() => navigation.navigate("ClientSearchScreen")}>
+              <Icon name="back" size={30} color="black" />
+            </TouchableOpacity>
+            <View style={styles.headerCenter}>
+              <View style={styles.text}>
+                <StyledText boldTextUpper>{clientData.Nombre}</StyledText>
+              </View>
             </View>
           </View>
-        </View>
         </Cascading>
         <Cascading delay={200} animationKey={animationKey}>
-        <ClientDebit clientInfo={itemClient} />
+          <ClientDebit clientInfo={clientData} />
         </Cascading>
         <Cascading delay={300} animationKey={animationKey}>
-        <DropdownSelector
-          title={title}
-          options={OPCIONES}  
-          selectedOption= {selectedOption}
-          onOptionChange= {handleOptionChange}
-        />
+          <DropdownSelector
+            title={title}
+            options={OPCIONES}  
+            selectedOption={selectedOption}
+            onOptionChange={handleOptionChange}
+          />
         </Cascading>
       </View>
       <View style={styles.listContainer}>
         <FlatList
-            data={itemClient.NotasPendientes}
+            data={clientData.NotasPendientes}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             ListHeaderComponent={<View style={{ height: 10 }} />}
