@@ -1,11 +1,13 @@
-import React from "react";
-import { MenuProvider } from "react-native-popup-menu";
-import AppNavigator from "./src/navigation/AppNavigator";
+import React from 'react';
+import { Button, View } from 'react-native';
+import { MenuProvider } from 'react-native-popup-menu';
+import AppNavigator from './src/navigation/AppNavigator';
 
 const App = () => {
+
   return (
     <MenuProvider>
-      <AppNavigator/>
+      <AppNavigator />
     </MenuProvider>
   );
 };
