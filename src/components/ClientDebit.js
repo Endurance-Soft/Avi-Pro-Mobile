@@ -20,7 +20,6 @@ const ClientDebit = ({ clientInfo }) => {
       0
     ).toFixed(2)
   );
-  console.log("ClientDebit.js: vBalance: ", vBalance, "clientInfo: ", clientInfo);
   const navigation = useNavigation();
 
   return (

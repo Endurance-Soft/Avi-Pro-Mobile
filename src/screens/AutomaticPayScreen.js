@@ -39,9 +39,9 @@ const AutomaticPayScreen = ({ route }) => {
       );
     useEffect(()=> {
         if(criteria == "PEPS"){
-            setDataAll(clientInfo.NotasPendientes.sort((a, b) => a.Fecha - b.Fecha));
+            setDataAll(clientInfo.NotasPendientes.sort((a, b) => b.Fecha - a.Fecha));
          }else if(criteria == "UEPS"){
-           setDataAll(clientInfo.NotasPendientes.sort((a, b) => b.Fecha - a.Fecha));
+           setDataAll(clientInfo.NotasPendientes.sort((a, b) => a.Fecha - b.Fecha));
          }else if(criteria == "MayorMenor"){
            setDataAll(clientInfo.NotasPendientes.sort((a, b) => b.Saldo_pendiente - a.Saldo_pendiente));
          }else{
@@ -82,62 +82,38 @@ const AutomaticPayScreen = ({ route }) => {
     const onSubmit = (data) => {
         console.log(data);
         let index = 0;
-        let auxiAmount = data.amount;
         while(index < dataAll.length && data.amount > 0){
-            auxiAmount = data.amount;
-            if(data.amount > dataAll[index].Saldo_pendiente){
-                data.amount -= dataAll[index].Saldo_pendiente;
-                dataAll[index].Saldo_pendiente = 0;
-                dataAll[index].Monto_pagado = dataAll[index].importe_nota;
-            }else{
-                dataAll[index].Saldo_pendiente -= data.amount;
-                dataAll[index].Monto_pagado += data.amount;
-                data.amount = 0;
+            if(dataAll[index].Saldo_pendiente === 0){}else{
+                if(data.amount > dataAll[index].Saldo_pendiente){
+                    data.amount -= dataAll[index].Saldo_pendiente;
+                    dataAll[index].Saldo_pendiente = 0;
+                    dataAll[index].Monto_pagado = parseFloat(dataAll[index].importe_nota);
+                }else{
+                    dataAll[index].Saldo_pendiente -= parseFloat(data.amount);
+                    dataAll[index].Monto_pagado += parseFloat(data.amount);
+                    data.amount = 0;
+                }
+                updateNota(dataAll[index].id, {Saldo_pendiente: dataAll[index].Saldo_pendiente, Monto_pagado: parseFloat(dataAll[index].Monto_pagado)});
+                agregarPago({
+                    cta_deposito: selectedBank,
+                    cuenta: dataAll[index].Cuenta|| "",
+                    empresa_id: user.empresa_id,
+                    fecha: selectedDate,
+                    fecha_registro: dataAll[index].Fecha_venta|| "",
+                    modo_pago: method,
+                    moneda: selectedCurrency,
+                    monto: dataAll[index].Monto_pagado,
+                    nro_factura: dataAll[index].nro_nota|| "",
+                    observaciones: data.observations|| "",
+                    pago_a_nota: dataAll[index].id|| "",
+                    referencia: data.reference|| "",
+                    sucursal_id: dataAll[index].sucursal_id|| "",
+                })
             }
-            updateNota(dataAll[index].id, {Saldo_pendiente: dataAll[index].Saldo_pendiente, Monto_pagado: dataAll[index].Monto_pagado});
-            agregarPago({
-                cta_deposito: selectedBank,
-                cuenta: dataAll[index].Cuenta|| "",
-                empresa_id: user.empresa_id,
-                fecha: selectedDate,
-                fecha_registro: dataAll[index].Fecha_venta|| "",
-                modo_pago: method,
-                moneda: selectedCurrency,
-                monto: dataAll[index].Monto_pagado,
-                nro_factura: dataAll[index].nro_nota|| "",
-                observaciones: data.observations|| "",
-                pago_a_nota: dataAll[index].id|| "",
-                referencia: data.reference|| "",
-                sucursal_id: dataAll[index].sucursal_id|| "",
-            })
             index++;
         }
         console.log("Pagos realizados");
         navigation.goBack();
-        // PaymentStore.getState().agregarPago({
-        //     numeroNota: note.nro_nota,
-        //     fechaNota: note.Fecha,
-        //     total: note.importe_nota,
-        //     pagado: data.amount,
-        // });
-        // updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - parseFloat(data.amount), Monto_pagado: note.Monto_pagado + parseFloat(data.amount) });
-        // agregarPago({
-        //     cta_deposito: selectedBank,
-        //     cuenta: note.Cuenta|| "",
-        //     empresa_id: user.empresa_id,
-        //     fecha: selectedDate,
-        //     fecha_registro: note.Fecha_venta|| "",
-        //     modo_pago: method,
-        //     moneda: selectedCurrency,
-        //     monto: data.amount|| "",
-        //     nro_factura: note.nro_nota|| "",
-        //     observaciones: data.observations|| "",
-        //     pago_a_nota: note.id|| "",
-        //     referencia: data.reference|| "",
-        //     sucursal_id: note.sucursal_id|| "",
-        // })
-        // console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
-        // navigation.goBack();
     };
 
     return (
@@ -171,7 +147,7 @@ const AutomaticPayScreen = ({ route }) => {
                 rules={{
                     required: "Este campo es requerido",
                     pattern: {
-                        value: /^[0-9]+[.][0-9]{0,2}$/,
+                        value: /^[0-9]+([.][0-9]{0,2})?$/,
                         message: "Ingrese solo números",
                     },
                 }}

@@ -114,7 +114,7 @@ const PayScreen = ({ route }) => {
                 rules={{
                     required: "Este campo es requerido",
                     pattern: {
-                        value: /^[0-9]+[.][0-9]{0,2}$/,
+                        value: /^[0-9]+([.][0-9]{0,2})?$/,
                         message: "Ingrese solo números",
                     },
                 }}
