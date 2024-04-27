@@ -52,13 +52,13 @@ const useStore = create((set, get) => ({
   updateNota: async (notaId, data) => {
     const notaRef = doc(db, 'notas_pendientes', notaId);
     await updateDoc(notaRef, data);
-    console.log("Nota actualizada en Firestore.");
+    // console.log("Nota actualizada en Firestore.");
   },
 
   agregarPago: async (pago) => {
     const pagosRealizados = collection(db, 'notas_cobradas');
     await addDoc(pagosRealizados, pago);
-    console.log("Pago agregado al estado.");
+    // console.log("Pago agregado al estado.");
   },
 }));
 

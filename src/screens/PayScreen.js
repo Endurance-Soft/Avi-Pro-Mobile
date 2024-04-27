@@ -12,6 +12,7 @@ import DropdownSelector2 from "../components/DropdownSelector2.js";
 import PaymentStore from "../stores/PaymentStore.js";
 import useStore from "../stores/store.js";
 import userStore from "../stores/userStore";
+import { formatDate } from "date-fns";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
@@ -32,11 +33,11 @@ const PayScreen = ({ route }) => {
         setSelectedCurrency(option);
     };
 
-    const [selectedCash, setSelectedCash] = useState('CTA 1239123234');
-    const cash_accounts = ['CTA 1239123234', 'CTA 1239123235', 'CTA 1239123236'];
-    const [selectedDate, setSelectedDate] = useState("");
-    const [selectedBank, setSelectedBank] = useState('BNB 1213434789');
-    const banks = ['BNB 1213434789', 'BCP 4432765343'];
+    const [selectedCash, setSelectedCash] = useState('CTA 11101010001');
+    const cash_accounts = ['CTA 11101010001', 'CTA 11101010002', 'CTA 11101020001', 'CTA 11101020002'];
+    const [selectedDate, setSelectedDate] = useState(formatDate(new Date(), 'yyyy-MM-dd'));
+    const [selectedBank, setSelectedBank] = useState('FIE.CTA 6-8918');
+    const banks = ['FIE.CTA 6-8918', 'BISA.CTA 4454770019','UNION.CTA 1-18604442', 'BNB.CTA 300017-4016','BISA.CTA 4454772011'];
 
     const {
         control,
@@ -63,7 +64,7 @@ const PayScreen = ({ route }) => {
         total: note.importe_nota,
         pagado: data.amount,
     });
-    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - data.amount, Monto_pagado: note.Monto_pagado + parseInt(data.amount) });
+    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - parseFloat(data.amount), Monto_pagado: note.Monto_pagado + parseFloat(data.amount) });
     agregarPago({
         cta_deposito: selectedBank,
         cuenta: note.Cuenta|| "",
@@ -113,7 +114,7 @@ const PayScreen = ({ route }) => {
                 rules={{
                     required: "Este campo es requerido",
                     pattern: {
-                        value: /^[0-9]+$/,
+                        value: /^[0-9]+[.][0-9]{0,2}$/,
                         message: "Ingrese solo números",
                     },
                 }}
@@ -141,6 +142,7 @@ const PayScreen = ({ route }) => {
                 }}
                 errors={errors} 
             />
+            {method === 'cheque' && 
             <InputField 
                 control={control}
                 name="checkBankNumber"
@@ -154,7 +156,7 @@ const PayScreen = ({ route }) => {
                     },
                 }}
                 errors={errors} 
-            />
+            />}
 
             {/* El input de abajo necesita usar un datetime picker para la fecha */}
 
@@ -162,16 +164,24 @@ const PayScreen = ({ route }) => {
             <DateInputField 
                 control={control}
                 name="checkBankDate"
-                title="Fecha Cheque"
+                title={method==='method'?"Fecha Cheque": "Fecha"}
                 callThrough={setSelectedDate}
             />
 
+            {method==='efectivo' &&
+            <DropdownSelector2 
+                title="Cta/Caja Banco"
+                options={cash_accounts}
+                selectedOption={selectedCash}
+                onOptionChange={setSelectedCash}
+            />}
+            {method==='banco' &&
             <DropdownSelector2 
                 title="Cta/Caja Banco"
                 options={banks}
                 selectedOption={selectedBank}
                 onOptionChange={setSelectedBank}
-            />
+            />}
             </View>
             <InputField 
                 control={control}
@@ -258,6 +268,7 @@ const styles = StyleSheet.create({
     },
     lineForm: {
         flexDirection: "row",
+        justifyContent: "space-between",
     },
     formContainer: {
         flex: 1,
