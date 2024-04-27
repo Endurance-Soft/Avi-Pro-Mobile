@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
 
 const useStore = create((set, get) => ({
@@ -47,7 +47,14 @@ const useStore = create((set, get) => ({
 
     set({ clientesConNotas });
     // console.log("Clientes con notas pendientes combinados y actualizados en el estado.");
-  }
+  },
+
+  updateNota: async (notaId, data) => {
+    const notaRef = doc(db, 'notas_pendientes', notaId);
+    console.log("minimo llegue aca");
+    await updateDoc(notaRef, data);
+    console.log("Nota actualizada en Firestore.");
+  },
 
 }));
 

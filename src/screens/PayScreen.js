@@ -10,12 +10,14 @@ import InputField from "../components/InputField.js";
 import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";
 import PaymentStore from "../stores/PaymentStore.js";
+import useStore from "../stores/store.js";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const PayScreen = ({ route }) => {
     const { note } = route.params;
     const navigation = useNavigation();
+    const {updateNota}  = useStore(state => ({state, updateNota: state.updateNota}));
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -53,13 +55,14 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-    console.log(data);
+    console.log(data,"aca esta la nota", note);
     PaymentStore.getState().agregarPago({
         numeroNota: note.nro_nota,
         fechaNota: note.Fecha,
         total: note.importe_nota,
         pagado: data.amount,
     });
+    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - data.amount, Monto_pagado: note.Monto_pagado + data.amount });
     console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
     navigation.goBack();
     };
