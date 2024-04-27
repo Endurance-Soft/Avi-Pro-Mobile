@@ -11,13 +11,15 @@ import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";
 import PaymentStore from "../stores/PaymentStore.js";
 import useStore from "../stores/store.js";
+import userStore from "../stores/userStore";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const PayScreen = ({ route }) => {
-    const { note } = route.params;
+    const { note, method } = route.params;
     const navigation = useNavigation();
-    const {updateNota}  = useStore(state => ({state, updateNota: state.updateNota}));
+    const {updateNota, agregarPago}  = useStore(state => ({state, updateNota: state.updateNota, agregarPago: state.agregarPago}));
+    const { user } = userStore(state => ({ user: state.user }));
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -32,7 +34,7 @@ const PayScreen = ({ route }) => {
 
     const [selectedCash, setSelectedCash] = useState('CTA 1239123234');
     const cash_accounts = ['CTA 1239123234', 'CTA 1239123235', 'CTA 1239123236'];
-
+    const [selectedDate, setSelectedDate] = useState("");
     const [selectedBank, setSelectedBank] = useState('BNB 1213434789');
     const banks = ['BNB 1213434789', 'BCP 4432765343'];
 
@@ -55,18 +57,31 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-    console.log(data,"aca esta la nota", note);
     PaymentStore.getState().agregarPago({
         numeroNota: note.nro_nota,
         fechaNota: note.Fecha,
         total: note.importe_nota,
         pagado: data.amount,
     });
-    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - data.amount, Monto_pagado: note.Monto_pagado + data.amount });
+    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - data.amount, Monto_pagado: note.Monto_pagado + parseInt(data.amount) });
+    agregarPago({
+        cta_deposito: selectedBank,
+        cuenta: note.Cuenta|| "",
+        empresa_id: user.empresa_id,
+        fecha: selectedDate,
+        fecha_registro: note.Fecha_venta|| "",
+        modo_pago: method,
+        moneda: selectedCurrency,
+        monto: data.amount|| "",
+        nro_factura: note.nro_nota|| "",
+        observaciones: data.observations|| "",
+        pago_a_nota: note.id|| "",
+        referencia: data.reference|| "",
+        sucursal_id: note.sucursal_id|| "",
+    })
     console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
     navigation.goBack();
     };
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
@@ -106,6 +121,7 @@ const PayScreen = ({ route }) => {
             />
             <DropdownSelector2
                 title="Moneda"
+                name="currency"
                 options={['Bs', 'USD']}
                 selectedOption={selectedCurrency}
                 onOptionChange={handleCurrencyChange}
@@ -147,7 +163,7 @@ const PayScreen = ({ route }) => {
                 control={control}
                 name="checkBankDate"
                 title="Fecha Cheque"
-                type="numeric"
+                callThrough={setSelectedDate}
             />
 
             <DropdownSelector2 

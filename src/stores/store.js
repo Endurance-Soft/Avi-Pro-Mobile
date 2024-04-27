@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import {create} from 'zustand';
+import { collection, onSnapshot, doc, updateDoc, addDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
 
 const useStore = create((set, get) => ({
@@ -51,11 +51,15 @@ const useStore = create((set, get) => ({
 
   updateNota: async (notaId, data) => {
     const notaRef = doc(db, 'notas_pendientes', notaId);
-    console.log("minimo llegue aca");
     await updateDoc(notaRef, data);
     console.log("Nota actualizada en Firestore.");
   },
 
+  agregarPago: async (pago) => {
+    const pagosRealizados = collection(db, 'notas_cobradas');
+    await addDoc(pagosRealizados, pago);
+    console.log("Pago agregado al estado.");
+  },
 }));
 
 export default useStore;
