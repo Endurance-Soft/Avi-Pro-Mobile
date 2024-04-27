@@ -9,9 +9,9 @@ import StyledText from "../utils/StyledText";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const SelectPaymentMethodScreen = ({ route }) => {
-    const { note } = route.params;
-    const { payMode } = route.params;
+const SelectPayModeScreen = ({ route }) => {
+    const { clientInfo } = route.params;
+    
     const navigation = useNavigation();
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
@@ -41,25 +41,25 @@ const SelectPaymentMethodScreen = ({ route }) => {
                 </View>
             </View>
             <View>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:payMode, criteria:"PEPS" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("SelectPaymentMethodScreen2", { clientInfo, criteria:"PEPS" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>PEPS (Primera nota en entrar primera en pagar)</StyledText>
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:payMode, criteria:"UEPS" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("SelectPaymentMethodScreen2", { clientInfo, criteria:"UEPS" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>UEPS (Ultima nota en entrar primera en pagar)</StyledText>
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:payMode, criteria:"MayorMenor" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("SelectPaymentMethodScreen2", { clientInfo, criteria:"MayorMenor" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>De mayor importe a menor</StyledText>
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:payMode, criteria:"MenorMayor" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("SelectPaymentMethodScreen2", { clientInfo, criteria:"MenorMayor" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>De menor importe a mayor</StyledText>
                         <Icon name="right" size={30} color="black" />
@@ -76,12 +76,12 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     up: {
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.skyBlue,
     },
     container: {
         flex: 1,
         paddingTop: 15,
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.tertiary,
     },
     header: {
         flexDirection: "row",
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     avi: {
         fontWeight: "bold",
         fontSize: 22,
-        marginRight: 60,
     },
     itemContainer: {
         backgroundColor: theme.colors.primary,
@@ -122,4 +121,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SelectPaymentMethodScreen;
+export default SelectPayModeScreen;

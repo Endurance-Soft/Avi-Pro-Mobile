@@ -52,7 +52,7 @@ const useStore = create((set, get) => ({
   updateNota: async (notaId, data) => {
     const notaRef = doc(db, 'notas_pendientes', notaId);
     await updateDoc(notaRef, data);
-    // console.log("Nota actualizada en Firestore.");
+    console.log("Nota actualizada en Firestore.", notaRef.id);
   },
 
   agregarPago: async (pago) => {

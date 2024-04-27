@@ -9,9 +9,9 @@ import StyledText from "../utils/StyledText";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const SelectPaymentMethodScreen = ({ route }) => {
-    const { note } = route.params;
-    const { payMode } = route.params;
+const SelectPaymentMethodScreen2 = ({ route }) => {
+    const { clientInfo } = route.params;
+    const { criteria } = route.params;
     const navigation = useNavigation();
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
@@ -19,11 +19,8 @@ const SelectPaymentMethodScreen = ({ route }) => {
             setAnimationKey(Date.now());
         }, [])
     );
-    const destinos = {
-        automatico: "AutomaticPayScreen",
-        normal: "PayScreen",
-    };
-    const destino = destinos[payMode] || "PayScreen";
+
+    const destino = "AutomaticPayScreen";
 
     return (
         <SafeAreaView style={styles.container}>
@@ -46,19 +43,19 @@ const SelectPaymentMethodScreen = ({ route }) => {
                 </View>
             </View>
             <View>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note , method:"efectivo" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { clientInfo ,criteria, method:"efectivo" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>En Efectivo</StyledText>
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"banco" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { clientInfo, criteria,method:"banco" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>Transferencia Bancaria</StyledText>
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"cheque" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { clientInfo, criteria, method:"cheque" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>Cheque</StyledText>
                         <Icon name="right" size={30} color="black" />
@@ -121,4 +118,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SelectPaymentMethodScreen;
+export default SelectPaymentMethodScreen2;

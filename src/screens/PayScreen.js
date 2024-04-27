@@ -98,7 +98,7 @@ const PayScreen = ({ route }) => {
                             </TouchableOpacity>
                             <View style={styles.aviContainer}>
                                 <Text style={styles.avi}>{note.nro_nota}</Text>
-                                <Text style={styles.avi}>{note.importe_nota} Bs.</Text>
+                                <Text style={styles.avi}>{note.Saldo_pendiente} Bs.</Text>
                             </View>
                         </View>
                     </Cascading>

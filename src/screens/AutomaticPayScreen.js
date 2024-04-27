@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions, ScrollView } from 'react-native';
 import { useForm } from "react-hook-form";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -9,17 +9,21 @@ import { theme } from "../assets/Theme";
 import InputField from "../components/InputField.js";
 import DateInputField from "../components/DateInputField.js";
 import DropdownSelector2 from "../components/DropdownSelector2.js";
-import RadioButtonGroup from "../components/RadioButtonGroup.js";
+import userStore from "../stores/userStore";
+import useStore from "../stores/store";
+import { formatDate } from "date-fns";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const PayScreen = ({ route }) => {
+const AutomaticPayScreen = ({ route }) => {
     const navigation = useNavigation();
-    //const { itemClient } = route.params;
-    const { note } = route.params;
-    const { payMode } = route.params;
+    const { clientInfo } = route.params;
     const { criteria } = route.params;
+    const { method } = route.params;
+    const {updateNota, agregarPago}  = useStore(state => ({state, updateNota: state.updateNota, agregarPago: state.agregarPago}));
+    const { user } = userStore(state => ({ user: state.user }));
+    const [dataAll, setDataAll] = useState(null);
     const [animationKey, setAnimationKey] = useState(Date.now());
     useFocusEffect(
         useCallback(() => {
@@ -27,17 +31,35 @@ const PayScreen = ({ route }) => {
         }, [])
     );
 
+    const vBalance = parseFloat(
+        clientInfo.NotasPendientes.reduce(
+          (total, nota) => total + nota.Saldo_pendiente,
+          0
+        ).toFixed(2)
+      );
+    useEffect(()=> {
+        if(criteria == "PEPS"){
+            setDataAll(clientInfo.NotasPendientes.sort((a, b) => a.Fecha - b.Fecha));
+         }else if(criteria == "UEPS"){
+           setDataAll(clientInfo.NotasPendientes.sort((a, b) => b.Fecha - a.Fecha));
+         }else if(criteria == "MayorMenor"){
+           setDataAll(clientInfo.NotasPendientes.sort((a, b) => b.Saldo_pendiente - a.Saldo_pendiente));
+         }else{
+           setDataAll(clientInfo.NotasPendientes.sort((a, b) => a.Saldo_pendiente - b.Saldo_pendiente));
+         }
+    },[]);
     
     const [selectedCurrency, setSelectedCurrency] = useState('Bs');
     const handleCurrencyChange = (option) => {
         setSelectedCurrency(option);
     };
 
-    const [selectedBank, setSelectedBank] = useState('BNB 1213434789');
-    const banks = ['BNB 1213434789', 'BCP 4432765343', 'CTA 1239123234'];
+    const [selectedCash, setSelectedCash] = useState('CTA 11101010001');
+    const cash_accounts = ['CTA 11101010001', 'CTA 11101010002', 'CTA 11101020001', 'CTA 11101020002'];
+    const [selectedDate, setSelectedDate] = useState(formatDate(new Date(), 'yyyy-MM-dd'));
+    const [selectedBank, setSelectedBank] = useState('FIE.CTA 6-8918');
+    const banks = ['FIE.CTA 6-8918', 'BISA.CTA 4454770019','UNION.CTA 1-18604442', 'BNB.CTA 300017-4016','BISA.CTA 4454772011'];
 
-    const [selectedPay, setSelectedPay] = useState('PEPS');
-    const payModes = ['Primera Nota en entrar Primera en Pagar', 'Ultima Nota en entrar Primera en Pagar', 'De mayor importe a menor', 'De menor importe a mayor' ]; 
 
     const {
         control,
@@ -59,8 +81,63 @@ const PayScreen = ({ route }) => {
 
     const onSubmit = (data) => {
         console.log(data);
-        // Aquí puedes agregar la lógica para guardar los datos
-        //navigation.navigate("ClientPaymentScreen", { itemClient: item });
+        let index = 0;
+        let auxiAmount = data.amount;
+        while(index < dataAll.length && data.amount > 0){
+            auxiAmount = data.amount;
+            if(data.amount > dataAll[index].Saldo_pendiente){
+                data.amount -= dataAll[index].Saldo_pendiente;
+                dataAll[index].Saldo_pendiente = 0;
+                dataAll[index].Monto_pagado = dataAll[index].importe_nota;
+            }else{
+                dataAll[index].Saldo_pendiente -= data.amount;
+                dataAll[index].Monto_pagado += data.amount;
+                data.amount = 0;
+            }
+            updateNota(dataAll[index].id, {Saldo_pendiente: dataAll[index].Saldo_pendiente, Monto_pagado: dataAll[index].Monto_pagado});
+            agregarPago({
+                cta_deposito: selectedBank,
+                cuenta: dataAll[index].Cuenta|| "",
+                empresa_id: user.empresa_id,
+                fecha: selectedDate,
+                fecha_registro: dataAll[index].Fecha_venta|| "",
+                modo_pago: method,
+                moneda: selectedCurrency,
+                monto: dataAll[index].Monto_pagado,
+                nro_factura: dataAll[index].nro_nota|| "",
+                observaciones: data.observations|| "",
+                pago_a_nota: dataAll[index].id|| "",
+                referencia: data.reference|| "",
+                sucursal_id: dataAll[index].sucursal_id|| "",
+            })
+            index++;
+        }
+        console.log("Pagos realizados");
+        navigation.goBack();
+        // PaymentStore.getState().agregarPago({
+        //     numeroNota: note.nro_nota,
+        //     fechaNota: note.Fecha,
+        //     total: note.importe_nota,
+        //     pagado: data.amount,
+        // });
+        // updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - parseFloat(data.amount), Monto_pagado: note.Monto_pagado + parseFloat(data.amount) });
+        // agregarPago({
+        //     cta_deposito: selectedBank,
+        //     cuenta: note.Cuenta|| "",
+        //     empresa_id: user.empresa_id,
+        //     fecha: selectedDate,
+        //     fecha_registro: note.Fecha_venta|| "",
+        //     modo_pago: method,
+        //     moneda: selectedCurrency,
+        //     monto: data.amount|| "",
+        //     nro_factura: note.nro_nota|| "",
+        //     observaciones: data.observations|| "",
+        //     pago_a_nota: note.id|| "",
+        //     referencia: data.reference|| "",
+        //     sucursal_id: note.sucursal_id|| "",
+        // })
+        // console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
+        // navigation.goBack();
     };
 
     return (
@@ -77,14 +154,15 @@ const PayScreen = ({ route }) => {
                                 <Icon name="back" size={30} color="black" />
                             </TouchableOpacity>
                             <View style={styles.aviContainer}>
-                                <Text style={styles.avi}>Pago Automático</Text>
+                                <Text style={styles.nombre}>{clientInfo.Nombre}</Text>
+                                <Text style={styles.avi}>{vBalance} Bs.</Text>
                             </View>
                         </View>
                     </Cascading>
                 </View>
             </View>
-            <ScrollView>
-            <View style={styles.firstLineForm}>
+            <View style={styles.formContainer}>
+            <View style={styles.lineForm}>
             <InputField 
                 control={control}
                 name="amount"
@@ -93,7 +171,7 @@ const PayScreen = ({ route }) => {
                 rules={{
                     required: "Este campo es requerido",
                     pattern: {
-                        value: /^[0-9]+$/,
+                        value: /^[0-9]+[.][0-9]{0,2}$/,
                         message: "Ingrese solo números",
                     },
                 }}
@@ -101,25 +179,12 @@ const PayScreen = ({ route }) => {
             />
             <DropdownSelector2
                 title="Moneda"
+                name="currency"
                 options={['Bs', 'USD']}
                 selectedOption={selectedCurrency}
                 onOptionChange={handleCurrencyChange}
             />
             </View>
-            <InputField 
-                control={control}
-                name="deposit"
-                title="Deposito"
-                type="numeric"
-                rules={{
-                    required: "Este campo es requerido",
-                    pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Ingrese solo números",
-                    },
-                }}
-                errors={errors} 
-            />
             <InputField 
                 control={control}
                 name="advancePaymentNumber"
@@ -134,6 +199,7 @@ const PayScreen = ({ route }) => {
                 }}
                 errors={errors} 
             />
+            {method === 'cheque' && 
             <InputField 
                 control={control}
                 name="checkBankNumber"
@@ -147,24 +213,32 @@ const PayScreen = ({ route }) => {
                     },
                 }}
                 errors={errors} 
-            />
+            />}
 
             {/* El input de abajo necesita usar un datetime picker para la fecha */}
 
-            <View  style={styles.firstLineForm}>
+            <View  style={styles.lineForm}>
             <DateInputField 
                 control={control}
                 name="checkBankDate"
-                title="Fecha Cheque"
-                type="numeric"
+                title={method==='method'?"Fecha Cheque": "Fecha"}
+                callThrough={setSelectedDate}
             />
 
+            {method==='efectivo' &&
+            <DropdownSelector2 
+                title="Cta/Caja Banco"
+                options={cash_accounts}
+                selectedOption={selectedCash}
+                onOptionChange={setSelectedCash}
+            />}
+            {method==='banco' &&
             <DropdownSelector2 
                 title="Cta/Caja Banco"
                 options={banks}
                 selectedOption={selectedBank}
                 onOptionChange={setSelectedBank}
-            />
+            />}
             </View>
             <InputField 
                 control={control}
@@ -178,14 +252,6 @@ const PayScreen = ({ route }) => {
                 title="Observaciones"
                 type="default"
             />
-
-            <RadioButtonGroup
-                title="Modalidad Pago"
-                options={payMode}
-                onSelect={(option) => console.log('Opción seleccionada:', option)}
-/>
-
-            
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.button}
@@ -194,7 +260,7 @@ const PayScreen = ({ route }) => {
                     <Text style={styles.buttonText}>Registrar Pago</Text>
                 </TouchableOpacity>
             </View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     )
 };
@@ -234,7 +300,12 @@ const styles = StyleSheet.create({
     avi: {
         fontWeight: "bold",
         fontSize: 22,
-        marginRight: 60,
+        textAlign: "center",
+    },
+    nombre:{
+        fontWeight: "bold",
+        fontSize: 20,
+        textAlign: "center",
     },
     buttonContainer: {
         marginTop: 20,
@@ -261,6 +332,10 @@ const styles = StyleSheet.create({
     firstLineForm: {
         flexDirection: "row",
     },
+    lineForm: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
 });
 
-export default PayScreen;
+export default AutomaticPayScreen;

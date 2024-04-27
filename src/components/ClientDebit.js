@@ -20,7 +20,7 @@ const ClientDebit = ({ clientInfo }) => {
       0
     ).toFixed(2)
   );
-
+  console.log("ClientDebit.js: vBalance: ", vBalance, "clientInfo: ", clientInfo);
   const navigation = useNavigation();
 
   return (
@@ -30,7 +30,7 @@ const ClientDebit = ({ clientInfo }) => {
       <View style={clientDebitStyles.spaceButtons}>
         <SimpleButton
           text="Automático"
-          onPress={() => navigation.navigate("SelectPaymentMethodScreen", { payMode: "automatico" })}
+          onPress={() => navigation.navigate("SelectPayModeScreen", { clientInfo })}
           width={screenWidth * 0.4}
         />
         <SimpleButton

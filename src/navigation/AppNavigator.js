@@ -16,6 +16,8 @@ import OthersScreen from '../screens/OthersScreen';
 import ActivationScreen from '../screens/ActivationScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import SelectPayModeScreen from '../screens/SelectPayModeScreen';
+import SelectPaymentMethodScreen2 from '../screens/SelectPaymentMethodScreen2';
 import { theme } from '../assets/Theme';
 
 const Stack = createNativeStackNavigator();
@@ -78,6 +80,14 @@ function AppNavigator() {
         <Stack.Screen
           name='LoginScreen'
           component={LoginScreen}
+        />
+        <Stack.Screen
+          name='SelectPayModeScreen'
+          component={SelectPayModeScreen}
+        />
+        <Stack.Screen
+          name='SelectPaymentMethodScreen2'
+          component={SelectPaymentMethodScreen2}
         />
       </Stack.Navigator>    
     </NavigationContainer>
