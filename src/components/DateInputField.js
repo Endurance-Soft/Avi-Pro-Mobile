@@ -3,18 +3,20 @@ import { Text, TextInput, StyleSheet, View } from 'react-native';
 import { theme } from "../assets/Theme";
 import { Controller } from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { formatDate } from 'date-fns';
+import { format, formatDate } from 'date-fns';
 
-const DateInputField = ({ control, name, title, type = 'default' }) => {
+const DateInputField = ({ control, name, title, callThrough, type = 'default' }) => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
+    const handleDateChange =  (event, newselectedDate) => {
+        const currentDate = newselectedDate || selectedDate;
         setShowDatePicker(false);
         setSelectedDate(currentDate);
+        console.log(formatDate(currentDate, 'yyyy-MM-dd')); 
         console.log('selectedDate', selectedDate);
+        callThrough(formatDate(currentDate, 'yyyy-MM-dd'));
     };
 
     return (
@@ -24,20 +26,19 @@ const DateInputField = ({ control, name, title, type = 'default' }) => {
                 control={control}
                 name={name}
                 defaultValue=""
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { onChange, onBlur, value}}) => (
                     <TextInput
                         style={styles.input}
                         onFocus={() => setShowDatePicker(true)}
+                        onBlur={onBlur}
                         onChangeText={onChange}
-                        value={formatDate(selectedDate, 'dd/MM/yyyy', { awareOfUnicodeTokens: true })}
-                        keyboardType={type === 'numeric' ? 'numeric' : 'default'}
+                        value={format(selectedDate, 'dd/MM/yyyy')}
                     />
                     
                 )}
             />
             {showDatePicker && (
                 <DateTimePicker
-                    testID="dateTimePicker"
                     value={selectedDate}
                     mode="date"
                     is24Hour={true}

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { theme } from '../assets/Theme';
 import StyledText from "../utils/StyledText";
 import BorderBox from "../utils/BorderBox";
+import useStore from "../stores/store";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -13,7 +14,14 @@ const ClientItem = ({ client, onSelect }) => {
   const vCuenta =client.Cuenta;
   const vBalance = parseFloat(client.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
   const vNotasPendientes = client.NotasPendientes.length;
-  const vUltimoPago = '';
+  const pagosRealizados = useStore(state => state.pagosRealizados);
+  const [vUltimoPago, setUltimoPago] = useState("2020-06-10");
+
+  useEffect( () => {
+    if(pagosRealizados.length > 0){
+      setUltimoPago(pagosRealizados.reduce((mayor, pago)=> pago.fecha > mayor && pago.cuenta === client.Cuenta? pago.fecha : mayor, "2020-06-10"));
+    }
+  }, [pagosRealizados]);
   return (
       <BorderBox onPress={() => onSelect(client.id)} style={{marginVertical: 10}}>
       <View style={styles.iconContainer}>
@@ -46,7 +54,7 @@ const ClientItem = ({ client, onSelect }) => {
         </View>
         <View style={styles.textLine}>
           <StyledText regularText>ultimo pago :</StyledText>
-          <StyledText regularText>2020-06-12</StyledText>
+          <StyledText regularText>{vUltimoPago}</StyledText>
         </View>
       </View>
     </BorderBox>

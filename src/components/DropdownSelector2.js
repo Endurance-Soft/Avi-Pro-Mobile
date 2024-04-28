@@ -7,7 +7,7 @@ import { theme } from "../assets/Theme";
 import { StyleSheet, Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 
-const DropdownSelector2 = ({ title, options, selectedOption, onOptionChange, size=200 }) => {
+const DropdownSelector2 = ({ title, name, options, selectedOption, onOptionChange, size=200 }) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -25,7 +25,7 @@ const DropdownSelector2 = ({ title, options, selectedOption, onOptionChange, siz
                 {selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1)}
               </Text>
             </View>
-            <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={20} color="white" />
+            <FontAwesome5 name={menuVisible ? "chevron-up" : "chevron-down"} size={15} color="white" />
           </View>
         </MenuTrigger>
         <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, }}>
@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 12,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
     backgroundColor: theme.colors.tertiary,
     borderRadius: 22,
-    width: "auto",
-    maxWidth: screenWidth - 40,
+    width: 'auto',
+    maxWidth: screenWidth - 200,
     alignSelf: "center",
   },
   menuTriggerInter: {
