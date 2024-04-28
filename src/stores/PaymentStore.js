@@ -1,6 +1,7 @@
-import {create} from 'zustand'
+import { create } from 'zustand';
 
 const PaymentStore = create((set) => ({
+  // Estados y métodos existentes
   pagosRealizados: [],
   agregarPago: (nuevoPago) => set((state) => ({
     pagosRealizados: [...state.pagosRealizados, nuevoPago]
@@ -10,47 +11,61 @@ const PaymentStore = create((set) => ({
   })),
   borrarPagos: () => set(() => ({
     pagosRealizados: []
+  })),
+
+  // Estado actualizado para las facturas
+  facturaActual: {
+    nombreEmpresa: "NOMBRE EMPRESA",
+    comprobanteDePago: "Comprobante de Pago",
+    cliente: {
+      nombre: "none",
+      numeroCuenta: "none"
+    },
+    metodoPago: "none",
+    notasPagadas: []
+  },
+
+  establecerCliente: (nombre, numeroCuenta) => set((state) => ({
+    facturaActual: {
+      ...state.facturaActual,
+      cliente: {
+        nombre,
+        numeroCuenta
+      }
+    }
+  })),
+  establecerMetodoPago: (metodoPago) => set((state) => ({
+    facturaActual: {
+      ...state.facturaActual,
+      metodoPago
+    }
+  })),
+  agregarNotaPagada: (notaPagada) => set((state) => ({
+    facturaActual: {
+      ...state.facturaActual,
+      notasPagadas: [...state.facturaActual.notasPagadas, notaPagada]
+    }
+  })),
+  eliminarNotaPagada: (numeroNota) => set((state) => ({
+    facturaActual: {
+      ...state.facturaActual,
+      notasPagadas: state.facturaActual.notasPagadas.filter(nota => 
+        nota.detalles.some(detalle => detalle.numeroNota !== numeroNota)
+      )
+    }
+  })),
+  limpiarFactura: () => set((state) => ({
+    facturaActual: {
+      ...state.facturaActual,
+      cliente: {
+        nombre: '',
+        numeroCuenta: ''
+      },
+      metodoPago: '',
+      notasPagadas: []
+    }
   }))
-}))
+}));
 
 export default PaymentStore;
-
-
-
-// const factura = {
-//   nombreEmpresa: "NOMBRE EMPRESA",
-//   comprobanteDePago: "Comprobante de Pago",
-//   cliente: {
-//     nombre: "Jorge Herbas",
-//     numeroCuenta: "201502651001"
-//   },
-//   notasPagadas: [
-//     {
-//       fecha: "12/05/24",
-//       metodoPago: "Contado",
-//       detalles: [
-//         {
-//           numeroNota: "R01210739",
-//           fecha: "15/06",
-//           monto: 2109.00,
-//           saldo: 0.00
-//         },
-//         {
-//           numeroNota: "R01210740",
-//           fecha: "16/06",
-//           monto: 109.00,
-//           saldo: 1.00
-//         },
-//         {
-//           numeroNota: "R01210740",
-//           fecha: "16/07",
-//           monto: 100.00,
-//           saldo: 87.00
-//         }
-//       ]
-//     }
-//   ]
-// };
-
-// console.log(factura);
 

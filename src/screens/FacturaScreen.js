@@ -14,54 +14,21 @@ import { theme } from "../assets/Theme";
 import { StatusBar } from 'expo-status-bar';
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
+import useStore from '../stores/store';
 
 const fontSizeM = screenWidth * 0.031;
 const fontSizeL =screenWidth * 0.034;
 
-const factura = {
-  nombreEmpresa: "NOMBRE EMPRESA",
-  comprobanteDePago: "Comprobante de Pago",
-  cliente: {
-    nombre: "Jorge Herbas",
-    numeroCuenta: "201502651001"
-  },
-  notasPagadas: [
-    {
-      fecha: "12/05/24",
-      metodoPago: "Contado",
-      detalles: [
-        {
-          numeroNota: "R01210739",
-          fecha: "15/06",
-          total: 2109.00,
-          pagado: 2109.00,
-          saldo: 0.00
-        },
-        {
-          numeroNota: "R01210740",
-          fecha: "16/06",
-          total: 109.00,
-          pagado: 108.00,
-          saldo: 1.00
-        },
-        {
-          numeroNota: "R01210740",
-          fecha: "16/07",
-          total: 100.00,
-          pagado: 13.00,
-          saldo: 87.00
-        }
-      ]
-    }
-  ]
-};
-
 const SimpleScreen = () => {
   const viewRef = useRef();
   const navigation = useNavigation();
+  const factura = PaymentStore((state) => state.facturaActual);
+  const numeroCuenta = factura.cliente.numeroCuenta;
+  const cliente = useStore(state => state.buscarClientePorCuenta(numeroCuenta));
+
   const pagosRealizados = PaymentStore((state) => state.pagosRealizados);
-  const borrarPagos = PaymentStore((state) => state.borrarPagos);
-  const totalPagado = pagosRealizados.reduce((acc, pago) => acc + parseFloat(pago.pagado), 0).toFixed(2);
+  const borrarPagos = PaymentStore((state) => state.limpiarFactura);
+  const totalPagado = factura.notasPagadas.reduce((acc, nota) => acc + nota.detalles.reduce((accDet, det) => accDet + parseFloat(det.pagado), 0), 0).toFixed(2);
 
   const [animationKey, setAnimationKey] = useState(Date.now());
   useFocusEffect(
@@ -87,79 +54,91 @@ const SimpleScreen = () => {
   const handleBorrarPagos = () => {
     borrarPagos();
   };
+
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
   return (
     <SafeAreaView style={styles.flexContainer}>
-      <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
+      <StatusBar style="light" backgroundColor={theme.colors.secondary} />
       <Cascading delay={200} animationKey={animationKey}>
-            <View style={styles.header}>
-                <TouchableOpacity
-                    style={styles.back}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Icon name="back" size={30} color="black" />
-                </TouchableOpacity>
-                <View style={styles.aviContainer}>
-                </View>
-            </View>
-            </Cascading>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.back}
+            onPress={() => navigation.goBack()}
+          >
+            <Icon name="back" size={30} color="black" />
+          </TouchableOpacity>
+          <View style={styles.aviContainer}>
+            {/* Additional view content if needed */}
+          </View>
+        </View>
+      </Cascading>
       
       <View style={styles.flexContainer}>
-      
-      <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
-      <Cascading delay={400} animationKey={animationKey}>
-  <View style={styles.container} ref={viewRef}>
-    <Text style={styles.title}>{factura.nombreEmpresa}</Text>
-    <Text style={styles.subtitle}>{"COMPROBANTE DE PAGO"}</Text>
-    <Text style={{height:15}}>{""}</Text>
-    <View style={styles.dottedLine} />
-    <Text style={{height:6}}>{""}</Text>
-    <Text style={styles.section}>FECHA: {"1525"}</Text>
-    <Text style={styles.section}>CLIENTE: {factura.cliente.nombre}</Text>
-    <Text style={styles.section}>N° CUENTA: {factura.cliente.numeroCuenta}</Text>
-    <Text style={styles.section}>METODO DE PAGO: {"1525"}</Text>
-    <Text style={{height:6}}>{""}</Text>
-    <View style={styles.dottedLine} />
-    <Text style={styles.sectionTitle}>NOTAS PAGADAS (Bs.)</Text>
-    <View style={styles.dottedLine} />
-    <View style={styles.tableHeader}>
-      <Text style={[styles.tableHeaderText, styles.cellNota]}>NOTA</Text>
-      <Text style={[styles.tableHeaderText, styles.cellTotal]}>TOTAL</Text>
-      <Text style={[styles.tableHeaderText, styles.cellPagado]}>PAGADO</Text>
-      <Text style={[styles.tableHeaderText, styles.cellSaldo]}>SALDO</Text>
-    </View>
-    <View style={styles.dottedLine} />
-    {factura.notasPagadas.map((nota, index) => (
-      <View key={index}>
-        {nota.detalles.map((detalle, detalleIndex) => (
-          <View key={detalleIndex} style={styles.tableRow}>
-            <Text style={[styles.cell, styles.cellNota]}>
-              {detalle.numeroNota + '\n' + detalle.fecha}
-            </Text>
-            <Text style={[styles.cell, styles.cellTotal]}>{detalle.total.toFixed(2)}</Text>
-            <Text style={[styles.cell, styles.cellPagado]}>{detalle.pagado.toFixed(2)}</Text>
-            <Text style={[styles.cell, styles.cellSaldo]}>{detalle.saldo.toFixed(2)}</Text>
-          </View>
-        ))}
-        <View style={styles.dottedLine} />
-      </View>
-    ))}
-    <View style={styles.totalRow}>
-      <Text style={styles.cellTotal}>{"Total Pagado: "}</Text>
-      <Text style={[styles.cellPagado, styles.totalPagado]}>{totalPagado} Bs.</Text>
-    </View>  
-    <View style={styles.dottedLine} />
-  </View>
-  
-</Cascading>
-</ScrollView>
+        <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
+          <Cascading delay={400} animationKey={animationKey}>
+            <View style={styles.container} ref={viewRef}>
+              <Text style={styles.title}>{factura.nombreEmpresa}</Text>
+              <Text style={styles.subtitle}>{"COMPROBANTE DE PAGO"}</Text>
+              <Text style={{height:15}}>{""}</Text>
+              <View style={styles.dottedLine} />
+              <Text style={{height:6}}>{""}</Text>
+              <Text style={styles.section}>FECHA: {formattedDate}</Text>
+              {cliente && cliente.Nombre && (
+                <Text style={styles.section}>CLIENTE: {cliente.Nombre}</Text>
+              )}
+              
+              <Text style={styles.section}>N° CUENTA: {factura.cliente.numeroCuenta}</Text>
+              <Text style={styles.section}>METODO DE PAGO: {factura.metodoPago}</Text>
+              <Text style={{height:6}}>{""}</Text>
+              <View style={styles.dottedLine} />
+              <Text style={styles.sectionTitle}>NOTAS PAGADAS (Bs.)</Text>
+              <View style={styles.dottedLine} />
+              <View style={styles.tableHeader}>
+                <Text style={[styles.tableHeaderText, styles.cellNota]}>NOTA</Text>
+                <Text style={[styles.tableHeaderText, styles.cellTotal]}>TOTAL</Text>
+                <Text style={[styles.tableHeaderText, styles.cellPagado]}>PAGADO</Text>
+                <Text style={[styles.tableHeaderText, styles.cellSaldo]}>SALDO</Text>
+              </View>
+              <View style={styles.dottedLine} />
+              {factura.notasPagadas.map((nota, index) => (
+                <View key={index}>
+                  {nota.detalles.map((detalle, detalleIndex) => (
+                    <View key={detalleIndex} style={styles.tableRow}>
+                      <Text style={[styles.cell, styles.cellNota]}>
+                        {detalle.numeroNota + '\n' + detalle.fecha}
+                      </Text>
+                      <Text style={[styles.cell, styles.cellTotal]}>
+                        {detalle.total.toFixed(2)}
+                      </Text>
+                      <Text style={[styles.cell, styles.cellPagado]}>
+                        {typeof detalle.pagado === 'number' ? detalle.pagado.toFixed(2) : '0.00'}
+                      </Text>
+                      <Text style={[styles.cell, styles.cellSaldo]}>
+                        {typeof detalle.saldo === 'number' ? detalle.saldo.toFixed(2) : '0.00'}
+                      </Text>
+                    </View>
+                  ))}
+                  <View style={styles.dottedLine} />
+                </View>
+              ))}
+              <View style={styles.totalRow}>
+                <Text style={styles.cellTotal}>{"Total Pagado: "}</Text>
+                <Text style={[styles.cellPagado, styles.totalPagado]}>{totalPagado} Bs.</Text>
+              </View>
+              <View style={styles.dottedLine} />
+            </View>
+          </Cascading>
+        </ScrollView>
 
         <Cascading delay={500} animationKey={animationKey}>
-        <View style={styles.buttonContainer}>
-          <SimpleButton
-            text="Imprimir"
-            onPress={handlePress}
-          />
-        </View>
+          <View style={styles.buttonContainer}>
+            <SimpleButton
+              text="Imprimir"
+              onPress={handlePress}
+            />
+          </View>
         </Cascading>
       </View>
     </SafeAreaView>

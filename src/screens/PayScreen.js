@@ -58,31 +58,43 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-    PaymentStore.getState().agregarPago({
-        numeroNota: note.nro_nota,
-        fechaNota: note.Fecha,
-        total: note.importe_nota,
-        pagado: data.amount,
-    });
-    updateNota(note.id, {Saldo_pendiente: note.Saldo_pendiente - parseFloat(data.amount), Monto_pagado: note.Monto_pagado + parseFloat(data.amount) });
-    agregarPago({
-        cta_deposito: selectedBank,
-        cuenta: note.Cuenta|| "",
-        empresa_id: user.empresa_id,
-        fecha: selectedDate,
-        fecha_registro: note.Fecha_venta|| "",
-        modo_pago: method,
-        moneda: selectedCurrency,
-        monto: data.amount|| "",
-        nro_factura: note.nro_nota|| "",
-        observaciones: data.observations|| "",
-        pago_a_nota: note.id|| "",
-        referencia: data.reference|| "",
-        sucursal_id: note.sucursal_id|| "",
-    })
-    console.log("Pagos realizados:", PaymentStore.getState().pagosRealizados);
-    navigation.goBack();
+        PaymentStore.getState().establecerCliente(user.nombre, note.Cuenta);
+        PaymentStore.getState().establecerMetodoPago(method);
+        PaymentStore.getState().agregarNotaPagada({
+            fecha: selectedDate,
+            metodoPago: method,
+            detalles: [{
+                numeroNota: note.nro_nota,
+                fecha: note.Fecha_venta,
+                total: parseFloat(note.importe_nota),
+                pagado: parseFloat(data.amount), 
+                saldo: parseFloat(note.Saldo_pendiente) - parseFloat(data.amount),
+            }]
+        });
+    
+        updateNota(note.id, {
+            Saldo_pendiente: note.Saldo_pendiente - parseFloat(data.amount),
+            Monto_pagado: note.Monto_pagado + parseFloat(data.amount)
+        });
+    
+        agregarPago({
+            cta_deposito: selectedBank,
+            cuenta: note.Cuenta || "",
+            empresa_id: user.empresa_id,
+            fecha: selectedDate,
+            fecha_registro: note.Fecha_venta || "",
+            modo_pago: method,
+            moneda: selectedCurrency,
+            monto: data.amount || "",
+            nro_factura: note.nro_nota || "",
+            observaciones: data.observations || "",
+            pago_a_nota: note.id || "",
+            referencia: data.reference || "",
+            sucursal_id: note.sucursal_id || "",
+        });    
+        navigation.goBack();
     };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
