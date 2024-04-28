@@ -46,7 +46,7 @@ const NoteItem = ({ note, onSelect }) => {
         <View>
           <SimpleButton 
             text="Pagar" 
-            onPress={() => navigation.navigate("PayScreen", { note })}
+            onPress={() => navigation.navigate("SelectPaymentMethodScreen", { note,  payMode: "normal"})}
           />
         </View>
       </View>

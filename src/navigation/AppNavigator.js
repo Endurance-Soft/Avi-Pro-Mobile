@@ -8,6 +8,7 @@ import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';
 import AutomaticPayScreen from '../screens/AutomaticPayScreen';
+import SelectPaymentMethodScreen from '../screens/SelectPaymentMethodScreen';
 import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
@@ -15,6 +16,8 @@ import OthersScreen from '../screens/OthersScreen';
 import ActivationScreen from '../screens/ActivationScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import SelectPayModeScreen from '../screens/SelectPayModeScreen';
+import SelectPaymentMethodScreen2 from '../screens/SelectPaymentMethodScreen2';
 import { theme } from '../assets/Theme';
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +61,10 @@ function AppNavigator() {
           name='AutomaticPayScreen'
           component={AutomaticPayScreen}
         />
+        <Stack.Screen
+          name='SelectPaymentMethodScreen'
+          component={SelectPaymentMethodScreen}
+        />
         <Stack.Screen 
           name="Factura" 
           component={FacturaScreen}
@@ -73,6 +80,14 @@ function AppNavigator() {
         <Stack.Screen
           name='LoginScreen'
           component={LoginScreen}
+        />
+        <Stack.Screen
+          name='SelectPayModeScreen'
+          component={SelectPayModeScreen}
+        />
+        <Stack.Screen
+          name='SelectPaymentMethodScreen2'
+          component={SelectPaymentMethodScreen2}
         />
       </Stack.Navigator>    
     </NavigationContainer>
