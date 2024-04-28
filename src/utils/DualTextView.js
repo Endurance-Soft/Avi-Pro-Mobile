@@ -26,10 +26,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   leftChild: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+
   },
   rightChild: {
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
+
   },
 });
 

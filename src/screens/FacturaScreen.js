@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback} from 'react';
-import { View, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet, Alert, TouchableOpacity, Text  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
@@ -12,11 +12,49 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { theme } from "../assets/Theme";
 import { StatusBar } from 'expo-status-bar';
+import { Dimensions } from 'react-native';
+const screenWidth = Dimensions.get('window').width;
 
-const cliente = "John Doe";
-const numeroCliente = "20102353001";
-const fechaEmision = "06/08/2024";
-const brandName = 'BRAND NAME';
+const fontSizeM = screenWidth * 0.031;
+const fontSizeL =screenWidth * 0.034;
+
+const factura = {
+  nombreEmpresa: "NOMBRE EMPRESA",
+  comprobanteDePago: "Comprobante de Pago",
+  cliente: {
+    nombre: "Jorge Herbas",
+    numeroCuenta: "201502651001"
+  },
+  notasPagadas: [
+    {
+      fecha: "12/05/24",
+      metodoPago: "Contado",
+      detalles: [
+        {
+          numeroNota: "R01210739",
+          fecha: "15/06",
+          total: 2109.00,
+          pagado: 2109.00,
+          saldo: 0.00
+        },
+        {
+          numeroNota: "R01210740",
+          fecha: "16/06",
+          total: 109.00,
+          pagado: 108.00,
+          saldo: 1.00
+        },
+        {
+          numeroNota: "R01210740",
+          fecha: "16/07",
+          total: 100.00,
+          pagado: 13.00,
+          saldo: 87.00
+        }
+      ]
+    }
+  ]
+};
 
 const SimpleScreen = () => {
   const viewRef = useRef();
@@ -67,57 +105,54 @@ const SimpleScreen = () => {
       
       <View style={styles.flexContainer}>
       
-        <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
-        <Cascading delay={400} animationKey={animationKey}>
-          <View style={styles.container} ref={viewRef}>
-            <View style={styles.separacionInferior}>
-              <StyledText boldTextUpper style={styles.title}>{brandName}</StyledText>          
-              <StyledText regularIntenceText style={{textAlign:'center'}}>Comprobante de pago</StyledText>
-            </View>
-            <View style={styles.notaSection}>
-            <DualTextView
-              leftChild={<StyledText regularIntenceText>Cliente  :</StyledText>}
-              rightChild={<StyledText regularText>  {cliente}</StyledText>}
-            />
-            <DualTextView
-              leftChild={<StyledText regularIntenceText>N° Cliente  :</StyledText>}
-              rightChild={<StyledText regularText>  {numeroCliente}</StyledText>}
-            />
-            <DualTextView
-              leftChild={<StyledText regularIntenceText>Fecha  :</StyledText>}
-              rightChild={<StyledText regularText>  {fechaEmision}</StyledText>}
-            />
-            </View>
-            {pagosRealizados.map((pago, index) => (
-              <View key={index} style={styles.notaSection}>
-                <DualTextView
-                  leftChild={<StyledText regularIntenceText>N° Nota  :</StyledText>}
-                  rightChild={<StyledText regularText>  {pago.numeroNota}</StyledText>}
-                />
-                <DualTextView
-                  leftChild={<StyledText regularIntenceText>Fecha Nota  :</StyledText>}
-                  rightChild={<StyledText regularText>  {pago.fechaNota}</StyledText>}
-                />
-                <DualTextView
-                  leftChild={<StyledText regularIntenceText>Total  :</StyledText>}
-                  rightChild={<StyledText regularText>  {`${pago.total} Bs`}</StyledText>}
-                />
-                <DualTextView
-                  leftChild={<StyledText regularIntenceText>Pagado  :</StyledText>}
-                  rightChild={<StyledText regularText>  {`${pago.pagado} Bs`}</StyledText>}
-                />
-
-              </View>
-            ))}
-            <View style={styles.total}>
-              <DualTextView
-                leftChild={<StyledText regularIntenceText>Total Pagado  :</StyledText>}
-                rightChild={<StyledText regularText>  {`${totalPagado} Bs`}</StyledText>}
-              />
-            </View>
+      <ScrollView style={styles.safeArea} contentContainerStyle={styles.scrollViewContent}>
+      <Cascading delay={400} animationKey={animationKey}>
+  <View style={styles.container} ref={viewRef}>
+    <Text style={styles.title}>{factura.nombreEmpresa}</Text>
+    <Text style={styles.subtitle}>{"COMPROBANTE DE PAGO"}</Text>
+    <Text style={{height:15}}>{""}</Text>
+    <View style={styles.dottedLine} />
+    <Text style={{height:6}}>{""}</Text>
+    <Text style={styles.section}>FECHA: {"1525"}</Text>
+    <Text style={styles.section}>CLIENTE: {factura.cliente.nombre}</Text>
+    <Text style={styles.section}>N° CUENTA: {factura.cliente.numeroCuenta}</Text>
+    <Text style={styles.section}>METODO DE PAGO: {"1525"}</Text>
+    <Text style={{height:6}}>{""}</Text>
+    <View style={styles.dottedLine} />
+    <Text style={styles.sectionTitle}>NOTAS PAGADAS (Bs.)</Text>
+    <View style={styles.dottedLine} />
+    <View style={styles.tableHeader}>
+      <Text style={[styles.tableHeaderText, styles.cellNota]}>NOTA</Text>
+      <Text style={[styles.tableHeaderText, styles.cellTotal]}>TOTAL</Text>
+      <Text style={[styles.tableHeaderText, styles.cellPagado]}>PAGADO</Text>
+      <Text style={[styles.tableHeaderText, styles.cellSaldo]}>SALDO</Text>
+    </View>
+    <View style={styles.dottedLine} />
+    {factura.notasPagadas.map((nota, index) => (
+      <View key={index}>
+        {nota.detalles.map((detalle, detalleIndex) => (
+          <View key={detalleIndex} style={styles.tableRow}>
+            <Text style={[styles.cell, styles.cellNota]}>
+              {detalle.numeroNota + '\n' + detalle.fecha}
+            </Text>
+            <Text style={[styles.cell, styles.cellTotal]}>{detalle.total.toFixed(2)}</Text>
+            <Text style={[styles.cell, styles.cellPagado]}>{detalle.pagado.toFixed(2)}</Text>
+            <Text style={[styles.cell, styles.cellSaldo]}>{detalle.saldo.toFixed(2)}</Text>
           </View>
-          </Cascading>
-        </ScrollView>
+        ))}
+        <View style={styles.dottedLine} />
+      </View>
+    ))}
+    <View style={styles.totalRow}>
+      <Text style={styles.cellTotal}>{"Total Pagado: "}</Text>
+      <Text style={[styles.cellPagado, styles.totalPagado]}>{totalPagado} Bs.</Text>
+    </View>  
+    <View style={styles.dottedLine} />
+  </View>
+  
+</Cascading>
+</ScrollView>
+
         <Cascading delay={500} animationKey={animationKey}>
         <View style={styles.buttonContainer}>
           <SimpleButton
@@ -132,6 +167,27 @@ const SimpleScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  totalRow: {
+    
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  totalPagado: {
+    fontSize: fontSizeL,
+    textAlign: 'center',
+  },
+  cellTotal: {
+    fontSize: fontSizeL,
+  },
+  sectionLabel: {
+    marginTop: 5,
+    marginLeft: 20,
+    fontWeight: 'bold',
+    fontSize: fontSizeL,
+  },
+  sectionContent: {
+    fontSize: fontSizeM,
+  },
   flexContainer: {
     flex: 1,
     backgroundColor: theme.colors.secondary,
@@ -146,7 +202,6 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 0.7,
     justifyContent: 'center',
-    // backgroundColor:'red',
     paddingBottom: 30,
   },
   buttonContainer: {
@@ -154,18 +209,12 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   container: {
-    margin: 20,
-    padding:5,
+    margin: 10,
     paddingTop: 40,
-    paddingBottom: 50,
+    paddingBottom: 80,
     alignSelf: 'stretch',
     borderRadius: 10,
     backgroundColor: '#fff',
-    // elevation: 9,
-  },
-  separacionInferior:{
-    margin: 20,
-    alignSelf: 'stretch',
   },
   title: {
     textAlign: 'center',
@@ -187,6 +236,66 @@ const styles = StyleSheet.create({
 },
   header:{
     marginHorizontal:20,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  subtitle: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  section: {
+    fontSize: fontSizeM,
+    marginLeft: 20,
+  },
+  sectionTitle: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: fontSizeL,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+  },
+  dottedLine: {
+    borderBottomWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'dotted',
+    marginVertical: 3,
+  },
+  tableHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  tableHeaderText: {
+    fontWeight: 'bold',
+    fontSize: 13,
+    fontSize: fontSizeL,
+  },
+  cell: {
+    fontSize: fontSizeM,
+    paddingVertical: 5,
+    textAlign: 'left',
+  },
+  cellNota: {
+    width: screenWidth * 0.22,
+  },
+  cellFecha: {
+    textAlign: 'center',
+  },
+  cellPagado: {
+    width: screenWidth * 0.23,
+    textAlign: 'right',
+  },
+  cellSaldo: {
+    width: screenWidth * 0.2,
+    textAlign: 'right',
   },
 });
 

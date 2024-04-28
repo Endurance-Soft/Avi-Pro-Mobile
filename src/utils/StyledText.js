@@ -62,10 +62,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: regularTextSize,
     color: theme.colors.green,  
+  },
+  bill: {
+    fontWeight: 'bold',
+    fontSize: regularTextSize*1.2,
+    color: 'black',
   }
+
 });
 
-const StyledText = ({ children, style, boldCenterText, regularText, boldText, buttonText, boldTextUpper, initial, regularIntenceText, balance, money, ...rest }) => {
+const StyledText = ({ children, style, bill, boldCenterText, regularText, boldText, buttonText, boldTextUpper, initial, regularIntenceText, balance, money, ...rest }) => {
     const customStyles = [
       regularText && styles.regularText,
       boldText && styles.boldText,
@@ -76,6 +82,7 @@ const StyledText = ({ children, style, boldCenterText, regularText, boldText, bu
       balance && styles.balance,
       money && styles.money,
       boldCenterText && styles.boldCenterText,
+      bill && styles.bill,
       style,
     ].filter(Boolean);
   
