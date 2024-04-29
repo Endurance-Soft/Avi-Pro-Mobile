@@ -60,7 +60,7 @@ const useStore = create((set, get) => ({
     });
 
     set({ clientesConNotas });
-    // console.log("Clientes con notas pendientes combinados y actualizados en el estado.");
+    console.log("");
   },
 
   updateNota: async (notaId, data) => {
@@ -74,6 +74,20 @@ const useStore = create((set, get) => ({
     await addDoc(pagosRealizados, pago);
     // console.log("Pago agregado al estado.");
   },
+
+  buscarClientePorCuenta: (numeroCuenta) => {
+    const clientes = get().clientes;
+    // console.log("Buscar cliente por número de cuenta:", numeroCuenta);
+    // console.log("Lista de clientes actual:", clientes);
+    const clienteEncontrado = clientes.find(cliente => cliente.Cuenta?.trim() === numeroCuenta.trim());
+    if (clienteEncontrado) {
+      // console.log("Cliente encontrado:", clienteEncontrado);
+    } else {
+      // console.log("No se encontró un cliente con el número de cuenta:", numeroCuenta);
+    }
+    return clienteEncontrado;
+  }
+
 }));
 
 export default useStore;
