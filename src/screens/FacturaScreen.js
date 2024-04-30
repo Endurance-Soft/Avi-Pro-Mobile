@@ -120,7 +120,7 @@ const SimpleScreen = () => {
                       </Text>
                     </View>
                   ))}
-                  <View style={styles.dottedLine} />
+                  {/* <View style={styles.dottedLine} /> */}
                 </View>
               ))}
               <View style={styles.totalRow}>
