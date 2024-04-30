@@ -7,9 +7,11 @@ import {db} from "../../config/firebase";
 import { collection, addDoc } from 'firebase/firestore';
 import StyledText from "../utils/StyledText";
 import userStore from "../stores/userStore"; 
+import SimpleButton from "../utils/SimpleButton";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const aspectRatio = 5285 / 5315;
 
 const LoginScreen = () => {
   const [info, setInfo] = useState({
@@ -67,8 +69,7 @@ const LoginScreen = () => {
       <KeyboardAvoidingView style={{ flex: 1}} behavior="padding"> 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.containerImgs}>
-        <Image source={require('../assets/forma1.png')} style={{ width: windowWidth*0.28, height: 87 }} />
-        <Image source={require('../assets/formas.png')} style={{ width: windowWidth*0.72, height: 206 }} />
+        <Image source={require('../assets/formas.png')} style={{ width: windowWidth * 0.75, height: windowWidth * 0.75 * aspectRatio }} />
       </View>
       <View>
         <StyledText boldCenterText style={styles.title}>Información Personal</StyledText>
@@ -96,9 +97,7 @@ const LoginScreen = () => {
           keyboardType="email-address"
         />
         {message && <StyledText regularText style={styles.errorFormat}>Por favor ingrese un correo válido</StyledText>}
-        <TouchableOpacity style={styles.button} onPress={handleSend}>
-          <StyledText boldText style={styles.continueButton}>Continuar</StyledText>
-        </TouchableOpacity>
+        <SimpleButton text="Continuar" onPress={handleSend} width={styles.button.width} />
       </View>
       </ScrollView>
       </KeyboardAvoidingView>
@@ -109,7 +108,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#bbe6ec',
+		backgroundColor: '#9DBBE2',
 		padding: 20,
 	},
   containerImgs:{

@@ -100,8 +100,8 @@
 					{message && <StyledText style={styles.errorFormat}>La clave de activación es incorrecta</StyledText>}
 					<StyledText style={styles.softText}>Al continuar acepta todos los términos, condiciones y políticas de privacidad.</StyledText>
 					<SimpleButton text="Continuar" onPress={handleSend} width={styles.button.width} />
-					{/* <SimpleButton text="Saltar" onPress={handleSkip} width={styles.button.width} /> */}
 					<StyledText style={styles.softText}>Si desea adquirir una licencia del producto por favor comuníquese con nuestro equipo de ventas.</StyledText>
+					<SimpleButton text="Saltar" onPress={handleSkip} width={styles.button.width} />
 				</View>
 
 			</SafeAreaView>
