@@ -14,14 +14,13 @@ import { useNavigation } from "@react-navigation/native";
 import SimpleButton from "../utils/SimpleButton";
 
 const NoteItem = ({ note, onSelect }) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const animationHeight = useRef(new Animated.Value(100)).current;
+  const animationHeight = useRef(new Animated.Value(85)).current; // Initial height set to 85
 
   const toggleExpansion = () => {
     setExpanded(!expanded);
     Animated.timing(animationHeight, {
-      toValue: expanded ? 100 : 250,
+      toValue: expanded ? 85 : 250, // Toggles between 85 and 250
       duration: 300,
       useNativeDriver: false,
     }).start();
@@ -37,47 +36,48 @@ const NoteItem = ({ note, onSelect }) => {
           { height: animationHeight },
         ]}
       >
-      <View style={noteItemstyles.row}>
-        <View>
-          <StyledText boldText>{note.nro_nota}</StyledText>
+        <View style={noteItemstyles.row}>
+          <View>
+            <StyledText boldText>{note.nro_nota}</StyledText>
+            <StyledText regularText>{note.Fecha_venta}</StyledText>
+          </View>
+          <StyledText money>{note.Saldo_pendiente} Bs</StyledText>
+          <View>
+            <SimpleButton 
+              text="Pagar" 
+              onPress={() => navigation.navigate("SelectPaymentMethodScreen", { note,  payMode: "normal"})}
+            />
+          </View>
+        </View>
+        <View style={[noteItemstyles.textLine, { marginTop: 20 }]}>
+          <StyledText regularText>importe :</StyledText>
+          <StyledText regularText>{note.importe_nota} Bs.</StyledText>
+        </View>
+        <View style={noteItemstyles.textLine}>
+          <StyledText regularText>monto pagado :</StyledText>
+          <StyledText regularText>{note.Monto_pagado} Bs.</StyledText>
+        </View>
+        <View style={noteItemstyles.textLine}>
+          <StyledText regularText>saldo pendiente :</StyledText>
+          <StyledText regularText>{note.Saldo_pendiente} Bs.</StyledText>
+        </View>
+        <View style={noteItemstyles.textLine}>
+          <StyledText regularText>venta :</StyledText>
           <StyledText regularText>{note.Fecha_venta}</StyledText>
         </View>
-        <StyledText money>{note.Saldo_pendiente} Bs</StyledText>
-        <View>
-          <SimpleButton 
-            text="Pagar" 
-            onPress={() => navigation.navigate("SelectPaymentMethodScreen", { note,  payMode: "normal"})}
-          />
+        <View style={noteItemstyles.textLine}>
+          <StyledText regularText>vencimiento :</StyledText>
+          <StyledText regularText>{note.Fecha_vence}</StyledText>
         </View>
-      </View>
-      <View style={[noteItemstyles.textLine, { marginTop: 15 }]}>
-        <StyledText regularText>importe :</StyledText>
-        <StyledText regularText>{note.importe_nota} Bs.</StyledText>
-      </View>
-      <View style={noteItemstyles.textLine}>
-        <StyledText regularText>monto pagado :</StyledText>
-        <StyledText regularText>{note.Monto_pagado} Bs.</StyledText>
-      </View>
-      <View style={noteItemstyles.textLine}>
-        <StyledText regularText>saldo pendiente :</StyledText>
-        <StyledText regularText>{note.Saldo_pendiente} Bs.</StyledText>
-      </View>
-      <View style={noteItemstyles.textLine}>
-        <StyledText regularText>venta :</StyledText>
-        <StyledText regularText>{note.Fecha_venta}</StyledText>
-      </View>
-      <View style={noteItemstyles.textLine}>
-        <StyledText regularText>vencimiento :</StyledText>
-        <StyledText regularText>{note.Fecha_vence}</StyledText>
-      </View>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
+
 const noteItemstyles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.primary,
-    paddingVertical: 20,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     marginVertical: 8,
     marginHorizontal: 20,
@@ -87,16 +87,9 @@ const noteItemstyles = StyleSheet.create({
     overflow: 'hidden',
   },
   row: {
-    backgroundColor: theme.colors.primary,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  button: {
-    backgroundColor: theme.colors.tertiary,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 22,
   },
   textLine: {
     flexDirection: "row",
@@ -104,4 +97,5 @@ const noteItemstyles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
 export default NoteItem;

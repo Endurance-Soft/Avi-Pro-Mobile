@@ -68,14 +68,13 @@ const ProfileScreen = ({ route }) => {
           <View style={styles.header}>
             <Image source={imgprofile} style={styles.avatar}></Image>
             <StyledText boldText style={styles.text}>{userData.nombre}</StyledText>
-            <StyledText regularText style={styles.textSub}>Cobrador</StyledText>
           </View>
         </Cascading>
       </Cascading>
       <View style={styles.containerInfo}>
         <Cascading delay={200} animationKey={animationKey}>
           <TouchableData
-            label="Nombre completo"
+            label="Nombre"
             icon="person-circle-outline"
             value={userData.nombre}
             fieldName="nombre"
@@ -87,6 +86,7 @@ const ProfileScreen = ({ route }) => {
             icon="business-outline"
             value={userData.empresa_id}
             fieldName="empresa_id"
+            editable = {false}
           />
         </Cascading>
         <Cascading delay={400} animationKey={animationKey}>
@@ -95,6 +95,7 @@ const ProfileScreen = ({ route }) => {
             icon="mail-open-outline"
             value={userData.email}
             fieldName="email"
+            
           />
         </Cascading>
       </View>
