@@ -195,6 +195,7 @@ const PayScreen = ({ route }) => {
                             name="checkBankDate"
                             title={method === 'method' ? "Fecha Cheque" : "Fecha"}
                             callThrough={setSelectedDate}
+                            isEditable={method === 'cheque' ? true : false}
                         />
 
                         {method === 'efectivo' &&
@@ -204,7 +205,7 @@ const PayScreen = ({ route }) => {
                                 selectedOption={selectedCash}
                                 onOptionChange={setSelectedCash}
                             />}
-                        {method === 'banco' &&
+                        {method === 'transferencia' &&
                             <DropdownSelector2
                                 title="Cta/Caja Banco"
                                 options={banks}

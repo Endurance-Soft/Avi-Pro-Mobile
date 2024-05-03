@@ -52,7 +52,7 @@ const SelectPaymentMethodScreen = ({ route }) => {
                         <Icon name="right" size={30} color="black" />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"banco" })}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate(destino, { note, method:"transferencia" })}>
                     <View style = {styles.itemContainer}>
                         <StyledText boldText>Transferencia Bancaria</StyledText>
                         <Icon name="right" size={30} color="black" />

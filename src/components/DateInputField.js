@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, formatDate } from 'date-fns';
 
-const DateInputField = ({ control, name, title, callThrough, type = 'default' }) => {
+const DateInputField = ({ control, name, title, callThrough, type = 'default', isEditable }) => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -33,6 +33,7 @@ const DateInputField = ({ control, name, title, callThrough, type = 'default' })
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={format(selectedDate, 'dd/MM/yyyy')}
+                        editable={isEditable}
                     />
                     
                 )}

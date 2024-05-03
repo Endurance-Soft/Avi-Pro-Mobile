@@ -98,13 +98,14 @@ const AutomaticPayScreen = ({ route }) => {
             if (dataAll[index].Saldo_pendiente === 0 || data.amount === 0) {
                 return;
             } else {
+                dataAll[index].Monto_pagado = parseFloat(dataAll[index].Monto_pagado);
                 if (data.amount > dataAll[index].Saldo_pendiente) {
                     data.amount -= dataAll[index].Saldo_pendiente;
                     dataAll[index].Saldo_pendiente = 0;
                     dataAll[index].Monto_pagado = parseFloat(dataAll[index].importe_nota);
                 } else {
                     dataAll[index].Saldo_pendiente -= parseFloat(data.amount);
-                    dataAll[index].Monto_pagado += parseFloat(data.amount.toFixed(2));
+                    dataAll[index].Monto_pagado += parseFloat(data.amount).toPrecision(2);
                     data.amount = 0;
                 }
 
@@ -131,7 +132,7 @@ const AutomaticPayScreen = ({ route }) => {
                     fecha_registro: dataAll[index].Fecha_venta || "",
                     modo_pago: method,
                     moneda: selectedCurrency,
-                    monto: dataAll[index].Monto_pagado,
+                    monto: parseFloat(dataAll[index].Monto_pagado),
                     nro_factura: dataAll[index].nro_nota || "",
                     observaciones: data.observations || "",
                     pago_a_nota: dataAll[index].id || "",
@@ -231,6 +232,7 @@ const AutomaticPayScreen = ({ route }) => {
                         name="checkBankDate"
                         title={method === 'method' ? "Fecha Cheque" : "Fecha"}
                         callThrough={setSelectedDate}
+                        isEditable={method === 'cheque' ? true : false}
                     />
 
                     {method === 'efectivo' &&
@@ -240,7 +242,7 @@ const AutomaticPayScreen = ({ route }) => {
                             selectedOption={selectedCash}
                             onOptionChange={setSelectedCash}
                         />}
-                    {method === 'banco' &&
+                    {method === 'transferencia' &&
                         <DropdownSelector2
                             title="Cta/Caja Banco"
                             options={banks}
