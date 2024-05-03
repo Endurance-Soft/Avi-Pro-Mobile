@@ -70,7 +70,7 @@ const AutomaticPayScreen = ({ route }) => {
             amount: "",
             currency: "",
             deposit: "",
-            advancePaymentNumber: "",
+            // advancePaymentNumber: "",
             checkBankNumber: "",
             checkBankDate: "",
             bankAccount: "",
@@ -83,7 +83,9 @@ const AutomaticPayScreen = ({ route }) => {
         console.log(data);
         let index = 0;
         while(index < dataAll.length && data.amount > 0){
-            if(dataAll[index].Saldo_pendiente === 0){}else{
+            if(dataAll[index].Saldo_pendiente === 0 || data.amount === 0){
+                return;
+            }else{
                 if(data.amount > dataAll[index].Saldo_pendiente){
                     data.amount -= dataAll[index].Saldo_pendiente;
                     dataAll[index].Saldo_pendiente = 0;
@@ -146,6 +148,7 @@ const AutomaticPayScreen = ({ route }) => {
                 type="numeric"
                 rules={{
                     required: "Este campo es requerido",
+                    validate: (value) => parseFloat(value) <= vBalance || "El monto excede el saldo pendiente",
                     pattern: {
                         value: /^[0-9]+([.][0-9]{0,2})?$/,
                         message: "Ingrese solo números",
@@ -161,7 +164,7 @@ const AutomaticPayScreen = ({ route }) => {
                 onOptionChange={handleCurrencyChange}
             />
             </View>
-            <InputField 
+            {/* <InputField 
                 control={control}
                 name="advancePaymentNumber"
                 title="Nº Anticipo"
@@ -174,7 +177,7 @@ const AutomaticPayScreen = ({ route }) => {
                     },
                 }}
                 errors={errors} 
-            />
+            /> */}
             {method === 'cheque' && 
             <InputField 
                 control={control}

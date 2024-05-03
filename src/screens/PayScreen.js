@@ -48,7 +48,7 @@ const PayScreen = ({ route }) => {
             amount: "",
             currency: "",
             payMode: "",
-            advancePaymentNumber: "",
+            // advancePaymentNumber: "",
             checkBankNumber: "",
             checkBankDate: "",
             account: "",
@@ -58,6 +58,9 @@ const PayScreen = ({ route }) => {
     });
 
     const onSubmit = (data) => {
+        if(note.Saldo_pendiente === 0 || parseFloat(data.amount) > note.Saldo_pendiente || parseFloat(data.amount) === 0){
+            return;
+        }
         PaymentStore.getState().establecerCliente(user.nombre, note.Cuenta);
         PaymentStore.getState().establecerMetodoPago(method);
         PaymentStore.getState().agregarNotaPagada({
@@ -125,6 +128,7 @@ const PayScreen = ({ route }) => {
                 type="numeric"
                 rules={{
                     required: "Este campo es requerido",
+                    validate: value => parseFloat(value) <= note.Saldo_pendiente || "El monto excede el saldo pendiente",
                     pattern: {
                         value: /^[0-9]+([.][0-9]{0,2})?$/,
                         message: "Ingrese solo números",
@@ -140,7 +144,7 @@ const PayScreen = ({ route }) => {
                 onOptionChange={handleCurrencyChange}
             />
             </View>
-            <InputField 
+            {/* <InputField 
                 control={control}
                 name="advancePaymentNumber"
                 title="Nº Anticipo"
@@ -153,7 +157,7 @@ const PayScreen = ({ route }) => {
                     },
                 }}
                 errors={errors} 
-            />
+            /> */}
             {method === 'cheque' && 
             <InputField 
                 control={control}
