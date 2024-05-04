@@ -3,7 +3,7 @@ import { Text, TextInput, StyleSheet, View } from 'react-native';
 import { theme } from "../assets/Theme";
 import { Controller } from 'react-hook-form';
 
-const InputField = ({ control, name, title, type = 'default', rules = {}, errors ={} }) => {
+const InputField = ({ control, name, title, type = 'default', rules = {}, errors ={}, height = 46 }) => {
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -18,7 +18,7 @@ const InputField = ({ control, name, title, type = 'default', rules = {}, errors
                 rules={rules}
                 render={({ field: { onChange, value } }) => (
                     <TextInput
-                        style={InputStyle}
+                        style={[InputStyle, { height }]}
                         onChangeText={onChange}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
@@ -47,30 +47,26 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     input: {
-      height: 46,
-      width: "auto",
-      minWidth: 245,
-      padding: 10,
-      backgroundColor: theme.colors.white,
-      borderRadius: 10,
-      borderWidth: 2,
-      borderColor: theme.colors.otherWhite,
-      fontSize: 18,
-      fontWeight: "bold",
-
-    },
-    inputFocused:{
-        height: 46,
         width: "auto",
         minWidth: 245,
         padding: 10,
+        backgroundColor: theme.colors.white,
         borderRadius: 10,
+        borderWidth: 2,
+        borderColor: theme.colors.otherWhite,
         fontSize: 18,
         fontWeight: "bold",
-        borderWidth: 2,
-        borderColor: theme.colors.black,
-    
-    },
+      },
+      inputFocused:{
+          width: "auto",
+          minWidth: 245,
+          padding: 10,
+          borderRadius: 10,
+          fontSize: 18,
+          fontWeight: "bold",
+          borderWidth: 2,
+          borderColor: theme.colors.black,
+      },
     error: {
         color: 'red',
         fontSize: 12,

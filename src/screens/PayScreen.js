@@ -214,12 +214,14 @@ const PayScreen = ({ route }) => {
                             />}
                     </View>
                     <InputField
+                        height={80}
                         control={control}
                         name="reference"
                         title="Referencia"
                         type="default"
                     />
                     <InputField
+                        height={80}
                         control={control}
                         name="observations"
                         title="Observaciones"
@@ -256,13 +258,17 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         paddingHorizontal: 20,
+        paddingTop: 60,
         paddingVertical: 20,
         alignItems: "center",
+        backgroundColor:theme.colors.secondary,
+        borderRadius: 25,
+        elevation:5,
     },
     back: {
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.colors.otherWhite,
+        backgroundColor: theme.colors.skyBlue,
         borderRadius: 20,
         width: 60,
         height: 60,
@@ -282,7 +288,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignSelf: "center",
-        width: screenWidth - 240,
+        // width: screenWidth - 240,
     },
     button: {
         justifyContent: "center",
@@ -305,7 +311,12 @@ const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
         marginHorizontal: 10,
-        marginVertical: 10,
+        // marginVertical: 10,
+        // backgroundColor:'red',
+        flexDirection: "column",
+        justifyContent: "space-between",
+        paddingTop: 40,
+        paddingBottom: 50,
     },
 });
 
