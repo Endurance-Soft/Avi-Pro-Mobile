@@ -94,19 +94,27 @@ const AutomaticPayScreen = ({ route }) => {
     const onSubmit = (data) => {
         console.log(data);
         let index = 0;
+        let amount2 = data.amount;
         while (index < dataAll.length && data.amount > 0) {
             if (dataAll[index].Saldo_pendiente === 0 || data.amount === 0) {
-                return;
+                console.log("bien", index);
+                if (index === dataAll.length - 1) {
+                    return;
+                }
             } else {
                 dataAll[index].Monto_pagado = parseFloat(dataAll[index].Monto_pagado);
                 if (data.amount > dataAll[index].Saldo_pendiente) {
                     data.amount -= dataAll[index].Saldo_pendiente;
                     dataAll[index].Saldo_pendiente = 0;
-                    dataAll[index].Monto_pagado = parseFloat(dataAll[index].importe_nota);
+                    dataAll[index].Monto_pagado = parseFloat(dataAll[index].importe_nota).toFixed(2);
+                    amount2 = dataAll[index].importe_nota;
+                    console.log("Saldo pendiente: ", dataAll[index].Monto_pagado, "Monto pagado: ", data.amount);
                 } else {
-                    dataAll[index].Saldo_pendiente -= parseFloat(data.amount);
-                    dataAll[index].Monto_pagado += parseFloat(data.amount).toPrecision(2);
+                    dataAll[index].Saldo_pendiente = parseFloat((dataAll[index].Saldo_pendiente - parseFloat(data.amount)).toFixed(2));
+                    dataAll[index].Monto_pagado = parseFloat((dataAll[index].Monto_pagado + parseFloat(data.amount)).toFixed(2));
+                    amount2 = data.amount;
                     data.amount = 0;
+                    console.log("Saldo pendiente2: ", dataAll[index].Monto_pagado, "Monto pagado: ", data.amount)
                 }
 
                 PaymentStore.getState().establecerCliente(user.nombre, dataAll[index].Cuenta);
@@ -118,12 +126,12 @@ const AutomaticPayScreen = ({ route }) => {
                         numeroNota: dataAll[index].nro_nota,
                         fecha: dataAll[index].Fecha_venta,
                         total: parseFloat(dataAll[index].importe_nota),
-                        pagado: parseFloat(data.amount),
+                        pagado: parseFloat(amount2),
                         saldo: parseFloat(dataAll[index].Saldo_pendiente),
                     }]
                 });
 
-                updateNota(dataAll[index].id, { Saldo_pendiente: dataAll[index].Saldo_pendiente, Monto_pagado: parseFloat(dataAll[index].Monto_pagado) });
+                updateNota(dataAll[index].id, { Saldo_pendiente: dataAll[index].Saldo_pendiente, Monto_pagado: dataAll[index].Monto_pagado });
                 agregarPago({
                     cta_deposito: selectedBank,
                     cuenta: dataAll[index].Cuenta || "",
