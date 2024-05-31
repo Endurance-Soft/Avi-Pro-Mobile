@@ -19,11 +19,12 @@ const LoginScreen = () => {
     nombre: "", 
   });
   const [message, setMessage] = useState(false);
-  const { user, setUser, setUserId, setName } = userStore(state => ({
+  const { user, setUser, setUserId, setName, setId } = userStore(state => ({
     user: state.user,
     setUser: state.setUser,
     setUserId: state.setUserId,
     setName: state.setName,
+    setId: state.setId,
   }));
   const addDocument = async (data) => {
     try{
@@ -55,6 +56,7 @@ const LoginScreen = () => {
         console.log("Document added with ID: ", id);
         setUserId(id);
         setName(info.nombre);
+        setId(info.cobrador_id);
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
