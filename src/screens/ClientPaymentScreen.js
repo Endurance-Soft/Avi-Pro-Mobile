@@ -1,4 +1,3 @@
-//ClientPayment.js
 import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, TouchableOpacity, Text, FlatList, StyleSheet, View, Dimensions } from 'react-native';
 import { theme } from '../assets/Theme';
@@ -10,6 +9,8 @@ import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
 import StyledText from "../utils/StyledText";
+import axios from 'axios';
+import { BASE_URL } from "../../config";
 const windowWidth = Dimensions.get('window').width;
 import useStore from '../stores/store';
 
@@ -17,33 +18,38 @@ const ClientPaymentScreen = ({ route }) => {
   const { itemClient } = route.params;
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('Pendientes');
-  const clientesConNotas = useStore((state) => state.clientesConNotas);
   const [clientData, setClientData] = useState(null);
   const title = 'Notas';
   const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
   const [animationKey, setAnimationKey] = useState(Date.now());
   
-  useEffect(() => {
-    const accountId = itemClient.Cuenta.trim();
-    const data = clientesConNotas.find(client => client.Cuenta.trim() === accountId);
-    setClientData(data);
-  
-    if (data) {
-      console.log("Datos del cliente obtenidos:", JSON.stringify(data, null, 2));
-    } else {
-      console.log("No se encontraron datos para la cuenta:", accountId);
+  const fetchClientData = useCallback(async () => {
+    try {
+      const accountId = itemClient.Cuenta.trim();
+      const response = await axios.get(`${BASE_URL}/empresa/${itemClient.Empresa_ID}/clientes`);
+      const data = response.data.find(client => client.Cuenta.trim() === accountId);
+      setClientData(data);
+      if (data) {
+        console.log("Datos del cliente obtenidos:", JSON.stringify(data, null, 2));
+      } else {
+        console.log("No se encontraron datos para la cuenta:", accountId);
+      }
+    } catch (error) {
+      console.error("Error fetching client data: ", error);
     }
-  }, [itemClient, clientesConNotas]);;
-  
+  }, [itemClient]);
 
   useFocusEffect(
     useCallback(() => {
       setAnimationKey(Date.now());
-    }, [])
+      fetchClientData();
+    }, [fetchClientData])
   );
+
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
+
   const renderItem = ({ item, index }) => (
     <Cascading
       delay={index > 6 ? 0 : 400 + 80 * index}
@@ -52,9 +58,11 @@ const ClientPaymentScreen = ({ route }) => {
       <NoteItem note={item} onSelect={() => {}}/>
     </Cascading>
   );
+
   if (!clientData) {
     return <Text>Cargando datos...</Text>;
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerWithComponents}>
@@ -83,14 +91,14 @@ const ClientPaymentScreen = ({ route }) => {
         </Cascading>
       </View>
       <View style={styles.listContainer}>
-        <FlatList
-            data={clientData.NotasPendientes}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            ListHeaderComponent={<View style={{ height: 10 }} />}
-            ListFooterComponent={<View style={{ height: 10 }} />}
-            showsVerticalScrollIndicator={false}
-        />
+      <FlatList
+        data={clientData.NotasPendientes}
+        renderItem={renderItem}
+        keyExtractor={item => item.nro_nota.toString()}
+        ListHeaderComponent={<View style={{ height: 10 }} />}
+        ListFooterComponent={<View style={{ height: 10 }} />}
+        showsVerticalScrollIndicator={false}
+      />
       </View> 
     </SafeAreaView>
   )
@@ -127,8 +135,7 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     alignItems: 'center',
-    flex : 1,
-    backgroundColor: 'red',
+    flex: 1,
     backgroundColor: theme.colors.skyBlue,
     borderRadius: 20,
     marginLeft: 20,

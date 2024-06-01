@@ -28,47 +28,55 @@ const NoteItem = ({ note, onSelect }) => {
 
   const navigation = useNavigation();
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-ES", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={toggleExpansion}>
-      <Animated.View
-        style={[
-          noteItemstyles.container,
-          { height: animationHeight },
-        ]}
-      >
+      <Animated.View style={[noteItemstyles.container, { height: animationHeight }]}>
         <View style={noteItemstyles.row}>
           <View>
             <StyledText boldText>{note.nro_nota}</StyledText>
-            <StyledText regularText>{note.Fecha_venta}</StyledText>
+            <StyledText regularText>{formatDate(note.Fecha_venta)}</StyledText>
           </View>
           <StyledText money>{note.Saldo_pendiente} Bs</StyledText>
           <View>
             <SimpleButton 
               text="Pagar" 
-              onPress={() => navigation.navigate("SelectPaymentMethodScreen", { note,  payMode: "normal"})}
+              onPress={() => navigation.navigate("SelectPaymentMethodScreen", { note, payMode: "normal" })}
             />
           </View>
         </View>
-        <View style={[noteItemstyles.textLine, { marginTop: 20 }]}>
-          <StyledText regularText>importe :</StyledText>
-          <StyledText regularText>{note.importe_nota} Bs.</StyledText>
-        </View>
-        <View style={noteItemstyles.textLine}>
-          <StyledText regularText>monto pagado :</StyledText>
-          <StyledText regularText>{note.Monto_pagado} Bs.</StyledText>
-        </View>
-        <View style={noteItemstyles.textLine}>
-          <StyledText regularText>saldo pendiente :</StyledText>
-          <StyledText regularText>{note.Saldo_pendiente} Bs.</StyledText>
-        </View>
-        <View style={noteItemstyles.textLine}>
-          <StyledText regularText>venta :</StyledText>
-          <StyledText regularText>{note.Fecha_venta}</StyledText>
-        </View>
-        <View style={noteItemstyles.textLine}>
-          <StyledText regularText>vencimiento :</StyledText>
-          <StyledText regularText>{note.Fecha_vence}</StyledText>
-        </View>
+        {expanded && (
+          <>
+            <View style={[noteItemstyles.textLine, { marginTop: 20 }]}>
+              <StyledText regularText>Importe:</StyledText>
+              <StyledText regularText>{note.importe_nota} Bs</StyledText>
+            </View>
+            <View style={noteItemstyles.textLine}>
+              <StyledText regularText>Monto Pagado:</StyledText>
+              <StyledText regularText>{note.Monto_pagado} Bs</StyledText>
+            </View>
+            <View style={noteItemstyles.textLine}>
+              <StyledText regularText>Saldo Pendiente:</StyledText>
+              <StyledText regularText>{note.Saldo_pendiente} Bs</StyledText>
+            </View>
+            <View style={noteItemstyles.textLine}>
+              <StyledText regularText>Fecha de Venta:</StyledText>
+              <StyledText regularText>{formatDate(note.Fecha_venta)}</StyledText>
+            </View>
+            <View style={noteItemstyles.textLine}>
+              <StyledText regularText>Fecha de Vencimiento:</StyledText>
+              <StyledText regularText>{formatDate(note.Fecha_vence)}</StyledText>
+            </View>
+          </>
+        )}
       </Animated.View>
     </TouchableWithoutFeedback>
   );
@@ -78,13 +86,13 @@ const noteItemstyles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.primary,
     paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     marginVertical: 8,
     marginHorizontal: 20,
     borderWidth: 2,
     borderRadius: 20,
     borderColor: theme.colors.otherWhite,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   row: {
     flexDirection: "row",
