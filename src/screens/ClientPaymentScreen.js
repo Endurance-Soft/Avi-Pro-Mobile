@@ -20,7 +20,7 @@ const ClientPaymentScreen = ({ route }) => {
   const [selectedOption, setSelectedOption] = useState('Pendientes');
   const [clientData, setClientData] = useState(null);
   const title = 'Notas';
-  const OPCIONES = ['Pendientes', 'Pagadas', 'Todas']
+  const OPCIONES = ['Pendientes', 'Pagadas']
   const [animationKey, setAnimationKey] = useState(Date.now());
   
   const fetchClientData = useCallback(async () => {
@@ -29,11 +29,11 @@ const ClientPaymentScreen = ({ route }) => {
       const response = await axios.get(`${BASE_URL}/empresa/${itemClient.Empresa_ID}/clientes`);
       const data = response.data.find(client => client.Cuenta.trim() === accountId);
       setClientData(data);
-      if (data) {
-        console.log("Datos del cliente obtenidos:", JSON.stringify(data, null, 2));
-      } else {
-        console.log("No se encontraron datos para la cuenta:", accountId);
-      }
+      // if (data) {
+      //   console.log("Datos del cliente obtenidos:", JSON.stringify(data, null, 2));
+      // } else {
+      //   console.log("No se encontraron datos para la cuenta:", accountId);
+      // }
     } catch (error) {
       console.error("Error fetching client data: ", error);
     }
