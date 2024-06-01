@@ -4,8 +4,8 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet, Dimensions } from 
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
-import { theme } from "../assets/Theme";
-import StyledText from "../utils/StyledText";
+import { theme } from "../../assets/Theme";
+import StyledText from "../../utils/StyledText";
 const windowWidth = Dimensions.get("window").width;
 const { height } = Dimensions.get('window');
 const regularTextSize = height * 0.021

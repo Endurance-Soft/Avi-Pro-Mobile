@@ -9,7 +9,6 @@ import NoteItem from "../components/NoteItem";
 import DropdownSelector from "../components/DropdownSelector";
 import Cascading from "../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import ClientItem from "../components/ClientItem";
 import StyledText from "../utils/StyledText";
 const windowWidth = Dimensions.get('window').width;
 import useStore from '../stores/store';

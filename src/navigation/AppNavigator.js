@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import NewScreen from '../screens/HomeScreen';
-import ClientSearchScreen from '../screens/ClientSearchScreen';
+import ClientSearchScreen from '../screens/ClientSearch/ClientSearchScreen';
 import BillScreen from '../screens/BillScreen'
 import ClientPaymentScreen from '../screens/ClientPaymentScreen';
 import PayScreen from '../screens/PayScreen';

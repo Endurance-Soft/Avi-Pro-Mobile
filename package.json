@@ -12,6 +12,7 @@
     "@expo-google-fonts/alex-brush": "^0.2.3",
     "@expo-google-fonts/montserrat": "^0.2.3",
     "@firebase/firestore": "^4.6.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-native-firebase/analytics": "^19.0.0",
     "@react-native-firebase/app": "^19.0.0",

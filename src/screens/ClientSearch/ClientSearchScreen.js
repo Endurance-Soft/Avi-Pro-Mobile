@@ -1,23 +1,16 @@
-// ClientSearchScreen.js
-import React, { useState, useCallback, useEffect } from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  StyleSheet,
-  View,
-} from "react-native";
-import SearchBar from "../components/SearchBar";
-import ClientItem from "../components/ClientItem";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { SafeAreaView, TouchableOpacity, FlatList, StyleSheet, View, } from "react-native";
+import SearchBar from "./SearchBar";
+import ClientItem from "./ClientItem";
 import { StatusBar } from "expo-status-bar";
-import { theme } from "../assets/Theme";
+import { theme } from "../../assets/Theme";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import Cascading from "../animation/CascadingFadeInView";
+import Cascading from "../../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import StyledText from "../utils/StyledText";
+import StyledText from "../../utils/StyledText";
 import axios from "axios";
+import { BASE_URL } from "../../../config";
 
 const secondary = theme.colors.secondary;
 
@@ -30,24 +23,25 @@ const ClientSearchScreen = () => {
   const [animationKey, setAnimationKey] = useState(Date.now());
   const [visibleItemCount, setVisibleItemCount] = useState(10);
 
-  const fetchClientes = async () => {
+  const fetchClientes = useCallback(async () => {
     try {
-      const response = await axios.get("http://192.168.1.2:3000/empresa/1/clientes");
+      const empresaId = 1; // Hardcoded empresa ID
+      const response = await axios.get(`${BASE_URL}/empresa/${empresaId}/clientes`);
       setClientesConNotas(response.data);
-      console.log(response.data);
-      // setFilteredData(response.data);
+      setFilteredData(response.data);
+      console.log(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("Error fetching clientes: ", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchClientes();
-  }, []);
+  }, [fetchClientes]);
 
-  const loadMoreItems = () => {
+  const loadMoreItems = useCallback(() => {
     setVisibleItemCount((prevItemCount) => prevItemCount + 10);
-  };
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -56,7 +50,7 @@ const ClientSearchScreen = () => {
     }, [])
   );
 
-  const handleSearch = (text) => {
+  const handleSearch = useCallback((text) => {
     setSearchQuery(text);
     const formattedQuery = text.toLowerCase();
     const newData = clientesConNotas.filter((item) => {
@@ -67,13 +61,13 @@ const ClientSearchScreen = () => {
       }
     });
     setFilteredData(newData);
-  };
+  }, [clientesConNotas, selectedOption]);
 
-  const handleOptionChange = (option) => {
+  const handleOptionChange = useCallback((option) => {
     setSelectedOption(option);
-  };
+  }, []);
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = useCallback(({ item, index }) => (
     <Cascading
       delay={index > 9 ? 0 : 400 + 100 * index}
       animationKey={animationKey}
@@ -85,7 +79,15 @@ const ClientSearchScreen = () => {
         }
       />
     </Cascading>
-  );
+  ), [animationKey, navigation]);
+
+  const keyExtractor = useCallback((item) => item.cliente_ID.toString(), []);
+
+  const getItemLayout = useCallback((data, index) => ({
+    length: 70,
+    offset: 70 * index,
+    index,
+  }), []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -121,7 +123,8 @@ const ClientSearchScreen = () => {
         <FlatList
           data={filteredData.slice(0, visibleItemCount)}
           renderItem={renderItem}
-          keyExtractor={(item) => item.cliente_ID}
+          keyExtractor={keyExtractor}
+          getItemLayout={getItemLayout}
           ListHeaderComponent={<View style={{ height: 10 }} />}
           ListFooterComponent={<View style={{ height: 10 }} />}
           onEndReached={loadMoreItems}
@@ -179,24 +182,3 @@ const styles = StyleSheet.create({
 });
 
 export default ClientSearchScreen;
-
-//   Empresa_ID: 2,
-//   sucursal_ID: 1,
-//   cliente_ID: "00C",
-//   Cuenta: "11201010013",
-//   Nombre: "ARANCIBIA HEBERTO",
-//   Direccion: "CHIQUICOLLO",
-//   Telefono: "4248174 - 75467019",
-//   cobrador_ID: "01"
-//   NotasPendientes[{
-//          "Empresa_ID": 2,
-//          "sucursal_ID": 1,
-//          "Cuenta": "11201010011",
-//          "Fecha": "2024-01-01",
-//          "nro_nota": "R01225066",
-//              "importe_nota": 696.0,
-//              "Monto_pagado": 0.0,
-//          "Saldo_pendiente": 696.0,
-//             "Fecha_venta": "2022-10-26",
-//             "Fecha_vence": "2022-12-25"
-//          }]
