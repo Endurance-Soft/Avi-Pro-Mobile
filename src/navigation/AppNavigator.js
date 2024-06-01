@@ -11,8 +11,8 @@ import AutomaticPayScreen from '../screens/AutomaticPayScreen';
 import SelectPaymentMethodScreen from '../screens/SelectPaymentMethodScreen';
 import FacturaScreen from '../screens/FacturaScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import HistoryScreen from '../screens/HistoryScreen';
-import OthersScreen from '../screens/OthersScreen';
+// import HistoryScreen from '../screens/HistoryScreen';
+// import OthersScreen from '../screens/OthersScreen';
 import ActivationScreen from '../screens/ActivationScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -22,11 +22,11 @@ import { theme } from '../assets/Theme';
 
 const Stack = createNativeStackNavigator();
 
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
-const TabIcon = ({ name, color, size }) => {
-  return <Icon name={name} color={color} size={size} />;
-};
+// const TabIcon = ({ name, color, size }) => {
+//   return <Icon name={name} color={color} size={size} />;
+// };
 
 
 function AppNavigator() {
@@ -39,7 +39,7 @@ function AppNavigator() {
       }}>
         <Stack.Screen 
           name="NewScreen" 
-          component={TabNavigator}
+          component={NewScreen}
         />
         <Stack.Screen 
           name="ClientSearchScreen" 
@@ -94,46 +94,46 @@ function AppNavigator() {
   );
 }
 
-function TabNavigator() {
-  return (
-    <Tab.Navigator
-    screenOptions={{
-      tabBarActiveTintColor: theme.colors.tertiary,
-      tabBarInactiveTintColor: theme.colors.slateGrey,
-      headerShown: false,
-      }}
-    >
-      <Tab.Screen
-      name="Inicio"
-      component={NewScreen}
-      options={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => (
-          <TabIcon name={focused ? 'home' : 'home-outline'} color={color} size={size}/>
+// function TabNavigator() {
+//   return (
+//     <Tab.Navigator
+//     screenOptions={{
+//       tabBarActiveTintColor: theme.colors.tertiary,
+//       tabBarInactiveTintColor: theme.colors.slateGrey,
+//       headerShown: false,
+//       }}
+//     >
+//       <Tab.Screen
+//       name="Inicio"
+//       component={NewScreen}
+//       options={({ route }) => ({
+//         tabBarIcon: ({ focused, color, size }) => (
+//           <TabIcon name={focused ? 'home' : 'home-outline'} color={color} size={size}/>
           
-        ),
-      })}
-    />
-      <Tab.Screen
-      name="Historial"
-      component={HistoryScreen}
-      options={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => (
-          <TabIcon name={focused ? 'newspaper' : 'newspaper-outline'} color={color} size={size} />
-        ),
-        tabBarBadge: 3, //borrar
-      })}
-    />
-      <Tab.Screen
-      name="Otros"
-      component={OthersScreen}
-      options={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => (
-          <TabIcon name={focused ? 'menu' : 'menu-outline'} color={color} size={size} />
-        ),
-      })}
-      />
-    </Tab.Navigator>
-  );
-}
+//         ),
+//       })}
+//     />
+//       <Tab.Screen
+//       name="Historial"
+//       component={HistoryScreen}
+//       options={({ route }) => ({
+//         tabBarIcon: ({ focused, color, size }) => (
+//           <TabIcon name={focused ? 'newspaper' : 'newspaper-outline'} color={color} size={size} />
+//         ),
+//         tabBarBadge: 3, //borrar
+//       })}
+//     />
+//       <Tab.Screen
+//       name="Otros"
+//       component={OthersScreen}
+//       options={({ route }) => ({
+//         tabBarIcon: ({ focused, color, size }) => (
+//           <TabIcon name={focused ? 'menu' : 'menu-outline'} color={color} size={size} />
+//         ),
+//       })}
+//       />
+//     </Tab.Navigator>
+//   );
+// }
 
 export default AppNavigator;
