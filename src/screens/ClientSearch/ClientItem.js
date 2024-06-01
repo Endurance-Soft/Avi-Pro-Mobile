@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { theme } from '../../assets/Theme';
 import StyledText from "../../utils/StyledText";
 import BorderBox from "../../utils/BorderBox";
@@ -12,14 +10,14 @@ const windowWidth = Dimensions.get('window').width;
 const ClientItem = ({ client, onSelect }) => {
   const vNombre = client.Nombre;
   const vCuenta = client.Cuenta;
-  
+
   // Asegurarse de que NotasPendientes esté definido y sea un array
-  const notasPendientes = Array.isArray(client.NotasPendientes) ? client.NotasPendientes : [];
-  const vBalance = parseFloat(notasPendientes.reduce((total, nota) => {
+  const notasPendientes = useMemo(() => Array.isArray(client.NotasPendientes) ? client.NotasPendientes : [], [client.NotasPendientes]);
+  const vBalance = useMemo(() => parseFloat(notasPendientes.reduce((total, nota) => {
     const saldoPendiente = parseFloat(nota.Saldo_pendiente);
     return total + (isNaN(saldoPendiente) ? 0 : saldoPendiente);
-  }, 0).toFixed(2));
-  
+  }, 0).toFixed(2)), [notasPendientes]);
+
   const vNotasPendientes = notasPendientes.length;
   const pagosRealizados = useStore(state => state.pagosRealizados);
   const [vUltimoPago, setUltimoPago] = useState("2020-06-10");
@@ -28,10 +26,14 @@ const ClientItem = ({ client, onSelect }) => {
     if (pagosRealizados.length > 0) {
       setUltimoPago(pagosRealizados.reduce((mayor, pago) => pago.fecha > mayor && pago.cuenta === client.Cuenta ? pago.fecha : mayor, "2020-06-10"));
     }
-  }, [pagosRealizados]);
+  }, [pagosRealizados, client.Cuenta]);
+
+  const handlePress = useCallback(() => {
+    onSelect(client.cliente_ID);
+  }, [client.cliente_ID, onSelect]);
 
   return (
-    <BorderBox onPress={() => onSelect(client.cliente_ID)} style={{ marginVertical: 10 }}>
+    <BorderBox onPress={handlePress} style={{ marginVertical: 10 }}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
           <StyledText initial>{vNombre.charAt(0)}</StyledText>
@@ -81,10 +83,6 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     flex: 1,
   },
-  codeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   notesContainer: {
     flexDirection: 'column',
   },
@@ -105,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClientItem;
+export default React.memo(ClientItem);
