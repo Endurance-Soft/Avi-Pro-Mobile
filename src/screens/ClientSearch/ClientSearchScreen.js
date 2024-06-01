@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { SafeAreaView, TouchableOpacity, FlatList, StyleSheet, View, } from "react-native";
+import { SafeAreaView, TouchableOpacity, FlatList, StyleSheet, View } from "react-native";
 import SearchBar from "./SearchBar";
 import ClientItem from "./ClientItem";
 import { StatusBar } from "expo-status-bar";
@@ -22,6 +22,7 @@ const ClientSearchScreen = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [animationKey, setAnimationKey] = useState(Date.now());
   const [visibleItemCount, setVisibleItemCount] = useState(10);
+  const [isSearching, setIsSearching] = useState(false);
 
   const fetchClientes = useCallback(async () => {
     try {
@@ -52,6 +53,7 @@ const ClientSearchScreen = () => {
 
   const handleSearch = useCallback((text) => {
     setSearchQuery(text);
+    setIsSearching(true);
     const formattedQuery = text.toLowerCase();
     const newData = clientesConNotas.filter((item) => {
       if (selectedOption === "cliente") {
@@ -61,6 +63,7 @@ const ClientSearchScreen = () => {
       }
     });
     setFilteredData(newData);
+    setIsSearching(false);
   }, [clientesConNotas, selectedOption]);
 
   const handleOptionChange = useCallback((option) => {
@@ -68,18 +71,27 @@ const ClientSearchScreen = () => {
   }, []);
 
   const renderItem = useCallback(({ item, index }) => (
-    <Cascading
-      delay={index > 9 ? 0 : 400 + 100 * index}
-      animationKey={animationKey}
-    >
+    isSearching ? (
       <ClientItem
         client={item}
         onSelect={() =>
           navigation.navigate("ClientPaymentScreen", { itemClient: item })
         }
       />
-    </Cascading>
-  ), [animationKey, navigation]);
+    ) : (
+      <Cascading
+        delay={index > 9 ? 0 : 400 + 100 * index}
+        animationKey={animationKey}
+      >
+        <ClientItem
+          client={item}
+          onSelect={() =>
+            navigation.navigate("ClientPaymentScreen", { itemClient: item })
+          }
+        />
+      </Cascading>
+    )
+  ), [animationKey, navigation, isSearching]);
 
   const keyExtractor = useCallback((item) => item.cliente_ID.toString(), []);
 
