@@ -1,41 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { theme } from '../assets/Theme';
-import StyledText from "../utils/StyledText";
-import BorderBox from "../utils/BorderBox";
-import useStore from "../stores/store";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { theme } from '../../assets/Theme';
+import StyledText from "../../utils/StyledText";
+import BorderBox from "../../utils/BorderBox";
+import useStore from "../../stores/store";
 
 const windowWidth = Dimensions.get('window').width;
 
 const ClientItem = ({ client, onSelect }) => {
   const vNombre = client.Nombre;
-  const vCuenta =client.Cuenta;
-  const vBalance = parseFloat(client.NotasPendientes.reduce((total, nota) => total + nota.Saldo_pendiente, 0).toFixed(2));
-  const vNotasPendientes = client.NotasPendientes.length;
+  const vCuenta = client.Cuenta;
+
+  // Asegurarse de que NotasPendientes esté definido y sea un array
+  const notasPendientes = useMemo(() => Array.isArray(client.NotasPendientes) ? client.NotasPendientes : [], [client.NotasPendientes]);
+  const vBalance = useMemo(() => parseFloat(notasPendientes.reduce((total, nota) => {
+    const saldoPendiente = parseFloat(nota.Saldo_pendiente);
+    return total + (isNaN(saldoPendiente) ? 0 : saldoPendiente);
+  }, 0).toFixed(2)), [notasPendientes]);
+
+  const vNotasPendientes = notasPendientes.length;
   const pagosRealizados = useStore(state => state.pagosRealizados);
   const [vUltimoPago, setUltimoPago] = useState("2020-06-10");
 
-  useEffect( () => {
-    if(pagosRealizados.length > 0){
-      setUltimoPago(pagosRealizados.reduce((mayor, pago)=> pago.fecha > mayor && pago.cuenta === client.Cuenta? pago.fecha : mayor, "2020-06-10"));
+  useEffect(() => {
+    if (pagosRealizados.length > 0) {
+      setUltimoPago(pagosRealizados.reduce((mayor, pago) => pago.fecha > mayor && pago.cuenta === client.Cuenta ? pago.fecha : mayor, "2020-06-10"));
     }
-  }, [pagosRealizados]);
+  }, [pagosRealizados, client.Cuenta]);
+
+  const handlePress = useCallback(() => {
+    onSelect(client.cliente_ID);
+  }, [client.cliente_ID, onSelect]);
+
   return (
-      <BorderBox onPress={() => onSelect(client.id)} style={{marginVertical: 10}}>
+    <BorderBox onPress={handlePress} style={{ marginVertical: 10 }}>
       <View style={styles.iconContainer}>
         <View style={styles.iconWraped}>
-          {/* <Text style={styles.icon}>{vNombre.charAt(0)}</Text> */}
           <StyledText initial>{vNombre.charAt(0)}</StyledText>
         </View>
         <View style={styles.detailsContainer}>
           <StyledText boldTextUpper>{vNombre}</StyledText>
           <StyledText regularText>{vCuenta}</StyledText>
-          {/* <View style={styles.codeContainer}>
-            <MaterialCommunityIcons name="account" size={19} color="black" />
-            <StyledText regularText style={{marginLeft:5,}}>{vCuenta}</StyledText>
-          </View> */}
         </View>
       </View>
       <View style={styles.lineContainer}>
@@ -43,17 +48,17 @@ const ClientItem = ({ client, onSelect }) => {
       </View>
       <View style={styles.notesContainer}>
         <View style={styles.textLine}>
-          <StyledText regularText>notas Pendientes :</StyledText>
+          <StyledText regularText>Notas Pendientes:</StyledText>
           <StyledText regularText>
             {vNotasPendientes} {vNotasPendientes === 1 ? 'nota' : 'notas'}
           </StyledText>
         </View>
         <View style={styles.textLine}>
-          <StyledText regularText>saldo total :</StyledText>
+          <StyledText regularText>Saldo Total:</StyledText>
           <StyledText regularText>{vBalance} Bs</StyledText>
         </View>
         <View style={styles.textLine}>
-          <StyledText regularText>ultimo pago :</StyledText>
+          <StyledText regularText>Último Pago:</StyledText>
           <StyledText regularText>{vUltimoPago}</StyledText>
         </View>
       </View>
@@ -78,22 +83,17 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     flex: 1,
   },
-  codeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   notesContainer: {
     flexDirection: 'column',
-    // alignItems: 'flex-start',
   },
   lineContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   line: {
-    marginVertical: 3 ,
+    marginVertical: 3,
     backgroundColor: theme.colors.otherWhite,
-    width: windowWidth*0.8,
+    width: windowWidth * 0.8,
     height: 2,
   },
   textLine: {
@@ -102,4 +102,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default ClientItem;
+
+export default React.memo(ClientItem);

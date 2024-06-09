@@ -1,46 +1,59 @@
-// ClientSearchScreen.js
-import React, { useState, useCallback, useEffect } from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  StyleSheet,
-  View,
-  Dimensions,
-} from "react-native";
-import SearchBar from "../components/SearchBar";
-import ClientItem from "../components/ClientItem";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { SafeAreaView, TouchableOpacity, FlatList, StyleSheet, View } from "react-native";
+import SearchBar from "./SearchBar";
+import ClientItem from "./ClientItem";
 import { StatusBar } from "expo-status-bar";
-import { theme } from "../assets/Theme";
+import { theme } from "../../assets/Theme";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import Cascading from "../animation/CascadingFadeInView";
+import Cascading from "../../animation/CascadingFadeInView";
 import { useFocusEffect } from "@react-navigation/native";
-import useStore from "../stores/store";
-import StyledText from "../utils/StyledText";
+import StyledText from "../../utils/StyledText";
+import axios from "axios";
+import { BASE_URL } from "../../../config";
 
 const secondary = theme.colors.secondary;
 
 const ClientSearchScreen = () => {
-  const clientesConNotas = useStore((state) => state.clientesConNotas);
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("cliente");
-  const [filteredData, setFilteredData] = useState(clientesConNotas);
+  const [clientesConNotas, setClientesConNotas] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [animationKey, setAnimationKey] = useState(Date.now());
   const [visibleItemCount, setVisibleItemCount] = useState(10);
-  const loadMoreItems = () => {
+  const [isSearching, setIsSearching] = useState(false);
+
+  const fetchClientes = useCallback(async () => {
+    try {
+      const empresaId = 1; // Hardcoded empresa ID
+      const response = await axios.get(`${BASE_URL}/empresa/${empresaId}/clientes`);
+      setClientesConNotas(response.data);
+      setFilteredData(response.data);
+      // console.log(JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      console.error("Error fetching clientes: ", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchClientes();
+  }, [fetchClientes]);
+
+  const loadMoreItems = useCallback(() => {
     setVisibleItemCount((prevItemCount) => prevItemCount + 10);
-  };
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       setAnimationKey(Date.now());
       setVisibleItemCount(7);
     }, [])
   );
-  const handleSearch = (text) => {
+
+  const handleSearch = useCallback((text) => {
     setSearchQuery(text);
+    setIsSearching(true);
     const formattedQuery = text.toLowerCase();
     const newData = clientesConNotas.filter((item) => {
       if (selectedOption === "cliente") {
@@ -50,29 +63,47 @@ const ClientSearchScreen = () => {
       }
     });
     setFilteredData(newData);
-  };
+    setIsSearching(false);
+  }, [clientesConNotas, selectedOption]);
 
-  const handleOptionChange = (option) => {
+  const handleOptionChange = useCallback((option) => {
     setSelectedOption(option);
-  };
+  }, []);
 
-  const renderItem = ({ item, index }) => (
-    <Cascading
-      delay={index > 9 ? 0 : 400 + 100 * index}
-      animationKey={animationKey}
-    >
+  const renderItem = useCallback(({ item, index }) => (
+    isSearching ? (
       <ClientItem
         client={item}
         onSelect={() =>
           navigation.navigate("ClientPaymentScreen", { itemClient: item })
         }
       />
-    </Cascading>
-  );
+    ) : (
+      <Cascading
+        delay={index > 9 ? 0 : 400 + 100 * index}
+        animationKey={animationKey}
+      >
+        <ClientItem
+          client={item}
+          onSelect={() =>
+            navigation.navigate("ClientPaymentScreen", { itemClient: item })
+          }
+        />
+      </Cascading>
+    )
+  ), [animationKey, navigation, isSearching]);
+
+  const keyExtractor = useCallback((item) => item.cliente_ID.toString(), []);
+
+  const getItemLayout = useCallback((data, index) => ({
+    length: 70,
+    offset: 70 * index,
+    index,
+  }), []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="ligth" backgroundColor={secondary} />
+      <StatusBar style="light" backgroundColor={secondary} />
       <View style={styles.cover}>
         <View style={styles.up}>
           <Cascading delay={100} animationKey={animationKey}>
@@ -84,7 +115,9 @@ const ClientSearchScreen = () => {
                 <Icon name="back" size={30} color="black" />
               </TouchableOpacity>
               <View style={styles.aviContainer}>
-              <StyledText boldCenterText style={styles.avi}>Cobranzas</StyledText>
+                <StyledText boldCenterText style={styles.avi}>
+                  Cobranzas
+                </StyledText>
               </View>
             </View>
           </Cascading>
@@ -102,7 +135,8 @@ const ClientSearchScreen = () => {
         <FlatList
           data={filteredData.slice(0, visibleItemCount)}
           renderItem={renderItem}
-          keyExtractor={(item) => item.cliente_ID}
+          keyExtractor={keyExtractor}
+          getItemLayout={getItemLayout}
           ListHeaderComponent={<View style={{ height: 10 }} />}
           ListFooterComponent={<View style={{ height: 10 }} />}
           onEndReached={loadMoreItems}
@@ -113,26 +147,7 @@ const ClientSearchScreen = () => {
     </SafeAreaView>
   );
 };
-//   Empresa_ID: 2,
-//   sucursal_ID: 1,
-//   cliente_ID: "00C",
-//   Cuenta: "11201010013",
-//   Nombre: "ARANCIBIA HEBERTO",
-//   Direccion: "CHIQUICOLLO",
-//   Telefono: "4248174 - 75467019",
-//   cobrador_ID: "01"
-//   NotasPendientes[{
-//          "Empresa_ID": 2,
-//          "sucursal_ID": 1,
-//          "Cuenta": "11201010011",
-//          "Fecha": "2024-01-01",
-//          "nro_nota": "R01225066",
-//              "importe_nota": 696.0,
-//              "Monto_pagado": 0.0,
-//          "Saldo_pendiente": 696.0,
-//             "Fecha_venta": "2022-10-26",
-//             "Fecha_vence": "2022-12-25"
-//          }]
+
 const styles = StyleSheet.create({
   cover: {
     backgroundColor: theme.colors.primary,

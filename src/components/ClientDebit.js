@@ -1,10 +1,5 @@
-//ClientDebit.js
 import React from "react";
-import {
-  View,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import { theme } from "../assets/Theme";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
@@ -15,8 +10,8 @@ const screenWidth = Dimensions.get("window").width;
 
 const ClientDebit = ({ clientInfo }) => {
   const vBalance = parseFloat(
-    clientInfo.NotasPendientes.reduce(
-      (total, nota) => total + nota.Saldo_pendiente,
+    (clientInfo.NotasPendientes || []).reduce(
+      (total, nota) => total + (parseFloat(nota.Saldo_pendiente) || 0),
       0
     ).toFixed(2)
   );
@@ -24,7 +19,7 @@ const ClientDebit = ({ clientInfo }) => {
 
   return (
     <View style={clientDebitStyles.container}>
-      <StatusBar style="ligth" backgroundColor={theme.colors.secondary} />
+      <StatusBar style="light" backgroundColor={theme.colors.secondary} />
       <StyledText balance style={clientDebitStyles.text}> {vBalance} Bs</StyledText>
       <View style={clientDebitStyles.spaceButtons}>
         <SimpleButton
